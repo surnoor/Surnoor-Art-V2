@@ -130,7 +130,7 @@ function Nav() {
         >
           Surnoor Sembhi
         </Link>
-        <div className="hidden md:flex items-center gap-8 text-[10px] tracking-[0.2em] font-bold uppercase text-foreground">
+        <div className="hidden md:flex items-center gap-5 text-[10px] tracking-[0.2em] font-bold uppercase text-foreground">
           <Link
             href="/shop"
             className={`transition-colors ${isShop ? "text-primary" : "hover:text-foreground"}`}
