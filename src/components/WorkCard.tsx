@@ -184,7 +184,7 @@ export default function WorkCard({ product, sold = false }: WorkCardProps) {
             {alreadyInCart ? (
               <Link
                 href="/cart"
-                className="w-full h-7 flex items-center justify-center text-[9px] tracking-[0.15em] uppercase text-primary border border-primary bg-[#4efa84] hover:opacity-90 transition-opacity"
+                className="w-full h-7 flex items-center justify-center text-[9px] tracking-[0.15em] uppercase text-[#4efa84] hover:opacity-80 transition-opacity"
               >
                 In Cart →
               </Link>
