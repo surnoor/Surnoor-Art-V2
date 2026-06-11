@@ -898,7 +898,7 @@ export default function ArchivePage() {
     <div className="min-h-screen bg-background">
 
       {/* Mobile filter toggle */}
-      <div className="md:hidden sticky top-[var(--header-offset)] z-30 bg-background  px-6 py-3 flex items-center justify-between">
+      <div className="md:hidden relative z-30 bg-background px-6 py-3 flex items-center justify-between">
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
           className="flex items-center gap-2 text-xs tracking-[0.15em] uppercase text-muted-foreground"
