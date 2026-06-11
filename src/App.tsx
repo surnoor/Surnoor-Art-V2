@@ -115,12 +115,12 @@ function Nav() {
     <>
     <div className="relative">
       <nav
-        className="flex items-center justify-between px-6 md:px-12 py-4 bg-background border-b border-border"
+        className="flex items-center justify-between px-6 md:px-12 py-4 bg-background"
         data-testid="nav"
       >
         <Link 
           href="/" 
-          className="font-sans text-sm tracking-[0.2em] font-medium uppercase" 
+          className="font-sans text-sm tracking-[0.2em] font-bold uppercase" 
           data-testid="nav-logo"
           onClick={() => {
             if (location === "/") {
@@ -130,7 +130,7 @@ function Nav() {
         >
           Surnoor Sembhi
         </Link>
-        <div className="hidden md:flex items-center gap-8 text-[10px] tracking-[0.2em] font-medium uppercase text-foreground">
+        <div className="hidden md:flex items-center gap-8 text-[10px] tracking-[0.2em] font-bold uppercase text-foreground">
           <Link
             href="/shop"
             className={`transition-colors ${isShop ? "text-primary" : "hover:text-foreground"}`}

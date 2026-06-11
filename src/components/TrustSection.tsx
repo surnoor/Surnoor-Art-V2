@@ -51,7 +51,7 @@ export default function TrustSection() {
   ];
 
   return (
-    <section className="mt-32 py-24 px-6 md:px-12 bg-muted/20 border-t border-border/20">
+    <section className="mt-20 md:mt-32 py-12 px-6 md:px-12">
       <div className="max-w-7xl mx-auto">
         <motion.div 
           initial={{ opacity: 0 }}

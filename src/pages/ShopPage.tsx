@@ -175,7 +175,7 @@ export default function ShopPage() {
       )}
 
       {/* Page header */}
-      <div className="px-6 md:px-12 pt-10 pb-6 border-b border-border">
+      <div className="px-6 md:px-12 pt-10 pb-6">
         <motion.div initial="hidden" animate="visible" variants={{
           hidden: { opacity: 0, y: 24 },
           visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: easing } },
@@ -232,7 +232,7 @@ export default function ShopPage() {
       {/* Dashboard layout */}
       <div className="flex">
         {/* Desktop sidebar */}
-        <aside className="hidden md:block w-60 lg:w-64 flex-shrink-0 border-r border-border p-6 sticky top-[68px] h-[calc(100vh-68px)] overflow-y-auto">
+        <aside className="hidden md:block w-60 lg:w-64 flex-shrink-0 p-6 sticky top-[68px] h-[calc(100vh-68px)] overflow-y-auto">
           {sidebarContent}
         </aside>
 
@@ -304,7 +304,7 @@ export default function ShopPage() {
           <TrustSection />
 
           {/* Archive call-to-action */}
-          <div className="mt-24 border-t border-border" />
+          <div className="mt-24" />
           <FadeIn className="mt-12 mb-10 flex flex-col items-center text-center">
             <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground mb-2">Archive</p>
             <p className="text-sm text-muted-foreground mb-6 max-w-md">
