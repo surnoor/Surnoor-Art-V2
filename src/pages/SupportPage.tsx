@@ -55,7 +55,7 @@ export default function SupportPage() {
 
         {/* Ko-fi Iframe */}
         <motion.div variants={fadeUp} className="w-full max-w-md mx-auto lg:mx-0 lg:max-w-none lg:col-start-2 lg:row-start-1 lg:row-span-2 order-2">
-          <div className="bg-card border border-border p-2 rounded-sm shadow-sm sticky top-32">
+          <div className="bg-card border border-border p-2 rounded-sm shadow-sm">
             <iframe
               id="kofiframe"
               src="https://ko-fi.com/surnoorsingh/?hidefeed=true&widget=true&embed=true&preview=true"
