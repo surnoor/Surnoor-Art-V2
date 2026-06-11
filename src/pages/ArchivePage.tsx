@@ -450,7 +450,7 @@ export function Lightbox({
 
   const allImages = [
     ...(record.image ? [record.image] : []),
-    ...record.additionalImages,
+    ...(record.additionalImages || []),
   ];
 
   const activeThumbRef = useRef<HTMLButtonElement>(null);
@@ -480,9 +480,9 @@ export function Lightbox({
 
       const urlsToPreload = [
         nextRecord.image,
-        ...nextRecord.additionalImages,
+        ...(nextRecord.additionalImages || []),
         prevRecord.image,
-        ...prevRecord.additionalImages
+        ...(prevRecord.additionalImages || [])
       ].filter(Boolean) as string[];
 
       urlsToPreload.forEach(url => {
@@ -694,7 +694,7 @@ export function Lightbox({
                 <p>
                   <span className="text-foreground text-xs uppercase tracking-[0.12em]">Subject</span>
                   <br />
-                  {record.subject.join(", ")}
+                  {Array.isArray(record.subject) ? record.subject.join(", ") : record.subject}
                 </p>
               )}
             </div>
