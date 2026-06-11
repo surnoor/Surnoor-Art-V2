@@ -3,8 +3,8 @@ import { motion } from "framer-motion";
 import { Share2, Check, Loader2, SlidersHorizontal, X } from "lucide-react";
 import AdminLayout from "./AdminLayout";
 import { useArchive, type ArchiveRecord } from "../../hooks/useArchive";
-import { FilterGroup } from "../../components/FilterGroup";
-import BauhausLoader from "../../components/BauhausLoader";
+import { AdminFilterGroup } from "./components/AdminFilterGroup";
+import AdminLoader from "./components/AdminLoader";
 
 export default function PinterestQueue() {
   const { archive, loading, error } = useArchive();
@@ -197,10 +197,10 @@ export default function PinterestQueue() {
           </div>
 
           <div className="space-y-4">
-            <FilterGroup label="Year" options={filters.years} selected={selectedYear} onSelect={setSelectedYear} />
-            <FilterGroup label="Medium" options={filters.mediums} selected={selectedMedium} onSelect={setSelectedMedium} />
-            <FilterGroup label="Category" options={filters.categories} selected={selectedCategory} onSelect={setSelectedCategory} />
-            <FilterGroup label="Subject" options={filters.subjects} selected={selectedSubject} onSelect={setSelectedSubject} />
+            <AdminFilterGroup label="Year" options={filters.years} selected={selectedYear} onSelect={setSelectedYear} />
+            <AdminFilterGroup label="Medium" options={filters.mediums} selected={selectedMedium} onSelect={setSelectedMedium} />
+            <AdminFilterGroup label="Category" options={filters.categories} selected={selectedCategory} onSelect={setSelectedCategory} />
+            <AdminFilterGroup label="Subject" options={filters.subjects} selected={selectedSubject} onSelect={setSelectedSubject} />
           </div>
         </aside>
 
@@ -216,7 +216,7 @@ export default function PinterestQueue() {
         <div className="flex-1">
           {loading ? (
             <div className="flex justify-center items-center py-20">
-              <BauhausLoader isDone={false} onComplete={() => {}} />
+              <AdminLoader isDone={false} onComplete={() => {}} />
             </div>
           ) : error ? (
             <div className="text-center py-20 text-destructive">{error}</div>
