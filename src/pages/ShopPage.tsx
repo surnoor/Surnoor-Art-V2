@@ -174,23 +174,6 @@ export default function ShopPage() {
         </div>
       )}
 
-      {/* Page header */}
-      <div className="px-6 md:px-12 pt-10 pb-6">
-        <motion.div initial="hidden" animate="visible" variants={{
-          hidden: { opacity: 0, y: 24 },
-          visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: easing } },
-        }}>
-          <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground mb-2">
-            Shop
-          </p>
-          <h1 className="font-serif text-3xl md:text-4xl font-light">
-            Original Art & Prints
-          </h1>
-          <p className="text-sm text-muted-foreground mt-2 max-w-lg">
-            A selection of currently available works for acquisition.
-          </p>
-        </motion.div>
-      </div>
 
       {/* Mobile filter toggle */}
       <div className="md:hidden sticky top-[var(--header-offset)] z-30 bg-background  px-6 py-3 flex items-center justify-between">

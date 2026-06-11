@@ -896,17 +896,6 @@ export default function ArchivePage() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Page header */}
-      <div className="px-6 md:px-12 pt-10 pb-6 ">
-        <motion.div initial="hidden" animate="visible" variants={fadeUp}>
-          <h1 className="font-serif text-3xl md:text-4xl font-light">
-            Archive
-          </h1>
-          <p className="text-sm text-muted-foreground mt-2 max-w-lg">
-            A complete catalogue of past works — Watercolors, Oils, Monotypes and Drawings
-          </p>
-        </motion.div>
-      </div>
 
       {/* Mobile filter toggle */}
       <div className="md:hidden sticky top-[var(--header-offset)] z-30 bg-background  px-6 py-3 flex items-center justify-between">
