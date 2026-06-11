@@ -11,6 +11,7 @@ import CartPage from "./pages/CartPage";
 import Dashboard from "./pages/admin/Dashboard";
 import Curator from "./pages/admin/Curator";
 import Editor from "./pages/admin/Editor";
+import PinterestQueue from "./pages/admin/PinterestQueue";
 import PollPage from "./pages/PollPage";
 import EventPage from "./pages/EventPage";
 import SupportPage from "./pages/SupportPage";
@@ -22,6 +23,7 @@ import { trackSlideshowInteraction } from "./utils/analytics";
 import WorkCard from "./components/WorkCard";
 import NewsletterBanner from "./components/NewsletterBanner";
 import NewsletterForm from "./components/NewsletterForm";
+import { AdminAuth } from "./components/AdminAuth";
 
 const easing: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
@@ -1178,9 +1180,18 @@ function AppInner() {
         </Route>
 
         {/* Admin Routes */}
-        <Route path="/admin" component={Dashboard} />
-        <Route path="/admin/curator" component={Curator} />
-        <Route path="/admin/editor" component={Editor} />
+        <Route path="/admin">
+          <AdminAuth><Dashboard /></AdminAuth>
+        </Route>
+        <Route path="/admin/curator">
+          <AdminAuth><Curator /></AdminAuth>
+        </Route>
+        <Route path="/admin/editor">
+          <AdminAuth><Editor /></AdminAuth>
+        </Route>
+        <Route path="/admin/pinterest">
+          <AdminAuth><PinterestQueue /></AdminAuth>
+        </Route>
       </div>
       <Footer />
     </div>

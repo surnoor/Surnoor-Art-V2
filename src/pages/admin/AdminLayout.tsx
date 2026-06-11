@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, useLocation } from "wouter";
-import { LayoutDashboard, Paintbrush, Crop, BarChart3, Settings, LogOut, Package } from "lucide-react";
+import { LayoutDashboard, Paintbrush, Crop, BarChart3, Settings, LogOut, Package, Share2 } from "lucide-react";
 import { motion } from "framer-motion";
 
 const sidebarLinks = [
@@ -8,6 +8,7 @@ const sidebarLinks = [
   { id: "curator", label: "Visual Curator", icon: Paintbrush, href: "/admin/curator" },
   { id: "editor", label: "Preview Editor", icon: Crop, href: "/admin/editor" },
   { id: "products", label: "All Products", icon: Package, href: "/admin/products" },
+  { id: "pinterest", label: "Pinterest Queue", icon: Share2, href: "/admin/pinterest" },
   { id: "analytics", label: "Analytics", icon: BarChart3, href: "/admin/analytics" },
 ];
 

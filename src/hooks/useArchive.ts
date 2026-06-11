@@ -17,6 +17,7 @@ export interface ArchiveRecord {
   additionalImages: string[];
   showAtEvent: boolean;
   artSupplyPrint: boolean;
+  pinterestPublished: boolean;
 }
 
 interface UseArchiveResult {
@@ -55,6 +56,7 @@ interface AirtableField {
   "Additional Images"?: AirtableAttachment[];
   ShowAtEvent?: boolean;
   ArtSupplyPrint?: boolean;
+  Pinterest?: boolean;
 }
 
 interface AirtableRecord {
@@ -97,6 +99,7 @@ export function useArchive(): UseArchiveResult {
           additionalImages: (f["Additional Images"] ?? []).map((a) => a.url),
           showAtEvent: f.ShowAtEvent ?? false,
           artSupplyPrint: f.ArtSupplyPrint ?? false,
+          pinterestPublished: f.Pinterest ?? false,
         };
       });
 
