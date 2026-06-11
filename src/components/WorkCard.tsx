@@ -137,7 +137,7 @@ export default function WorkCard({ product, sold = false }: WorkCardProps) {
             <div className="w-full">
               <button
                 onClick={(e) => { e.preventDefault(); setInterestOpen(!interestOpen); }}
-                className="w-full h-7 text-[9px] tracking-[0.15em] uppercase border border-border text-foreground hover:bg-muted/50 transition-colors flex items-center justify-center"
+                className="w-full h-7 text-[9px] tracking-[0.15em] uppercase border border-primary text-primary hover:bg-primary hover:text-background transition-colors flex items-center justify-center"
               >
                 Express Interest
               </button>
@@ -199,7 +199,7 @@ export default function WorkCard({ product, sold = false }: WorkCardProps) {
             ) : (
               <button
                 onClick={handleAddToCart}
-                className="w-full h-7 text-[9px] tracking-[0.15em] uppercase border border-primary/60 text-primary hover:bg-primary hover:text-background hover:border-primary transition-colors"
+                className="w-full h-7 text-[9px] tracking-[0.15em] uppercase border border-primary text-primary hover:bg-primary hover:text-background transition-colors"
               >
                 Add to Cart
               </button>

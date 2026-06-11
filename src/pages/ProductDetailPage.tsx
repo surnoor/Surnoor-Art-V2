@@ -380,7 +380,7 @@ export default function ProductDetailPage({ productId }: { productId: string }) 
                 <div className="w-full">
                   <button
                     onClick={() => setInterestOpen(!interestOpen)}
-                    className="w-full h-10 text-[11px] tracking-[0.15em] uppercase border border-border text-foreground hover:bg-muted/50 transition-colors flex items-center justify-center gap-2"
+                    className="w-full h-10 text-[11px] tracking-[0.15em] uppercase border border-primary text-primary hover:bg-primary hover:text-background transition-colors flex items-center justify-center gap-2"
                   >
                     Express Interest
                   </button>
