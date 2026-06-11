@@ -19,7 +19,6 @@ import { NewsletterProvider } from "./context/NewsletterContext";
 import { useShop } from "./hooks/useShop";
 import { useHeroSlides } from "./hooks/useHeroSlides";
 import { trackSlideshowInteraction } from "./utils/analytics";
-import { smoothScrollToElement } from "./utils/scroll";
 import WorkCard from "./components/WorkCard";
 import NewsletterBanner from "./components/NewsletterBanner";
 import NewsletterForm from "./components/NewsletterForm";
@@ -102,8 +101,9 @@ function Nav() {
     if (location === "/") {
       e.preventDefault();
       const id = hash.replace("#", "");
-      if (document.getElementById(id)) {
-        smoothScrollToElement(id, 1200);
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
         window.history.pushState(null, "", hash);
       }
     }
@@ -1065,10 +1065,17 @@ function AppInner() {
       const hash = window.location.hash;
       
       if (hash) {
+        let attempts = 0;
         interval = setInterval(() => {
           const id = window.location.hash.replace("#", "");
-          if (document.getElementById(id)) {
-            smoothScrollToElement(id, 1200);
+          const element = document.getElementById(id);
+          if (element) {
+            element.scrollIntoView({ behavior: "smooth" });
+            clearInterval(interval);
+          }
+          
+          attempts++;
+          if (attempts > 20) { // Stop after 2 seconds (100ms * 20)
             clearInterval(interval);
           }
         }, 100);
