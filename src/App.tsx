@@ -370,8 +370,8 @@ const ACCOMPLISHMENTS = [
   },
   {
     id: 5,
-    title: "Solo Show 2024 — Pierre Coupey",
-    description: "Distinguished abstract artist Pierre Coupey visiting my recent Solo Show and sharing insights on the realist tradition.",
+    title: "Solo Exhibition 2024 — Pierre Coupey",
+    description: "Distinguished abstract artist Pierre Coupey visiting my recent Solo Exhibition and sharing insights on the realist tradition.",
     image: "/web/basic-inquiry-mentorship.jpg",
   }
 ];
@@ -411,7 +411,7 @@ function AccomplishmentsSection() {
 
           {/* Solo Show */}
           <div className="space-y-4">
-            <h3 className="font-serif text-xl font-light text-foreground  pb-2 uppercase tracking-wide text-xs">Solo Show</h3>
+            <h3 className="font-serif text-xl font-light text-foreground  pb-2 uppercase tracking-wide text-xs">Solo Exhibition</h3>
             <ul className="space-y-3 text-muted-foreground leading-relaxed">
               <li className="grid grid-cols-[3rem_1fr] gap-4">
                 <span className="font-medium">2024</span>
@@ -422,7 +422,7 @@ function AccomplishmentsSection() {
 
           {/* Selected Group Shows */}
           <div className="space-y-4">
-            <h3 className="font-serif text-xl font-light text-foreground  pb-2 uppercase tracking-wide text-xs">Selected Group Shows</h3>
+            <h3 className="font-serif text-xl font-light text-foreground  pb-2 uppercase tracking-wide text-xs">Selected Group Exhibitions</h3>
             <ul className="space-y-3 text-muted-foreground leading-relaxed">
               <li className="grid grid-cols-[3rem_1fr] gap-4">
                 <span className="font-medium">2026</span>
@@ -438,7 +438,7 @@ function AccomplishmentsSection() {
               </li>
               <li className="grid grid-cols-[3rem_1fr] gap-4">
                 <span className="font-medium">2024</span>
-                <span>Seymour Art Gallery - Annual Group Show</span>
+                <span>Seymour Art Gallery - Annual Group Exhibition</span>
               </li>
               <li className="grid grid-cols-[3rem_1fr] gap-4">
                 <span></span>
@@ -474,7 +474,7 @@ function AccomplishmentsSection() {
               </li>
               <li className="grid grid-cols-[3rem_1fr] gap-4">
                 <span className="font-medium">2018</span>
-                <span>Annual Group Show - Punjab Lalit Kala Academy, Chandigarh</span>
+                <span>Annual Group Exhibition - Punjab Lalit Kala Academy, Chandigarh</span>
               </li>
             </ul>
           </div>
