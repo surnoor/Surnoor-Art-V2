@@ -12,7 +12,7 @@ interface WorkCardProps {
 }
 
 export default function WorkCard({ product, sold = false }: WorkCardProps) {
-  const { addToCart, isInCart } = useCart();
+  const { addToCart, isInCart, removeFromCart } = useCart();
 
   const primaryImage = product.images[0] ?? null;
   const hoverImage = product.images[1] ?? null;
@@ -182,12 +182,20 @@ export default function WorkCard({ product, sold = false }: WorkCardProps) {
 
             {/* Add to Cart */}
             {alreadyInCart ? (
-              <Link
-                href="/cart"
-                className="w-full h-7 flex items-center justify-center text-[9px] tracking-[0.15em] uppercase bg-[#4efa84] text-primary border-none hover:opacity-80 transition-opacity"
-              >
-                In Cart →
-              </Link>
+              <div className="flex flex-col gap-1.5 w-full">
+                <Link
+                  href="/cart"
+                  className="w-full h-7 flex items-center justify-center text-[9px] tracking-[0.15em] uppercase bg-[#4efa84] text-primary border-none hover:opacity-80 transition-opacity"
+                >
+                  In Cart →
+                </Link>
+                <button
+                  onClick={(e) => { e.preventDefault(); e.stopPropagation(); removeFromCart(product.id); }}
+                  className="text-[8px] tracking-[0.15em] uppercase text-[#ff4e4e] hover:opacity-80 transition-opacity text-center w-full"
+                >
+                  Remove
+                </button>
+              </div>
             ) : (
               <button
                 onClick={handleAddToCart}

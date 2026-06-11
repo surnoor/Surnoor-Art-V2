@@ -187,7 +187,7 @@ function ProductLightbox({
 export default function ProductDetailPage({ productId }: { productId: string }) {
   const [, navigate] = useLocation();
   const { available, sold, loading, error } = useShop();
-  const { addToCart, isInCart } = useCart();
+  const { addToCart, isInCart, removeFromCart } = useCart();
 
   const allProducts = [...available, ...sold];
   const product: ShopProduct | undefined = allProducts.find((p) => p.id === productId);
@@ -425,12 +425,20 @@ export default function ProductDetailPage({ productId }: { productId: string }) 
                 </div>
 
                 {alreadyInCart ? (
-                  <Link
-                    href="/cart"
-                    className="flex items-center justify-center w-full h-10 text-[11px] tracking-[0.15em] uppercase bg-[#4efa84] text-primary border-none hover:opacity-90 transition-opacity"
-                  >
-                    In Cart — View Cart →
-                  </Link>
+                  <div className="flex flex-col gap-2">
+                    <Link
+                      href="/cart"
+                      className="flex items-center justify-center w-full h-10 text-[11px] tracking-[0.15em] uppercase bg-[#4efa84] text-primary border-none hover:opacity-90 transition-opacity"
+                    >
+                      In Cart — View Cart →
+                    </Link>
+                    <button
+                      onClick={() => removeFromCart(product.id)}
+                      className="text-[9px] tracking-[0.15em] uppercase text-[#ff4e4e] hover:opacity-80 transition-opacity text-center w-full"
+                    >
+                      Remove from cart
+                    </button>
+                  </div>
                 ) : (
                   <button
                     onClick={handleAddToCart}
