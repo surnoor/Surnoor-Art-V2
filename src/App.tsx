@@ -425,6 +425,14 @@ function AccomplishmentsSection() {
             <h3 className="font-serif text-xl font-light text-foreground  pb-2 uppercase tracking-wide text-xs">Selected Group Shows</h3>
             <ul className="space-y-3 text-muted-foreground leading-relaxed">
               <li className="grid grid-cols-[3rem_1fr] gap-4">
+                <span className="font-medium">2026</span>
+                <span>Chilliwack Mural Festival - Live Mural Painting Artist</span>
+              </li>
+              <li className="grid grid-cols-[3rem_1fr] gap-4">
+                <span className="font-medium">2023-25</span>
+                <span>North Van Arts Art Rental Program - Selected participant, featured at CityScape (2023, 2024)</span>
+              </li>
+              <li className="grid grid-cols-[3rem_1fr] gap-4">
                 <span className="font-medium">2025</span>
                 <span>Taylor Gallery Pop Up, Astro Arts Fest, Aug 8-10</span>
               </li>
@@ -451,6 +459,10 @@ function AccomplishmentsSection() {
               <li className="grid grid-cols-[3rem_1fr] gap-4">
                 <span></span>
                 <span>Limitless Exhibition - Federation Gallery, Granville Island</span>
+              </li>
+              <li className="grid grid-cols-[3rem_1fr] gap-4">
+                <span className="font-medium">2021</span>
+                <span>ArtRich Exhibition, Richmond Art Gallery - Featured Artist</span>
               </li>
               <li className="grid grid-cols-[3rem_1fr] gap-4">
                 <span className="font-medium">2021</span>
@@ -482,6 +494,30 @@ function AccomplishmentsSection() {
           <div className="space-y-4">
             <h3 className="font-serif text-xl font-light text-foreground  pb-2 uppercase tracking-wide text-xs">Teaching</h3>
             <ul className="space-y-3 text-muted-foreground leading-relaxed">
+              <li className="grid grid-cols-[3rem_1fr] gap-4">
+                <span className="font-medium">2026</span>
+                <span>August - City of Maple Ridge - Plein Air in the Park (Oil & Acrylic)</span>
+              </li>
+              <li className="grid grid-cols-[3rem_1fr] gap-4">
+                <span></span>
+                <span>July - City of Maple Ridge - Plein Air in the Park (Watercolour)</span>
+              </li>
+              <li className="grid grid-cols-[3rem_1fr] gap-4">
+                <span></span>
+                <span>June - City of Maple Ridge - ACT Artbar</span>
+              </li>
+              <li className="grid grid-cols-[3rem_1fr] gap-4">
+                <span></span>
+                <span>March - Phoenix Art Workshop - Authentic Watercolour: Practice & Perception</span>
+              </li>
+              <li className="grid grid-cols-[3rem_1fr] gap-4">
+                <span className="font-medium">2025</span>
+                <span>Feb-Mar - Canvas Method - Portrait Drawing Essentials</span>
+              </li>
+              <li className="grid grid-cols-[3rem_1fr] gap-4">
+                <span></span>
+                <span>Jan-Feb - Canvas Method - Loose Landscapes in Watercolour</span>
+              </li>
               <li className="grid grid-cols-[3rem_1fr] gap-4">
                 <span className="font-medium">2024</span>
                 <span>April - Phoenix Art Workshop - Watercolor Urbanscapes</span>
@@ -550,6 +586,14 @@ function AccomplishmentsSection() {
           <div className="space-y-4">
             <h3 className="font-serif text-xl font-light text-foreground  pb-2 uppercase tracking-wide text-xs">Bibliography</h3>
             <div className="space-y-8 text-muted-foreground leading-relaxed">
+              <div className="space-y-1">
+                <p className="font-medium text-foreground">ArtsBC & Chilliwack Community Arts Council, 2026</p>
+                <p className="text-sm">Featured Artist Promotional Reel</p>
+                <a href="https://www.instagram.com/reel/DYx0bAmB6DC/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-xs tracking-[0.15em] uppercase text-primary hover:opacity-70 transition-opacity mt-2">
+                  View Reel <ExternalLink className="w-3 h-3" />
+                </a>
+              </div>
+
               <div className="space-y-1">
                 <p className="font-medium text-foreground">Vancouver artist wins annual Paint on the Mountain contest</p>
                 <p className="text-sm">A Vancouver artist has enchanted judges to win this year’s Paint on the Mountain contest.</p>
