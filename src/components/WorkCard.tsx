@@ -1,4 +1,6 @@
+import { useState } from "react";
 import { Link } from "wouter";
+import { motion, AnimatePresence } from "framer-motion";
 import type { ShopProduct } from "../hooks/useShop";
 import { useCart } from "../context/CartContext";
 import { formatPrice } from "../utils/format";
@@ -21,6 +23,27 @@ export default function WorkCard({ product, sold = false }: WorkCardProps) {
   const priceDisplay = formatPrice(product.price, product.currency);
   const alreadyInCart = isInCart(product.id);
   const hasPurchasablePrice = !sold && product.price != null && product.priceId != null;
+
+  const [interestOpen, setInterestOpen] = useState(false);
+  const [interestEmail, setInterestEmail] = useState("");
+  const [interestStatus, setInterestStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+
+  async function handleExpressInterest(e: React.FormEvent) {
+    e.preventDefault();
+    if (!interestEmail) return;
+    setInterestStatus("loading");
+    try {
+      const res = await fetch("/api/interest", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: interestEmail, artwork: product.name }),
+      });
+      if (!res.ok) throw new Error("Failed");
+      setInterestStatus("success");
+    } catch {
+      setInterestStatus("error");
+    }
+  }
 
   function handleAddToCart(e: React.MouseEvent) {
     e.preventDefault();
@@ -100,26 +123,81 @@ export default function WorkCard({ product, sold = false }: WorkCardProps) {
       )}
 
       {/* Price + CTA row */}
-      <div className="mt-2 flex items-center gap-2">
-        <p className="text-[10px] tracking-widest text-foreground flex-shrink-0">{priceDisplay}</p>
+      <div className="mt-3 flex flex-col gap-2">
+        <div className="flex items-center justify-between">
+          <p className="text-[10px] tracking-widest text-foreground flex-shrink-0">{priceDisplay}</p>
+          {sold && (
+            <p className="text-[10px] tracking-[0.12em] uppercase text-muted-foreground/70 ml-auto">Sold</p>
+          )}
+        </div>
 
-        {sold ? (
-          <p className="text-[10px] tracking-[0.12em] uppercase text-muted-foreground/70 ml-auto">Sold</p>
-        ) : alreadyInCart ? (
-          <Link
-            href="/cart"
-            className="ml-auto text-[10px] tracking-[0.15em] uppercase text-[#4efa84] border-b border-[#4efa84]/40 pb-px hover:border-[#4efa84] transition-colors whitespace-nowrap"
-          >
-            In Cart →
-          </Link>
-        ) : hasPurchasablePrice ? (
-          <button
-            onClick={handleAddToCart}
-            className="ml-auto flex-shrink-0 h-7 px-3 text-[9px] tracking-[0.15em] uppercase border border-primary/60 text-primary hover:bg-primary hover:text-background hover:border-primary transition-colors whitespace-nowrap"
-          >
-            Add to Cart
-          </button>
-        ) : null}
+        {!sold && hasPurchasablePrice && (
+          <div className="flex flex-col gap-1.5 mt-1">
+            {/* Express Interest */}
+            <div className="w-full">
+              <button
+                onClick={(e) => { e.preventDefault(); setInterestOpen(!interestOpen); }}
+                className="w-full h-7 text-[9px] tracking-[0.15em] uppercase border border-border text-foreground hover:bg-muted/50 transition-colors flex items-center justify-center"
+              >
+                Express Interest
+              </button>
+              <AnimatePresence>
+                {interestOpen && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    className="overflow-hidden"
+                  >
+                    <form onSubmit={handleExpressInterest} className="pt-2 pb-1 flex flex-col gap-1.5" onClick={(e) => e.stopPropagation()}>
+                      <div className="flex gap-1.5">
+                        <input
+                          type="email"
+                          required
+                          placeholder="Your email"
+                          value={interestEmail}
+                          onChange={(e) => setInterestEmail(e.target.value)}
+                          disabled={interestStatus === "loading" || interestStatus === "success"}
+                          className="flex-1 min-w-0 h-7 px-2 text-[9px] border border-border bg-transparent focus:outline-none focus:border-primary transition-colors disabled:opacity-50"
+                        />
+                        <button
+                          type="submit"
+                          disabled={interestStatus === "loading" || interestStatus === "success"}
+                          className="h-7 flex-shrink-0 px-3 text-[9px] tracking-widest uppercase bg-primary text-background hover:bg-primary/90 transition-colors disabled:opacity-50"
+                        >
+                          {interestStatus === "loading" ? "..." : "Submit"}
+                        </button>
+                      </div>
+                      {interestStatus === "success" && (
+                        <p className="text-[9px] text-[#4efa84] text-center mt-0.5 uppercase tracking-widest">Interest recorded.</p>
+                      )}
+                      {interestStatus === "error" && (
+                        <p className="text-[9px] text-destructive text-center mt-0.5 uppercase tracking-widest">Error.</p>
+                      )}
+                    </form>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
+            {/* Add to Cart */}
+            {alreadyInCart ? (
+              <Link
+                href="/cart"
+                className="w-full h-7 flex items-center justify-center text-[9px] tracking-[0.15em] uppercase text-primary border border-primary bg-[#4efa84] hover:opacity-90 transition-opacity"
+              >
+                In Cart →
+              </Link>
+            ) : (
+              <button
+                onClick={handleAddToCart}
+                className="w-full h-7 text-[9px] tracking-[0.15em] uppercase border border-primary/60 text-primary hover:bg-primary hover:text-background hover:border-primary transition-colors"
+              >
+                Add to Cart
+              </button>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );
