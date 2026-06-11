@@ -133,7 +133,7 @@ function Nav() {
         <div className="hidden md:flex items-center gap-5 text-[10px] tracking-[0.2em] font-bold uppercase text-foreground">
           <Link
             href="/shop"
-            className={`transition-colors ${isShop ? "text-primary" : "hover:text-foreground"}`}
+            className={`transition-colors ${isShop ? "text-[#4efa84]" : "hover:text-foreground"}`}
             data-testid="nav-shop"
             onClick={() => {
               if (isShop) window.scrollTo({ top: 0, behavior: "smooth" });
@@ -143,7 +143,7 @@ function Nav() {
           </Link>
           <Link
             href="/archive"
-            className={`transition-colors ${location === "/archive" ? "text-primary" : "hover:text-foreground"}`}
+            className={`transition-colors ${location === "/archive" ? "text-[#4efa84]" : "hover:text-foreground"}`}
             data-testid="nav-archive"
             onClick={() => {
               if (location === "/archive") window.scrollTo({ top: 0, behavior: "smooth" });
@@ -169,7 +169,7 @@ function Nav() {
           </Link>
           <Link
             href="/support"
-            className={`transition-colors ${location === "/support" ? "text-primary" : "hover:text-foreground"}`}
+            className={`transition-colors ${location === "/support" ? "text-[#4efa84]" : "hover:text-foreground"}`}
             data-testid="nav-support"
             onClick={() => {
               if (location === "/support") window.scrollTo({ top: 0, behavior: "smooth" });
@@ -180,7 +180,7 @@ function Nav() {
           <a href="mailto:surnoorsingh@gmail.com" className="hover:text-foreground transition-colors" data-testid="nav-contact">Contact</a>
           <Link
             href="/cart"
-            className={`relative transition-colors ${isCart ? "text-primary" : "hover:text-foreground"}`}
+            className={`relative transition-colors ${isCart ? "text-[#4efa84]" : "hover:text-foreground"}`}
             aria-label={`Cart${totalItems > 0 ? ` (${totalItems} items)` : ""}`}
             data-testid="nav-cart"
           >
@@ -219,7 +219,7 @@ function Nav() {
           >
             <Link
               href="/shop"
-              className={`transition-colors ${isShop ? "text-primary" : ""}`}
+              className={`transition-colors ${isShop ? "text-[#4efa84]" : ""}`}
               data-testid="mobile-nav-shop"
               onClick={() => {
                 setMenuOpen(false);
@@ -230,7 +230,7 @@ function Nav() {
             </Link>
             <Link
               href="/archive"
-              className={`transition-colors ${location === "/archive" ? "text-primary" : ""}`}
+              className={`transition-colors ${location === "/archive" ? "text-[#4efa84]" : ""}`}
               data-testid="mobile-nav-archive"
               onClick={() => {
                 setMenuOpen(false);
@@ -255,7 +255,7 @@ function Nav() {
             </Link>
             <Link
               href="/support"
-              className={`transition-colors ${location === "/support" ? "text-primary" : ""}`}
+              className={`transition-colors ${location === "/support" ? "text-[#4efa84]" : ""}`}
               data-testid="mobile-nav-support"
               onClick={() => {
                 setMenuOpen(false);
@@ -332,7 +332,7 @@ function SelectedWorksSection() {
         <FadeIn className="mt-14 flex items-center gap-6 flex-wrap">
           <Link
             href="/shop"
-            className="inline-flex items-center gap-2 border border-primary text-primary text-xs tracking-[0.15em] uppercase px-6 py-3.5 hover:bg-primary hover:text-background transition-colors"
+            className="inline-flex items-center gap-2 border border-primary text-primary text-xs tracking-[0.15em] uppercase px-6 py-3.5 hover:bg-[#4efa84] hover:border-[#4efa84] transition-colors"
             data-testid="link-all-works"
           >
             Acquire <ArrowUpRight className="w-3.5 h-3.5" />

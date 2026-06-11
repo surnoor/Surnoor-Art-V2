@@ -108,7 +108,7 @@ export default function WorkCard({ product, sold = false }: WorkCardProps) {
         ) : alreadyInCart ? (
           <Link
             href="/cart"
-            className="ml-auto text-[10px] tracking-[0.15em] uppercase text-primary border-b border-primary/40 pb-px hover:border-primary transition-colors whitespace-nowrap"
+            className="ml-auto text-[10px] tracking-[0.15em] uppercase text-[#4efa84] border-b border-[#4efa84]/40 pb-px hover:border-[#4efa84] transition-colors whitespace-nowrap"
           >
             In Cart →
           </Link>

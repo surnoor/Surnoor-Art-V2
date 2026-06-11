@@ -358,7 +358,7 @@ export default function ProductDetailPage({ productId }: { productId: string }) 
                 {alreadyInCart ? (
                   <Link
                     href="/cart"
-                    className="flex items-center justify-center w-full h-10 text-[11px] tracking-[0.15em] uppercase bg-primary text-background hover:opacity-90 transition-opacity"
+                    className="flex items-center justify-center w-full h-10 text-[11px] tracking-[0.15em] uppercase bg-[#4efa84] text-primary hover:opacity-90 transition-opacity"
                   >
                     In Cart — View Cart →
                   </Link>
