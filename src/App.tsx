@@ -441,7 +441,7 @@ function AccomplishmentsSection() {
                 <span>Seymour Art Gallery - Annual Group Show</span>
               </li>
               <li className="grid grid-cols-[3rem_1fr] gap-4">
-                <span className="font-medium">2024</span>
+                <span></span>
                 <span>Community Exhibition - Place des Arts</span>
               </li>
               <li className="grid grid-cols-[3rem_1fr] gap-4">
@@ -449,7 +449,7 @@ function AccomplishmentsSection() {
                 <span>Community Exhibition - Place des Arts</span>
               </li>
               <li className="grid grid-cols-[3rem_1fr] gap-4">
-                <span className="font-medium">2023</span>
+                <span></span>
                 <span>Bloom exhibition - Federation Gallery, Granville Island</span>
               </li>
               <li className="grid grid-cols-[3rem_1fr] gap-4">
@@ -465,7 +465,7 @@ function AccomplishmentsSection() {
                 <span>ArtRich Exhibition, Richmond Art Gallery - Featured Artist</span>
               </li>
               <li className="grid grid-cols-[3rem_1fr] gap-4">
-                <span className="font-medium">2021</span>
+                <span></span>
                 <span>Active Members Exhibition - Federation Gallery, Granville Island</span>
               </li>
               <li className="grid grid-cols-[3rem_1fr] gap-4">
