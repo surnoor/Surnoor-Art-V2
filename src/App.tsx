@@ -209,7 +209,7 @@ function Nav() {
       </nav>
 
       {menuOpen && (
-        <div className="absolute top-full left-0 right-0 z-50 bg-background  px-6 py-6 flex flex-col gap-5 text-xs tracking-[0.18em] uppercase text-muted-foreground max-h-[calc(100vh-140px)] overflow-y-auto">
+        <div className="absolute top-full left-0 right-0 z-50 bg-background px-6 py-6 flex flex-col items-end gap-6 text-[10px] font-bold tracking-[0.2em] uppercase text-foreground h-[100vh] overflow-y-auto">
           <Link
             href="/shop"
             className={`transition-colors ${isShop ? "text-primary" : ""}`}
@@ -980,12 +980,13 @@ function Footer() {
 function AppInner() {
   const [location] = useLocation();
   const headerRef = useRef<HTMLDivElement>(null);
+  const navWrapperRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const updateHeaderHeight = () => {
       if (headerRef.current) {
         const height = headerRef.current.getBoundingClientRect().bottom;
-        const stickyNavHeight = 68; // Hardcoded nav height
+        const stickyNavHeight = navWrapperRef.current ? navWrapperRef.current.getBoundingClientRect().height : 68;
         
         // Total offset is current visible bottom of banner + nav height
         const totalOffset = Math.max(0, height) + stickyNavHeight;
@@ -1091,7 +1092,7 @@ function AppInner() {
       <div ref={headerRef}>
         <NewsletterBanner />
       </div>
-      <div className="sticky top-0 z-50">
+      <div ref={navWrapperRef} className="sticky top-0 z-50">
         <Nav />
       </div>
       <FloatingCartButton />
