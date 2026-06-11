@@ -3,6 +3,7 @@ import { motion, type Variants } from "framer-motion";
 import { ChevronLeft, ChevronRight, SlidersHorizontal, X, Download, Share2, Check, Loader2, Printer, Facebook, Twitter, Linkedin, Mail, Link as LinkIcon, MessageCircle, Image as ImageIcon } from "lucide-react";
 import { useArchive, type ArchiveRecord } from "../hooks/useArchive";
 import { FilterGroup } from "../components/FilterGroup";
+import BauhausLoader from "../components/BauhausLoader";
 
 const easing: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
@@ -748,6 +749,7 @@ export default function ArchivePage() {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [lightboxRecord, setLightboxRecord] = useState<ArchiveRecord | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [isAnimatingLoader, setIsAnimatingLoader] = useState(true);
 
   useEffect(() => {
     document.title = "Archive — Surnoor Sembhi | Past Works";
@@ -912,7 +914,11 @@ export default function ArchivePage() {
           )}
         </button>
         <span className="text-xs text-muted-foreground">
-          {filtered.length} work{filtered.length !== 1 ? "s" : ""}
+          {(!loading && !isAnimatingLoader) ? (
+            <>{filtered.length} work{filtered.length !== 1 ? "s" : ""}</>
+          ) : (
+            <>&nbsp;</>
+          )}
         </span>
       </div>
 
@@ -943,25 +949,17 @@ export default function ArchivePage() {
 
         {/* Main content */}
         <main className="flex-1 px-6 md:px-8 lg:px-12 py-8 md:py-10">
-          {loading && (
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8">
-              {Array.from({ length: 8 }).map((_, i) => (
-                <div key={i} className="animate-pulse">
-                  <div className="bg-card aspect-[3/4] mb-4" />
-                  <div className="h-4 bg-card rounded w-3/4 mb-2" />
-                  <div className="h-3 bg-card rounded w-1/2" />
-                </div>
-              ))}
-            </div>
+          {(loading || isAnimatingLoader) && (
+            <BauhausLoader isDone={!loading} onComplete={() => setIsAnimatingLoader(false)} />
           )}
 
-          {error && (
+          {error && !isAnimatingLoader && (
             <p className="text-sm text-muted-foreground">
               Could not load archive — {error}
             </p>
           )}
 
-          {!loading && !error && filtered.length === 0 && (
+          {!loading && !isAnimatingLoader && !error && filtered.length === 0 && (
             <div className="text-center py-16">
               <p className="text-sm text-muted-foreground italic mb-4">
                 No works match the selected filters.
@@ -977,7 +975,7 @@ export default function ArchivePage() {
             </div>
           )}
 
-          {!loading && !error && filtered.length > 0 && (
+          {!loading && !isAnimatingLoader && !error && filtered.length > 0 && (
             <>
               <div className="hidden md:flex items-center justify-between mb-8">
                 <p className="text-xs text-muted-foreground">
