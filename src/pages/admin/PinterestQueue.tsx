@@ -4,7 +4,6 @@ import { Share2, Check, Loader2, SlidersHorizontal, X } from "lucide-react";
 import AdminLayout from "./AdminLayout";
 import { useArchive, type ArchiveRecord } from "../../hooks/useArchive";
 import { FilterGroup } from "../../components/FilterGroup";
-import { Lightbox } from "../ArchivePage";
 import BauhausLoader from "../../components/BauhausLoader";
 
 export default function PinterestQueue() {
@@ -22,7 +21,7 @@ export default function PinterestQueue() {
   const [localPublishedIds, setLocalPublishedIds] = useState<Set<string>>(new Set());
   const [localUnpublishedIds, setLocalUnpublishedIds] = useState<Set<string>>(new Set());
   const [isUpdatingId, setIsUpdatingId] = useState<string | null>(null);
-  const [lightboxRecord, setLightboxRecord] = useState<ArchiveRecord | null>(null);
+  const [copiedId, setCopiedId] = useState<string | null>(null);
 
   /* Derive unique filter values from data */
   const filters = useMemo(() => {
@@ -107,6 +106,37 @@ export default function PinterestQueue() {
     } finally {
       setIsUpdatingId(null);
     }
+  };
+
+  const handleShareToPinterest = (record: ArchiveRecord) => {
+    // Build Pinterest SEO-optimized hashtags
+    const baseTags = ["SurnoorArt", "OriginalArt", "ContemporaryRealism"];
+    if (record.medium) baseTags.push(record.medium.replace(/\s+/g, ''));
+    if (record.category) baseTags.push(record.category.replace(/\s+/g, ''));
+    if (record.year) baseTags.push(`Art${record.year}`);
+    if (record.subject && Array.isArray(record.subject)) {
+      record.subject.forEach((sub: string) => baseTags.push(sub.replace(/\s+/g, '')));
+    }
+    
+    const hashtags = baseTags.map(tag => `#${tag}`).join(" ");
+    
+    // Build a robust description
+    const yearText = record.year ? ` (${record.year})` : '';
+    const mediumText = record.medium ? ` | ${record.medium}` : '';
+    const description = `${record.name}${yearText}${mediumText} by artist Surnoor Sembhi. Explore the complete archive and current availability directly at surnoor.art. ${hashtags}`;
+    
+    const shareUrl = `${window.location.origin}/archive#${record.id}`;
+    const mediaUrl = record.image || record.thumbnail || shareUrl;
+    
+    const pinterestUrl = `https://www.pinterest.com/pin/create/button/?url=${encodeURIComponent(shareUrl)}&media=${encodeURIComponent(mediaUrl)}&title=${encodeURIComponent(record.name)}&description=${encodeURIComponent(description)}`;
+    
+    navigator.clipboard.writeText(description).then(() => {
+      setCopiedId(record.id);
+      setTimeout(() => setCopiedId(null), 2000);
+      window.open(pinterestUrl, '_blank', 'noopener,noreferrer');
+    }).catch(() => {
+      window.open(pinterestUrl, '_blank', 'noopener,noreferrer');
+    });
   };
 
   return (
@@ -220,10 +250,11 @@ export default function PinterestQueue() {
                       {/* Overlay */}
                       <div className="absolute inset-0 bg-background/80 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center p-4 gap-2">
                         <button
-                          onClick={() => setLightboxRecord(record)}
+                          onClick={() => handleShareToPinterest(record)}
                           className="flex items-center justify-center gap-2 w-full py-3 text-xs tracking-[0.15em] uppercase font-medium transition-colors bg-secondary text-secondary-foreground hover:bg-secondary/80 border border-border"
                         >
-                          View Artwork
+                          {copiedId === record.id ? <Check className="w-4 h-4 text-green-500" /> : <Share2 className="w-4 h-4" />}
+                          {copiedId === record.id ? "Copied Info!" : "Share to Pinterest"}
                         </button>
                         <button
                           disabled={isUpdating}
@@ -253,44 +284,6 @@ export default function PinterestQueue() {
         </div>
 
       </div>
-
-      {lightboxRecord && (
-        <Lightbox
-          record={lightboxRecord}
-          onClose={() => setLightboxRecord(null)}
-          allRecords={filteredArchive}
-          onSelectRecord={setLightboxRecord}
-          onNext={() => {
-            const idx = filteredArchive.findIndex(r => r.id === lightboxRecord.id);
-            if (idx !== -1) {
-              setLightboxRecord(filteredArchive[(idx + 1) % filteredArchive.length]);
-            }
-          }}
-          onPrev={() => {
-            const idx = filteredArchive.findIndex(r => r.id === lightboxRecord.id);
-            if (idx !== -1) {
-              setLightboxRecord(filteredArchive[(idx - 1 + filteredArchive.length) % filteredArchive.length]);
-            }
-          }}
-          adminAction={
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                togglePublishedStatus(lightboxRecord.id, getIsPublished(lightboxRecord.id, lightboxRecord.pinterestPublished));
-              }}
-              disabled={isUpdatingId === lightboxRecord.id}
-              className={`
-                flex items-center justify-center gap-2 px-4 py-2.5 mt-2 text-xs tracking-[0.1em] uppercase font-medium rounded transition-colors
-                ${getIsPublished(lightboxRecord.id, lightboxRecord.pinterestPublished) ? "bg-muted text-foreground hover:bg-destructive hover:text-white" : "bg-primary text-background hover:bg-[#4efa84]"}
-                disabled:opacity-50 disabled:cursor-not-allowed shadow-md
-              `}
-            >
-              {isUpdatingId === lightboxRecord.id ? <Loader2 className="w-4 h-4 animate-spin" /> : getIsPublished(lightboxRecord.id, lightboxRecord.pinterestPublished) ? <X className="w-4 h-4" /> : <Check className="w-4 h-4" />}
-              {isUpdatingId === lightboxRecord.id ? "Updating..." : getIsPublished(lightboxRecord.id, lightboxRecord.pinterestPublished) ? "Undo Publish" : "Mark as Pinned"}
-            </button>
-          }
-        />
-      )}
     </AdminLayout>
   );
 }
