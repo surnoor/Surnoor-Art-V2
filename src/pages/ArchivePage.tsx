@@ -206,21 +206,21 @@ function Lightbox({
 
       ctx.textAlign = "center";
       ctx.fillStyle = "#111111";
-      ctx.font = "300 72px serif";
+      ctx.font = "300 72px 'Hanken Grotesk', sans-serif";
       ctx.fillText(record.name, 540, 1400);
 
       ctx.fillStyle = "#666666";
-      ctx.font = "32px sans-serif";
+      ctx.font = "400 32px 'Hanken Grotesk', sans-serif";
       ctx.fillText((record.medium || record.category || "Original Artwork").toUpperCase(), 540, 1480);
 
       ctx.fillStyle = "#111111";
       ctx.fillRect(500, 1540, 80, 2);
 
-      ctx.font = "400 36px serif";
+      ctx.font = "300 36px 'Hanken Grotesk', sans-serif";
       ctx.fillText("Surnoor Sembhi", 540, 1620);
 
       ctx.fillStyle = "#888888";
-      ctx.font = "28px sans-serif";
+      ctx.font = "400 28px 'Hanken Grotesk', sans-serif";
       ctx.fillText("surnoor.art", 540, 1680);
 
       const blob = await new Promise<Blob | null>(res => canvas.toBlob(res, "image/jpeg", 0.9));
