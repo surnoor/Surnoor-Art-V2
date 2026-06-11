@@ -73,7 +73,7 @@ export default function NewsletterForm({ variant = 'banner' }: NewsletterFormPro
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         disabled={status === 'loading'}
-        className={`bg-transparent border-b border-border text-[10px] tracking-widest px-0 ${variant === 'banner' ? 'py-1' : 'py-2'} focus:outline-none focus:border-primary transition-colors flex-grow ${variant === 'banner' ? 'placeholder:text-muted-foreground/50' : 'placeholder:text-muted-foreground/30'}`}
+        className={`bg-transparent  text-[10px] tracking-widest px-0 ${variant === 'banner' ? 'py-1' : 'py-2'} focus:outline-none focus:border-primary transition-colors flex-grow ${variant === 'banner' ? 'placeholder:text-muted-foreground/50' : 'placeholder:text-muted-foreground/30'}`}
         required
       />
       <button

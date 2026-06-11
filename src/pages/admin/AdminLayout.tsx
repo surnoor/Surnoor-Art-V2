@@ -17,7 +17,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   return (
     <div className="flex min-h-screen bg-[#F9F8F4] font-sans selection:bg-primary/20">
       {/* Sidebar */}
-      <aside className="w-64 border-r border-border bg-background/50 backdrop-blur-md flex flex-col sticky top-0 h-screen">
+      <aside className="w-64  bg-background/50 backdrop-blur-md flex flex-col sticky top-0 h-screen">
         <div className="p-8">
           <Link href="/" className="font-serif text-xl tracking-widest uppercase block mb-1">
             Surnoor Art
@@ -52,7 +52,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           })}
         </nav>
 
-        <div className="p-4 border-t border-border">
+        <div className="p-4 ">
           <Link href="/">
             <div className="flex items-center gap-3 px-4 py-3 text-muted-foreground hover:text-destructive transition-colors cursor-pointer text-xs tracking-[0.15em] uppercase font-medium">
               <LogOut className="w-4 h-4" />

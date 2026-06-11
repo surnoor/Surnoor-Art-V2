@@ -236,7 +236,7 @@ function Lightbox({
             </div>
           </div>
           {record.notes && (
-            <div className="border-t border-border pt-4">
+            <div className=" pt-4">
               <p className="text-sm text-muted-foreground leading-relaxed italic">
                 {record.notes}
               </p>
@@ -248,7 +248,7 @@ function Lightbox({
       {/* Thumbnail Stripe */}
       {allRecords && allRecords.length > 1 && onSelectRecord && (
         <div 
-          className="absolute bottom-0 left-0 right-0 h-24 bg-background/95 backdrop-blur-md border-t border-border flex items-center justify-center px-6"
+          className="absolute bottom-0 left-0 right-0 h-24 bg-background/95 backdrop-blur-md  flex items-center justify-center px-6"
           onClick={(e) => e.stopPropagation()}
         >
           <div className="flex gap-4 overflow-x-auto max-w-full pb-2 pt-2 scrollbar-hide items-center">
@@ -290,7 +290,7 @@ export default function EventPage() {
   return (
     <div className="min-h-screen bg-background">
       {/* Page header */}
-      <div className="px-6 md:px-12 pt-10 pb-6 border-b border-border">
+      <div className="px-6 md:px-12 pt-10 pb-6 ">
         <motion.div initial="hidden" animate="visible" variants={fadeUp}>
           <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground mb-2">
             Private Showcase

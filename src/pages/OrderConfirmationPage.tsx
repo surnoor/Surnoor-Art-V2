@@ -143,9 +143,9 @@ export default function OrderConfirmationPage() {
             </h1>
 
             {/* Line items */}
-            <div className="border-t border-border mb-8">
+            <div className=" mb-8">
               {order.lineItems.map((item) => (
-                <div key={item.id} className="border-b border-border py-6 flex items-start gap-5">
+                <div key={item.id} className=" py-6 flex items-start gap-5">
                   {item.image && (
                     <div className="w-16 h-20 bg-card flex-shrink-0 overflow-hidden">
                       <img
@@ -178,7 +178,7 @@ export default function OrderConfirmationPage() {
                   <span>{formatCurrency(order.shippingRate.amount, order.shippingRate.currency)}</span>
                 </div>
               )}
-              <div className="flex justify-between text-sm font-medium pt-2 border-t border-border">
+              <div className="flex justify-between text-sm font-medium pt-2 ">
                 <span>Total</span>
                 <span>{formatCurrency(order.amountTotal, order.currency)}</span>
               </div>
@@ -186,7 +186,7 @@ export default function OrderConfirmationPage() {
 
             {/* Shipping details */}
             {(order.shippingAddress || order.shippingRate) && (
-              <div className="border-t border-border pt-8 mb-10 space-y-5">
+              <div className=" pt-8 mb-10 space-y-5">
                 <p className="text-xs tracking-[0.15em] uppercase text-muted-foreground">
                   Delivery
                 </p>
@@ -211,7 +211,7 @@ export default function OrderConfirmationPage() {
 
             {/* Contact */}
             {order.customerEmail && (
-              <div className="border-t border-border pt-8 mb-10">
+              <div className=" pt-8 mb-10">
                 <p className="text-xs text-muted-foreground mb-1">Confirmation sent to</p>
                 <p className="text-sm">{order.customerEmail}</p>
               </div>

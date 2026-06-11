@@ -695,7 +695,7 @@ function Lightbox({
             </div>
           </div>
           {record.notes && (
-            <div className="border-t border-border pt-4">
+            <div className=" pt-4">
               <p className="text-sm text-muted-foreground leading-relaxed italic">
                 {record.notes}
               </p>
@@ -707,7 +707,7 @@ function Lightbox({
       {/* Thumbnail Stripe */}
       {allRecords && allRecords.length > 1 && onSelectRecord && (
         <div 
-          className="absolute bottom-0 left-0 right-0 h-24 bg-background/95 backdrop-blur-md border-t border-border flex items-center justify-center px-6"
+          className="absolute bottom-0 left-0 right-0 h-24 bg-background/95 backdrop-blur-md  flex items-center justify-center px-6"
           onClick={(e) => e.stopPropagation()}
         >
           <div className="flex gap-4 overflow-x-auto max-w-full px-4 py-4 scrollbar-hide items-center">
@@ -897,7 +897,7 @@ export default function ArchivePage() {
   return (
     <div className="min-h-screen bg-background">
       {/* Page header */}
-      <div className="px-6 md:px-12 pt-10 pb-6 border-b border-border">
+      <div className="px-6 md:px-12 pt-10 pb-6 ">
         <motion.div initial="hidden" animate="visible" variants={fadeUp}>
           <h1 className="font-serif text-3xl md:text-4xl font-light">
             Archive
@@ -909,7 +909,7 @@ export default function ArchivePage() {
       </div>
 
       {/* Mobile filter toggle */}
-      <div className="md:hidden sticky top-[var(--header-offset)] z-30 bg-background border-b border-border px-6 py-3 flex items-center justify-between">
+      <div className="md:hidden sticky top-[var(--header-offset)] z-30 bg-background  px-6 py-3 flex items-center justify-between">
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
           className="flex items-center gap-2 text-xs tracking-[0.15em] uppercase text-muted-foreground"
@@ -939,7 +939,7 @@ export default function ArchivePage() {
             className="absolute inset-0 bg-background/60 backdrop-blur-sm"
             onClick={() => setSidebarOpen(false)}
           />
-          <div className="relative w-72 max-w-[80vw] h-full bg-background border-r border-border p-6 overflow-y-auto">
+          <div className="relative w-72 max-w-[80vw] h-full bg-background  p-6 overflow-y-auto">
             {sidebarContent}
           </div>
         </motion.div>
@@ -948,7 +948,7 @@ export default function ArchivePage() {
       {/* Dashboard layout */}
       <div className="flex">
         {/* Desktop sidebar */}
-        <aside className="hidden md:block w-60 lg:w-64 flex-shrink-0 border-r border-border p-6">
+        <aside className="hidden md:block w-60 lg:w-64 flex-shrink-0  p-6">
           {sidebarContent}
         </aside>
 

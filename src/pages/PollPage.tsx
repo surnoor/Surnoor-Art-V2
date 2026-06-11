@@ -120,7 +120,7 @@ export default function PollPage() {
             <motion.form variants={itemAnim} onSubmit={handleSubmit} className="space-y-12">
               
               {/* SECTION 1 */}
-              <div className="space-y-6 pt-8 border-t border-border">
+              <div className="space-y-6 pt-8 ">
                 <div className="mb-6">
                   <h2 className="text-xs tracking-[0.2em] text-muted-foreground uppercase mb-1">Section 1</h2>
                   <h3 className="font-serif text-xl md:text-2xl font-light">Who Are You in This Space?</h3>
@@ -147,7 +147,7 @@ export default function PollPage() {
               </div>
 
               {/* SECTION 2 */}
-              <div className="space-y-6 pt-8 border-t border-border">
+              <div className="space-y-6 pt-8 ">
                 <div className="mb-6">
                   <h2 className="text-xs tracking-[0.2em] text-muted-foreground uppercase mb-1">Section 2</h2>
                   <h3 className="font-serif text-xl md:text-2xl font-light">Your Relationship to the Work</h3>
@@ -191,7 +191,7 @@ export default function PollPage() {
               </div>
 
               {/* SECTION 3 */}
-              <div className="space-y-6 pt-8 border-t border-border">
+              <div className="space-y-6 pt-8 ">
                 <div className="mb-6">
                   <h2 className="text-xs tracking-[0.2em] text-muted-foreground uppercase mb-1">Section 3</h2>
                   <h3 className="font-serif text-xl md:text-2xl font-light">How You Engage</h3>
@@ -235,7 +235,7 @@ export default function PollPage() {
               </div>
 
               {/* SECTION 4 */}
-              <div className="space-y-6 pt-8 border-t border-border">
+              <div className="space-y-6 pt-8 ">
                 <div className="mb-6">
                   <h2 className="text-xs tracking-[0.2em] text-muted-foreground uppercase mb-1">Section 4</h2>
                   <h3 className="font-serif text-xl md:text-2xl font-light">What Matters to You About Social Media & Art</h3>
@@ -282,7 +282,7 @@ export default function PollPage() {
               </div>
 
               {/* SECTION 5 */}
-              <div className="space-y-8 pt-8 border-t border-border">
+              <div className="space-y-8 pt-8 ">
                 <div className="mb-6">
                   <h2 className="text-xs tracking-[0.2em] text-muted-foreground uppercase mb-1">Section 5</h2>
                   <h3 className="font-serif text-xl md:text-2xl font-light">Open Space</h3>

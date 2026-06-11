@@ -65,11 +65,11 @@ export default function CartPage() {
             <div className="lg:col-span-8">
               <h1 className="text-xs tracking-[0.2em] uppercase mb-8">Shopping Cart</h1>
 
-              <div className="border-t border-border">
+              <div className="">
                 {items.map((item) => (
                   <div
                     key={item.productId}
-                    className="border-b border-border py-6 flex items-start gap-5"
+                    className=" py-6 flex items-start gap-5"
                   >
                     {/* Thumbnail */}
                     <Link href={`/shop/${item.productId}`} className="flex-shrink-0">
@@ -134,7 +134,7 @@ export default function CartPage() {
             <div className="lg:col-span-4">
               <h2 className="text-xs tracking-[0.2em] uppercase mb-6">Summary</h2>
 
-              <div className="border-t border-border pt-5 space-y-3 mb-6">
+              <div className=" pt-5 space-y-3 mb-6">
                 <div className="flex justify-between text-sm">
                   <span className="text-muted-foreground">Subtotal</span>
                   <span className="font-medium">{formatPrice(subtotal, currency)}</span>
@@ -145,7 +145,7 @@ export default function CartPage() {
                 </div>
               </div>
 
-              <div className="border-t border-border pt-5 mb-8">
+              <div className=" pt-5 mb-8">
                 <div className="flex justify-between text-sm font-medium">
                   <span>Total</span>
                   <span>{formatPrice(subtotal, currency)}</span>

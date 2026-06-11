@@ -102,7 +102,7 @@ export default function Curator() {
                 </div>
               </div>
 
-              <div className="hidden md:flex items-center gap-8 px-8 border-l border-border h-12">
+              <div className="hidden md:flex items-center gap-8 px-8  h-12">
                 <div className="text-center">
                   <p className="text-[9px] tracking-widest uppercase text-muted-foreground mb-0.5">Views</p>
                   <p className="text-sm font-medium">1.2k</p>

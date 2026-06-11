@@ -184,7 +184,7 @@ export function ARButton({
           className="fixed inset-0 z-[200] bg-background flex flex-col"
           onClick={e => e.stopPropagation()}
         >
-          <div className="flex items-center justify-between p-4 border-b border-border">
+          <div className="flex items-center justify-between p-4 ">
             <h3 className="font-serif text-lg">3D Preview</h3>
             <button onClick={() => setShowMobileModal(false)} className="p-2 text-muted-foreground hover:text-foreground">
               <X className="w-5 h-5" />

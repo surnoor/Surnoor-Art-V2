@@ -209,7 +209,7 @@ function Nav() {
       </nav>
 
       {menuOpen && (
-        <div className="absolute top-full left-0 right-0 z-50 bg-background border-b border-border px-6 py-6 flex flex-col gap-5 text-xs tracking-[0.18em] uppercase text-muted-foreground max-h-[calc(100vh-140px)] overflow-y-auto">
+        <div className="absolute top-full left-0 right-0 z-50 bg-background  px-6 py-6 flex flex-col gap-5 text-xs tracking-[0.18em] uppercase text-muted-foreground max-h-[calc(100vh-140px)] overflow-y-auto">
           <Link
             href="/shop"
             className={`transition-colors ${isShop ? "text-primary" : ""}`}
@@ -364,7 +364,7 @@ const ACCOMPLISHMENTS = [
 
 function AccomplishmentsSection() {
   return (
-    <section id="about" className="relative w-full py-16 md:py-28 bg-background border-t border-border">
+    <section id="about" className="relative w-full py-16 md:py-28 bg-background ">
       <FadeIn className="px-6 md:px-12 mb-10 md:mb-16">
         <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground">Exhibitions & Recognition</p>
       </FadeIn>
@@ -374,7 +374,7 @@ function AccomplishmentsSection() {
         <div className="space-y-12">
           {/* Recent Commissions */}
           <div className="space-y-4">
-            <h3 className="font-serif text-xl font-light text-foreground border-b border-border pb-2 uppercase tracking-wide text-xs">Recent Commissions</h3>
+            <h3 className="font-serif text-xl font-light text-foreground  pb-2 uppercase tracking-wide text-xs">Recent Commissions</h3>
             <ul className="space-y-3 text-muted-foreground leading-relaxed">
               <li className="grid grid-cols-[3rem_1fr] gap-4">
                 <span className="font-medium">2025</span>
@@ -397,7 +397,7 @@ function AccomplishmentsSection() {
 
           {/* Solo Show */}
           <div className="space-y-4">
-            <h3 className="font-serif text-xl font-light text-foreground border-b border-border pb-2 uppercase tracking-wide text-xs">Solo Show</h3>
+            <h3 className="font-serif text-xl font-light text-foreground  pb-2 uppercase tracking-wide text-xs">Solo Show</h3>
             <ul className="space-y-3 text-muted-foreground leading-relaxed">
               <li className="grid grid-cols-[3rem_1fr] gap-4">
                 <span className="font-medium">2024</span>
@@ -408,7 +408,7 @@ function AccomplishmentsSection() {
 
           {/* Selected Group Shows */}
           <div className="space-y-4">
-            <h3 className="font-serif text-xl font-light text-foreground border-b border-border pb-2 uppercase tracking-wide text-xs">Selected Group Shows</h3>
+            <h3 className="font-serif text-xl font-light text-foreground  pb-2 uppercase tracking-wide text-xs">Selected Group Shows</h3>
             <ul className="space-y-3 text-muted-foreground leading-relaxed">
               <li className="grid grid-cols-[3rem_1fr] gap-4">
                 <span className="font-medium">2025</span>
@@ -455,7 +455,7 @@ function AccomplishmentsSection() {
 
           {/* Artist in Residence */}
           <div className="space-y-4">
-            <h3 className="font-serif text-xl font-light text-foreground border-b border-border pb-2 uppercase tracking-wide text-xs">Artist in Residence</h3>
+            <h3 className="font-serif text-xl font-light text-foreground  pb-2 uppercase tracking-wide text-xs">Artist in Residence</h3>
             <ul className="space-y-3 text-muted-foreground leading-relaxed">
               <li className="grid grid-cols-[3rem_1fr] gap-4">
                 <span className="font-medium">2022</span>
@@ -466,7 +466,7 @@ function AccomplishmentsSection() {
 
           {/* Teaching */}
           <div className="space-y-4">
-            <h3 className="font-serif text-xl font-light text-foreground border-b border-border pb-2 uppercase tracking-wide text-xs">Teaching</h3>
+            <h3 className="font-serif text-xl font-light text-foreground  pb-2 uppercase tracking-wide text-xs">Teaching</h3>
             <ul className="space-y-3 text-muted-foreground leading-relaxed">
               <li className="grid grid-cols-[3rem_1fr] gap-4">
                 <span className="font-medium">2024</span>
@@ -489,7 +489,7 @@ function AccomplishmentsSection() {
 
           {/* Collections */}
           <div className="space-y-4">
-            <h3 className="font-serif text-xl font-light text-foreground border-b border-border pb-2 uppercase tracking-wide text-xs">Collections</h3>
+            <h3 className="font-serif text-xl font-light text-foreground  pb-2 uppercase tracking-wide text-xs">Collections</h3>
             <ul className="space-y-3 text-muted-foreground leading-relaxed">
               <li>British Pacific Properties, West Vancouver</li>
               <li>Private Collection, Toronto</li>
@@ -503,7 +503,7 @@ function AccomplishmentsSection() {
         <div className="space-y-12">
           {/* Awards and Recognitions */}
           <div className="space-y-4">
-            <h3 className="font-serif text-xl font-light text-foreground border-b border-border pb-2 uppercase tracking-wide text-xs">Awards & Recognitions</h3>
+            <h3 className="font-serif text-xl font-light text-foreground  pb-2 uppercase tracking-wide text-xs">Awards & Recognitions</h3>
             <ul className="space-y-3 text-muted-foreground leading-relaxed">
               <li className="grid grid-cols-[3rem_1fr] gap-4">
                 <span className="font-medium">2025</span>
@@ -534,7 +534,7 @@ function AccomplishmentsSection() {
 
           {/* Bibliography */}
           <div className="space-y-4">
-            <h3 className="font-serif text-xl font-light text-foreground border-b border-border pb-2 uppercase tracking-wide text-xs">Bibliography</h3>
+            <h3 className="font-serif text-xl font-light text-foreground  pb-2 uppercase tracking-wide text-xs">Bibliography</h3>
             <div className="space-y-8 text-muted-foreground leading-relaxed">
               <div className="space-y-1">
                 <p className="font-medium text-foreground">Vancouver artist wins annual Paint on the Mountain contest</p>
@@ -739,7 +739,7 @@ function HomePage() {
 
       {/* ── 3. ABOUT ── */}
       {false && (
-      <section id="about" className="border-t border-border px-6 md:px-12 py-16 md:py-28 bg-card">
+      <section id="about" className=" px-6 md:px-12 py-16 md:py-28 bg-card">
         <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-20">
           <div className="lg:col-span-4">
             <FadeIn>
@@ -779,7 +779,7 @@ function HomePage() {
       )}
 
       {/* ── 4. LEARN ── */}
-      <section id="instruction" className="border-t border-border px-6 md:px-12 py-16 md:py-28">
+      <section id="instruction" className=" px-6 md:px-12 py-16 md:py-28">
         <FadeIn className="mb-14">
           <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground">Instruction</p>
         </FadeIn>
@@ -820,14 +820,14 @@ function HomePage() {
       </section>
 
       {/* ── 5. UPCOMING ── */}
-      <section id="upcoming" className="border-t border-border px-6 md:px-12 py-16 md:py-28 bg-card">
+      <section id="upcoming" className=" px-6 md:px-12 py-16 md:py-28 bg-card">
         <FadeIn className="mb-14">
           <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground">Workshops & Exhibitions</p>
         </FadeIn>
 
         <div className="max-w-3xl space-y-0">
           <FadeIn>
-            <div className="border-b border-border py-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div className=" py-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
               <div className="flex flex-col gap-1">
                 <div className="flex items-center gap-2 mb-1">
                   <span className="text-[10px] tracking-[0.2em] uppercase bg-primary text-background px-2 py-0.5">Upcoming</span>
@@ -851,7 +851,7 @@ function HomePage() {
           </FadeIn>
 
           <FadeIn delay={0.05}>
-            <div className="border-b border-border py-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div className=" py-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
               <div className="flex flex-col gap-1">
                 <div className="flex items-center gap-2 mb-1">
                   <span className="text-[10px] tracking-[0.2em] uppercase bg-primary text-background px-2 py-0.5">Upcoming</span>
@@ -876,7 +876,7 @@ function HomePage() {
 
           {false && (
           <FadeIn delay={0.1}>
-            <div className="border-b border-border py-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div className=" py-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
               <div className="flex flex-col gap-1">
                 <h3 className="font-serif text-xl font-light text-muted-foreground">5-Year Retrospective Solo Show</h3>
                 <p className="text-muted-foreground text-sm">Basic Inquiry · Vancouver, BC · 2024</p>
@@ -897,7 +897,7 @@ function HomePage() {
 
       {/* ── 6. RECOGNITION ── */}
       {false && (
-        <section className="border-t border-border px-6 md:px-12 py-12 md:py-20">
+        <section className=" px-6 md:px-12 py-12 md:py-20">
           <FadeIn>
             <div className="flex flex-wrap items-center gap-x-8 gap-y-3 text-xs tracking-[0.15em] uppercase text-muted-foreground">
               <span>Solo Show · Basic Inquiry, Vancouver · 2024</span>
@@ -915,7 +915,7 @@ function HomePage() {
 
 function Footer() {
   return (
-    <footer className="border-t border-border bg-background px-6 md:px-12 py-12 md:py-16">
+    <footer className=" bg-background px-6 md:px-12 py-12 md:py-16">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-16 items-start">
           {/* Branding */}
           <div>
@@ -970,7 +970,7 @@ function Footer() {
           </div>
         </div>
 
-      <div className="max-w-7xl mx-auto mt-10 pt-8 border-t border-border text-[10px] text-muted-foreground tracking-wide">
+      <div className="max-w-7xl mx-auto mt-10 pt-8  text-[10px] text-muted-foreground tracking-wide">
         &copy; {new Date().getFullYear()} Surnoor Sembhi. All rights reserved.
       </div>
     </footer>

@@ -169,7 +169,7 @@ export default function ShopPage() {
   return (
     <div className="min-h-screen bg-background">
       {checkoutCancelled && (
-        <div className="w-full border-b border-border text-center py-3 px-6">
+        <div className="w-full  text-center py-3 px-6">
           <p className="text-xs tracking-[0.15em] uppercase text-muted-foreground">Checkout cancelled — your cart has not been charged.</p>
         </div>
       )}
@@ -193,7 +193,7 @@ export default function ShopPage() {
       </div>
 
       {/* Mobile filter toggle */}
-      <div className="md:hidden sticky top-[var(--header-offset)] z-30 bg-background border-b border-border px-6 py-3 flex items-center justify-between">
+      <div className="md:hidden sticky top-[var(--header-offset)] z-30 bg-background  px-6 py-3 flex items-center justify-between">
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
           className="flex items-center gap-2 text-xs tracking-[0.15em] uppercase text-muted-foreground"
@@ -223,7 +223,7 @@ export default function ShopPage() {
             className="absolute inset-0 bg-background/60 backdrop-blur-sm"
             onClick={() => setSidebarOpen(false)}
           />
-          <div className="relative w-72 max-w-[80vw] h-full bg-background border-r border-border p-6 overflow-y-auto">
+          <div className="relative w-72 max-w-[80vw] h-full bg-background  p-6 overflow-y-auto">
             {sidebarContent}
           </div>
         </motion.div>
@@ -278,7 +278,7 @@ export default function ShopPage() {
 
           {currentSold.length > 0 && (
             <div className="mt-16">
-              {currentAvailable.length > 0 && <div className="border-t border-border mb-8" />}
+              {currentAvailable.length > 0 && <div className=" mb-8" />}
               <FadeIn className="mb-10">
                 <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground">Sold</p>
               </FadeIn>

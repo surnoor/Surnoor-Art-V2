@@ -32,7 +32,7 @@ export default function SupportPage() {
   }, []);
 
   return (
-    <main className="min-h-screen bg-background border-t border-border pt-16 md:pt-24 pb-24 px-6 md:px-12">
+    <main className="min-h-screen bg-background  pt-16 md:pt-24 pb-24 px-6 md:px-12">
       <motion.div
         initial="hidden"
         animate="visible"
@@ -69,7 +69,7 @@ export default function SupportPage() {
 
         {/* This Month's Artwork */}
         <motion.div variants={fadeUp} className="space-y-4 lg:col-start-1 lg:row-start-2 order-3">
-          <div className="border-t border-border pt-10">
+          <div className=" pt-10">
             <h2 className="font-serif text-2xl font-light mb-6 text-center lg:text-left">This Month's Artwork</h2>
             {loading ? (
               <div className="aspect-[4/3] bg-muted animate-pulse rounded-sm"></div>

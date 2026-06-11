@@ -11,7 +11,7 @@ import { ARButton } from "../components/ARViewer";
 function Accordion({ title, children }: { title: string; children: React.ReactNode }) {
   const [open, setOpen] = useState(false);
   return (
-    <div className="border-t border-border">
+    <div className="">
       <button
         onClick={() => setOpen((o) => !o)}
         className="w-full flex items-center justify-between py-4 text-left"
@@ -411,7 +411,7 @@ export default function ProductDetailPage({ productId }: { productId: string }) 
 
         {/* You might also like */}
         {relatedProducts.length > 0 && (
-          <div className="border-t border-border pt-16">
+          <div className=" pt-16">
             <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground mb-10">
               You might also like
             </p>

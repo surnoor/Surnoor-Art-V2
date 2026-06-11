@@ -15,7 +15,7 @@ export function FilterGroup({
   const [open, setOpen] = useState(true);
 
   return (
-    <div className="border-b border-border pb-4 mb-4 last:border-0 last:mb-0 last:pb-0">
+    <div className=" pb-4 mb-4 last:border-0 last:mb-0 last:pb-0">
       <button
         onClick={() => setOpen(!open)}
         className="w-full flex items-center justify-between text-xs tracking-[0.18em] uppercase text-muted-foreground hover:text-foreground transition-colors mb-3"
