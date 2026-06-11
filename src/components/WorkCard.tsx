@@ -40,7 +40,7 @@ export default function WorkCard({ product, sold = false }: WorkCardProps) {
     <div className={`${sold ? "opacity-50" : ""} group`}>
       {/* Image block */}
       <Link href={`/shop/${product.id}`} className="block mb-4">
-        <div className="relative bg-card aspect-[3/4] overflow-hidden">
+        <div className="relative aspect-[3/4] overflow-hidden">
           {primaryImage && (
             <ARButton 
               imageUrl={primaryImage} 
@@ -88,20 +88,20 @@ export default function WorkCard({ product, sold = false }: WorkCardProps) {
 
       {/* Metadata */}
       <Link href={`/shop/${product.id}`} className="block">
-        <h3 className="font-serif text-base mb-0.5 group-hover:text-primary/80 transition-colors">
+        <h3 className="font-sans text-[10px] tracking-widest uppercase mb-1 group-hover:opacity-70 transition-opacity">
           {product.name}
         </h3>
       </Link>
       {categoryMediumLine && (
-        <p className="text-muted-foreground text-xs">{categoryMediumLine}</p>
+        <p className="text-muted-foreground text-[9px] uppercase tracking-wider mb-0.5">{categoryMediumLine}</p>
       )}
       {substrateDimensionsLine && (
-        <p className="text-muted-foreground text-xs">{substrateDimensionsLine}</p>
+        <p className="text-muted-foreground text-[9px] uppercase tracking-wider">{substrateDimensionsLine}</p>
       )}
 
       {/* Price + CTA row */}
       <div className="mt-2 flex items-center gap-2">
-        <p className="text-xs tracking-wide text-primary font-medium flex-shrink-0">{priceDisplay}</p>
+        <p className="text-[10px] tracking-widest text-foreground flex-shrink-0">{priceDisplay}</p>
 
         {sold ? (
           <p className="text-[10px] tracking-[0.12em] uppercase text-muted-foreground/70 ml-auto">Sold</p>

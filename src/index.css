@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap');
 @import "tailwindcss";
 @import "tw-animate-css";
 @plugin "@tailwindcss/typography";
@@ -69,63 +69,51 @@
 
 /* LIGHT MODE */
 :root {
-  --button-outline: rgba(28,27,23, .10);
-  --badge-outline: rgba(28,27,23, .05);
+  --button-outline: rgba(0,0,0, .10);
+  --badge-outline: rgba(0,0,0, .05);
+  --opaque-button-border-intensity: -8;
+  --elevate-1: rgba(0,0,0, .03);
+  --elevate-2: rgba(0,0,0, .08);
 
-  /* Automatic computation of border around primary / danger buttons */
-  --opaque-button-border-intensity: -8; /* In terms of percentages */
-
-  /* Backgrounds applied on top of other backgrounds when hovered/active */
-  --elevate-1: rgba(28,27,23, .03);
-  --elevate-2: rgba(28,27,23, .08);
-
-  /* Background: #F9F8F4 -> 49 20% 96% */
-  --background: 49 20% 96%;
+  --background: 0 0% 100%;
+  --foreground: 0 0% 10%;
   
-  /* Primary text: #1C1B17 -> 50 10% 10% */
-  --foreground: 50 10% 10%;
+  --border: 0 0% 0%;
   
-  /* Divider / rule: #E5E3DC -> 46 13% 88% */
-  --border: 46 13% 88%;
+  --card: 0 0% 100%;
+  --card-foreground: 0 0% 10%;
+  --card-border: 0 0% 0%;
   
-  /* Surface: #EFEDE6 -> 46 17% 92% */
-  --card: 46 17% 92%;
-  --card-foreground: 50 10% 10%;
-  --card-border: 46 13% 88%;
-  
-  --sidebar: 49 20% 96%;
-  --sidebar-foreground: 50 10% 10%;
-  --sidebar-border: 46 13% 88%;
-  --sidebar-primary: 32 28% 43%;
-  --sidebar-primary-foreground: 49 20% 96%;
-  --sidebar-accent: 46 17% 92%;
-  --sidebar-accent-foreground: 50 10% 10%;
-  --sidebar-ring: 32 28% 43%;
+  --sidebar: 0 0% 100%;
+  --sidebar-foreground: 0 0% 10%;
+  --sidebar-border: 0 0% 0%;
+  --sidebar-primary: 0 0% 0%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 0 0% 96%;
+  --sidebar-accent-foreground: 0 0% 10%;
+  --sidebar-ring: 0 0% 0%;
 
-  --popover: 49 20% 96%;
-  --popover-foreground: 50 10% 10%;
-  --popover-border: 46 13% 88%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 0 0% 10%;
+  --popover-border: 0 0% 0%;
 
-  /* Accent (CTAs, links, hover): #8B6E4E -> 32 28% 43% */
-  --primary: 32 28% 43%;
-  --primary-foreground: 49 20% 96%;
+  --primary: 0 0% 0%;
+  --primary-foreground: 0 0% 100%;
 
-  /* Soft accent: #4A5240 -> 90 12% 29% */
-  --secondary: 90 12% 29%;
-  --secondary-foreground: 49 20% 96%;
+  --secondary: 0 0% 96%;
+  --secondary-foreground: 0 0% 10%;
 
-  /* Muted / secondary text: #7A7870 -> 50 4% 46% */
-  --muted: 46 17% 92%;
-  --muted-foreground: 50 4% 46%;
+  --muted: 0 0% 96%;
+  --muted-foreground: 0 0% 45%;
 
-  --accent: 46 17% 92%;
-  --accent-foreground: 32 28% 43%;
+  --accent: 0 0% 96%;
+  --accent-foreground: 0 0% 10%;
 
   --destructive: 0 84.2% 60.2%;
   --destructive-foreground: 210 40% 98%;
 
-  --input: 46 13% 88%;
-  --ring: 32 28% 43%;
+  --input: 0 0% 80%;
+  --ring: 0 0% 0%;
 
   --chart-1: 12 76% 61%;
   --chart-2: 173 58% 39%;
@@ -133,8 +121,8 @@
   --chart-4: 43 74% 66%;
   --chart-5: 27 87% 67%;
 
-  --app-font-sans: 'Jost', sans-serif;
-  --app-font-serif: 'Cormorant Garamond', serif;
+  --app-font-sans: 'Hanken Grotesk', sans-serif;
+  --app-font-serif: 'Hanken Grotesk', sans-serif; /* Forcing sans for headings too as per White Cube vibe */
   --app-font-mono: Menlo, monospace;
   --radius: 0px; 
   
@@ -181,45 +169,43 @@
 }
 
 .dark {
-  --button-outline: rgba(255,255,255, .10);
-  --badge-outline: rgba(255,255,255, .05);
+  --button-outline: rgba(0,0,0, .10);
+  --badge-outline: rgba(0,0,0, .05);
 
-  --opaque-button-border-intensity: 9;  /* In terms of percentages */
+  --opaque-button-border-intensity: -8;
 
-  /* Backgrounds applied on top of other backgrounds when hovered/active */
-  --elevate-1: rgba(255,255,255, .04);
-  --elevate-2: rgba(255,255,255, .09);
+  --elevate-1: rgba(0,0,0, .04);
+  --elevate-2: rgba(0,0,0, .09);
 
-  /* Same as light for now since no dark mode requested but fallback added */
-  --background: 49 20% 96%;
-  --foreground: 50 10% 10%;
-  --border: 46 13% 88%;
-  --card: 46 17% 92%;
-  --card-foreground: 50 10% 10%;
-  --card-border: 46 13% 88%;
-  --sidebar: 49 20% 96%;
-  --sidebar-foreground: 50 10% 10%;
-  --sidebar-border: 46 13% 88%;
-  --sidebar-primary: 32 28% 43%;
-  --sidebar-primary-foreground: 49 20% 96%;
-  --sidebar-accent: 46 17% 92%;
-  --sidebar-accent-foreground: 50 10% 10%;
-  --sidebar-ring: 32 28% 43%;
-  --popover: 49 20% 96%;
-  --popover-foreground: 50 10% 10%;
-  --popover-border: 46 13% 88%;
-  --primary: 32 28% 43%;
-  --primary-foreground: 49 20% 96%;
-  --secondary: 90 12% 29%;
-  --secondary-foreground: 49 20% 96%;
-  --muted: 46 17% 92%;
-  --muted-foreground: 50 4% 46%;
-  --accent: 46 17% 92%;
-  --accent-foreground: 32 28% 43%;
+  --background: 0 0% 100%;
+  --foreground: 0 0% 10%;
+  --border: 0 0% 0%;
+  --card: 0 0% 100%;
+  --card-foreground: 0 0% 10%;
+  --card-border: 0 0% 0%;
+  --sidebar: 0 0% 100%;
+  --sidebar-foreground: 0 0% 10%;
+  --sidebar-border: 0 0% 0%;
+  --sidebar-primary: 0 0% 0%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 0 0% 96%;
+  --sidebar-accent-foreground: 0 0% 10%;
+  --sidebar-ring: 0 0% 0%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 0 0% 10%;
+  --popover-border: 0 0% 0%;
+  --primary: 0 0% 0%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 0 0% 96%;
+  --secondary-foreground: 0 0% 10%;
+  --muted: 0 0% 96%;
+  --muted-foreground: 0 0% 45%;
+  --accent: 0 0% 96%;
+  --accent-foreground: 0 0% 10%;
   --destructive: 0 84.2% 60.2%;
   --destructive-foreground: 210 40% 98%;
-  --input: 46 13% 88%;
-  --ring: 32 28% 43%;
+  --input: 0 0% 80%;
+  --ring: 0 0% 0%;
   --chart-1: 12 76% 61%;
   --chart-2: 173 58% 39%;
   --chart-3: 197 37% 24%;
@@ -234,7 +220,6 @@
   --shadow-lg: none;
   --shadow-xl: none;
   --shadow-2xl: none;
-
 }
 
 @layer base {

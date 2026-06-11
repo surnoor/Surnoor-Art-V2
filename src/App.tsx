@@ -115,12 +115,12 @@ function Nav() {
     <>
     <div className="relative">
       <nav
-        className="flex items-center justify-between px-6 md:px-12 py-5 bg-background/90 backdrop-blur-sm border-b border-border"
+        className="flex items-center justify-between px-6 md:px-12 py-4 bg-background border-b border-border"
         data-testid="nav"
       >
         <Link 
           href="/" 
-          className="font-serif text-lg tracking-widest uppercase" 
+          className="font-sans text-sm tracking-[0.2em] font-medium uppercase" 
           data-testid="nav-logo"
           onClick={() => {
             if (location === "/") {
@@ -130,7 +130,7 @@ function Nav() {
         >
           Surnoor Sembhi
         </Link>
-        <div className="hidden md:flex items-center gap-10 text-xs tracking-[0.18em] uppercase text-muted-foreground">
+        <div className="hidden md:flex items-center gap-8 text-[10px] tracking-[0.2em] font-medium uppercase text-foreground">
           <Link
             href="/shop"
             className={`transition-colors ${isShop ? "text-primary" : "hover:text-foreground"}`}
@@ -915,11 +915,11 @@ function HomePage() {
 
 function Footer() {
   return (
-    <footer className="border-t border-border bg-card px-6 md:px-12 py-16 md:py-24">
+    <footer className="border-t border-border bg-background px-6 md:px-12 py-12 md:py-16">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-16 items-start">
           {/* Branding */}
           <div>
-            <p className="font-serif text-2xl mb-2">Surnoor Sembhi</p>
+            <p className="font-sans font-medium text-sm tracking-[0.2em] uppercase mb-2">Surnoor Sembhi</p>
             <p className="text-muted-foreground text-xs tracking-[0.1em] uppercase">Visual Artist · Fraser Valley, BC</p>
           </div>
 
