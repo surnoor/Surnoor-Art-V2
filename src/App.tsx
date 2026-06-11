@@ -209,7 +209,7 @@ function Nav() {
       </nav>
 
       {menuOpen && (
-        <div className="absolute top-full left-0 right-0 z-50 bg-background px-6 py-6 flex flex-col items-end gap-6 text-[10px] font-bold tracking-[0.2em] uppercase text-foreground h-[100vh] overflow-y-auto">
+        <div className="fixed top-[var(--header-offset)] left-0 right-0 bottom-0 z-50 bg-background px-8 py-10 flex flex-col items-end gap-8 text-2xl font-bold tracking-[0.1em] uppercase text-foreground overflow-y-auto">
           <Link
             href="/shop"
             className={`transition-colors ${isShop ? "text-primary" : ""}`}
