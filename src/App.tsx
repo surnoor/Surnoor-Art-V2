@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { motion, useInView, Variants } from "framer-motion";
+import { motion, useInView, Variants, AnimatePresence } from "framer-motion";
 import { ArrowUpRight, Instagram, ExternalLink, Calendar, ChevronLeft, ChevronRight, ShoppingBag } from "lucide-react";
 import { Router, Route, Link, useLocation } from "wouter";
 import { Analytics } from "@vercel/analytics/react";
@@ -208,58 +208,72 @@ function Nav() {
         </div>
       </nav>
 
-      {menuOpen && (
-        <div className="fixed top-[var(--header-offset)] left-0 right-0 bottom-0 z-50 bg-background px-8 py-10 flex flex-col items-end gap-8 text-2xl font-bold tracking-[0.1em] uppercase text-foreground overflow-y-auto">
-          <Link
-            href="/shop"
-            className={`transition-colors ${isShop ? "text-primary" : ""}`}
-            data-testid="mobile-nav-shop"
-            onClick={() => {
-              setMenuOpen(false);
-              if (isShop) window.scrollTo({ top: 0, behavior: "smooth" });
-            }}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div 
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
+            className="fixed top-[var(--header-offset)] left-0 right-0 bottom-0 z-50 bg-background px-8 py-10 flex flex-col items-end gap-8 text-2xl font-bold tracking-[0.1em] uppercase text-foreground overflow-y-auto"
           >
-            Shop
-          </Link>
-          <Link
-            href="/archive"
-            className={`transition-colors ${location === "/archive" ? "text-primary" : ""}`}
-            data-testid="mobile-nav-archive"
-            onClick={() => {
-              setMenuOpen(false);
-              if (location === "/archive") window.scrollTo({ top: 0, behavior: "smooth" });
-            }}
-          >
-            Archive
-          </Link>
-          <Link 
-            href="/#instruction" 
-            onClick={(e) => { setMenuOpen(false); scrollToHash(e, "#instruction"); }} 
-            data-testid="mobile-nav-learn"
-          >
-            Learn
-          </Link>
-          <Link 
-            href="/#about" 
-            onClick={(e) => { setMenuOpen(false); scrollToHash(e, "#about"); }} 
-            data-testid="mobile-nav-about"
-          >
-            About
-          </Link>
-          <Link
-            href="/support"
-            className={`transition-colors ${location === "/support" ? "text-primary" : ""}`}
-            data-testid="mobile-nav-support"
-            onClick={() => {
-              setMenuOpen(false);
-              if (location === "/support") window.scrollTo({ top: 0, behavior: "smooth" });
-            }}
-          >
-            Support
-          </Link>
-          <a href="mailto:surnoorsingh@gmail.com" onClick={() => setMenuOpen(false)} data-testid="mobile-nav-contact">Contact</a>
-        </div>
-      )}
+            <Link
+              href="/shop"
+              className={`transition-colors ${isShop ? "text-primary" : ""}`}
+              data-testid="mobile-nav-shop"
+              onClick={() => {
+                setMenuOpen(false);
+                if (isShop) window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
+            >
+              Shop
+            </Link>
+            <Link
+              href="/archive"
+              className={`transition-colors ${location === "/archive" ? "text-primary" : ""}`}
+              data-testid="mobile-nav-archive"
+              onClick={() => {
+                setMenuOpen(false);
+                if (location === "/archive") window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
+            >
+              Archive
+            </Link>
+            <Link 
+              href="/#instruction" 
+              onClick={(e) => { setMenuOpen(false); scrollToHash(e, "#instruction"); }} 
+              data-testid="mobile-nav-learn"
+            >
+              Learn
+            </Link>
+            <Link 
+              href="/#about" 
+              onClick={(e) => { setMenuOpen(false); scrollToHash(e, "#about"); }} 
+              data-testid="mobile-nav-about"
+            >
+              About
+            </Link>
+            <Link
+              href="/support"
+              className={`transition-colors ${location === "/support" ? "text-primary" : ""}`}
+              data-testid="mobile-nav-support"
+              onClick={() => {
+                setMenuOpen(false);
+                if (location === "/support") window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
+            >
+              Support
+            </Link>
+            <a 
+              href="mailto:surnoorsingh@gmail.com" 
+              onClick={() => setMenuOpen(false)}
+              data-testid="mobile-nav-contact"
+            >
+              Contact
+            </a>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
     </>
   );
