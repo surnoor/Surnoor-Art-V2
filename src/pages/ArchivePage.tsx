@@ -119,6 +119,7 @@ export function Lightbox({
   onPrev,
   allRecords,
   onSelectRecord,
+  adminAction,
 }: {
   record: ArchiveRecord;
   onClose: () => void;
@@ -479,10 +480,10 @@ export function Lightbox({
       const prevRecord = allRecords[(idx - 1 + allRecords.length) % allRecords.length];
 
       const urlsToPreload = [
-        nextRecord.image,
-        ...(nextRecord.additionalImages || []),
-        prevRecord.image,
-        ...(prevRecord.additionalImages || [])
+        nextRecord?.image,
+        ...(Array.isArray(nextRecord?.additionalImages) ? nextRecord!.additionalImages : []),
+        prevRecord?.image,
+        ...(Array.isArray(prevRecord?.additionalImages) ? prevRecord!.additionalImages : [])
       ].filter(Boolean) as string[];
 
       urlsToPreload.forEach(url => {

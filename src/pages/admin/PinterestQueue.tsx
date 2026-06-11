@@ -216,7 +216,7 @@ export default function PinterestQueue() {
         <div className="flex-1">
           {loading ? (
             <div className="flex justify-center items-center py-20">
-              <BauhausLoader />
+              <BauhausLoader isDone={false} onComplete={() => {}} />
             </div>
           ) : error ? (
             <div className="text-center py-20 text-destructive">{error}</div>
