@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "wouter";
+import { motion } from "framer-motion";
 import { trackBeginCheckout } from "../utils/analytics";
 import { X } from "lucide-react";
 import { useCart } from "../context/CartContext";
@@ -47,7 +48,12 @@ export default function CartPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <motion.div 
+      initial={{ clipPath: "circle(0% at calc(100% - 40px) calc(100% - 40px))" }}
+      animate={{ clipPath: "circle(150% at 100% 100%)" }}
+      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+      className="min-h-screen bg-background"
+    >
       <main className="px-6 md:px-12 py-16 md:py-24 max-w-6xl mx-auto">
         {items.length === 0 ? (
           <div>
@@ -168,6 +174,6 @@ export default function CartPage() {
           </div>
         )}
       </main>
-    </div>
+    </motion.div>
   );
 }
