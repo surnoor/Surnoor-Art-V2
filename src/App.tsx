@@ -8,9 +8,6 @@ import ArchivePage from "./pages/ArchivePage";
 import OrderConfirmationPage from "./pages/OrderConfirmationPage";
 import ProductDetailPage from "./pages/ProductDetailPage";
 import CartPage from "./pages/CartPage";
-import Dashboard from "./pages/admin/Dashboard";
-import Curator from "./pages/admin/Curator";
-import Editor from "./pages/admin/Editor";
 import PinterestQueue from "./pages/admin/PinterestQueue";
 import PollPage from "./pages/PollPage";
 import EventPage from "./pages/EventPage";
@@ -1181,13 +1178,7 @@ function AppInner() {
 
         {/* Admin Routes */}
         <Route path="/admin">
-          <AdminAuth><Dashboard /></AdminAuth>
-        </Route>
-        <Route path="/admin/curator">
-          <AdminAuth><Curator /></AdminAuth>
-        </Route>
-        <Route path="/admin/editor">
-          <AdminAuth><Editor /></AdminAuth>
+          <AdminAuth><PinterestQueue /></AdminAuth>
         </Route>
         <Route path="/admin/pinterest">
           <AdminAuth><PinterestQueue /></AdminAuth>

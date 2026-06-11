@@ -4,12 +4,7 @@ import { LayoutDashboard, Paintbrush, Crop, BarChart3, Settings, LogOut, Package
 import { motion } from "framer-motion";
 
 const sidebarLinks = [
-  { id: "dashboard", label: "Overview", icon: LayoutDashboard, href: "/admin" },
-  { id: "curator", label: "Visual Curator", icon: Paintbrush, href: "/admin/curator" },
-  { id: "editor", label: "Preview Editor", icon: Crop, href: "/admin/editor" },
-  { id: "products", label: "All Products", icon: Package, href: "/admin/products" },
-  { id: "pinterest", label: "Pinterest Queue", icon: Share2, href: "/admin/pinterest" },
-  { id: "analytics", label: "Analytics", icon: BarChart3, href: "/admin/analytics" },
+  { id: "pinterest", label: "Pinterest Queue", icon: Share2, href: "/admin" },
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
