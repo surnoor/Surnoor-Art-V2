@@ -998,12 +998,11 @@ function AppInner() {
 
   useEffect(() => {
     const updateHeaderHeight = () => {
-      if (headerRef.current) {
-        const height = headerRef.current.getBoundingClientRect().bottom;
-        const stickyNavHeight = navWrapperRef.current ? navWrapperRef.current.getBoundingClientRect().height : 68;
+      if (navWrapperRef.current) {
+        const navBottom = navWrapperRef.current.getBoundingClientRect().bottom;
         
-        // Total offset is current visible bottom of banner + nav height
-        const totalOffset = Math.max(0, height) + stickyNavHeight;
+        // Total offset is current visible bottom of nav wrapper (min 0)
+        const totalOffset = Math.max(0, navBottom);
         document.documentElement.style.setProperty('--header-offset', `${totalOffset}px`);
       }
     };
@@ -1106,7 +1105,7 @@ function AppInner() {
       <div ref={headerRef}>
         <NewsletterBanner />
       </div>
-      <div ref={navWrapperRef} className="sticky top-0 z-50">
+      <div ref={navWrapperRef} className="relative z-50">
         <Nav />
       </div>
       <FloatingCartButton />
