@@ -126,6 +126,7 @@ export function Lightbox({
   onPrev?: () => void;
   allRecords?: ArchiveRecord[];
   onSelectRecord?: (record: ArchiveRecord) => void;
+  adminAction?: React.ReactNode;
 }) {
   const [isDownloading, setIsDownloading] = useState(false);
   const [isSharing, setIsSharing] = useState(false);
@@ -501,7 +502,8 @@ export function Lightbox({
       className="fixed inset-0 z-[100] bg-background/95 backdrop-blur-sm flex items-center justify-center p-4 md:p-8"
       onClick={onClose}
     >
-      <div className="absolute top-4 right-4 md:top-6 md:right-6 z-10 flex flex-col md:flex-row-reverse items-center gap-2">
+      <div className="absolute top-4 right-4 md:top-6 md:right-6 z-10 flex flex-col items-end gap-2">
+        <div className="flex flex-col md:flex-row-reverse items-center gap-2">
         <button
           onClick={onClose}
           className="w-10 h-10 flex items-center justify-center hover:bg-muted/50 rounded transition-colors"
@@ -598,6 +600,8 @@ export function Lightbox({
         >
           {isDownloading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Download className="w-5 h-5" />}
         </button>
+        </div>
+        {adminAction}
       </div>
 
       {/* Navigation Arrows */}

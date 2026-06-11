@@ -272,6 +272,23 @@ export default function PinterestQueue() {
               setLightboxRecord(filteredArchive[(idx - 1 + filteredArchive.length) % filteredArchive.length]);
             }
           }}
+          adminAction={
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                togglePublishedStatus(lightboxRecord.id, getIsPublished(lightboxRecord.id, lightboxRecord.pinterestPublished));
+              }}
+              disabled={isUpdatingId === lightboxRecord.id}
+              className={`
+                flex items-center justify-center gap-2 px-4 py-2.5 mt-2 text-xs tracking-[0.1em] uppercase font-medium rounded transition-colors
+                ${getIsPublished(lightboxRecord.id, lightboxRecord.pinterestPublished) ? "bg-muted text-foreground hover:bg-destructive hover:text-white" : "bg-primary text-background hover:bg-[#4efa84]"}
+                disabled:opacity-50 disabled:cursor-not-allowed shadow-md
+              `}
+            >
+              {isUpdatingId === lightboxRecord.id ? <Loader2 className="w-4 h-4 animate-spin" /> : getIsPublished(lightboxRecord.id, lightboxRecord.pinterestPublished) ? <X className="w-4 h-4" /> : <Check className="w-4 h-4" />}
+              {isUpdatingId === lightboxRecord.id ? "Updating..." : getIsPublished(lightboxRecord.id, lightboxRecord.pinterestPublished) ? "Undo Publish" : "Mark as Pinned"}
+            </button>
+          }
         />
       )}
     </AdminLayout>
