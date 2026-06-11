@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "wouter";
+import { motion, AnimatePresence } from "framer-motion";
 import { trackArtworkView } from "../utils/analytics";
 import { ChevronDown } from "lucide-react";
 import { useShop, type ShopProduct } from "../hooks/useShop";
@@ -194,6 +195,9 @@ export default function ProductDetailPage({ productId }: { productId: string }) 
   const [selectedImage, setSelectedImage] = useState(0);
   const [addedFeedback, setAddedFeedback] = useState(false);
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
+  const [interestOpen, setInterestOpen] = useState(false);
+  const [interestEmail, setInterestEmail] = useState("");
+  const [interestStatus, setInterestStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
 
   useEffect(() => {
     if (product) {
@@ -226,6 +230,23 @@ export default function ProductDetailPage({ productId }: { productId: string }) 
     });
     setAddedFeedback(true);
     setTimeout(() => setAddedFeedback(false), 2200);
+  }
+
+  async function handleExpressInterest(e: React.FormEvent) {
+    e.preventDefault();
+    if (!interestEmail || !product) return;
+    setInterestStatus("loading");
+    try {
+      const res = await fetch("/api/interest", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: interestEmail, artwork: product.name }),
+      });
+      if (!res.ok) throw new Error("Failed");
+      setInterestStatus("success");
+    } catch {
+      setInterestStatus("error");
+    }
   }
 
   const mailtoSubject = encodeURIComponent(`Enquiry: ${product?.name ?? ""}`);
@@ -354,7 +375,55 @@ export default function ProductDetailPage({ productId }: { productId: string }) 
             <p className="text-lg font-medium mb-8">{priceDisplay}</p>
 
             {!isSold && hasPurchasablePrice && (
-              <div className="mb-5">
+              <div className="mb-5 space-y-3">
+                {/* Express Interest */}
+                <div className="w-full">
+                  <button
+                    onClick={() => setInterestOpen(!interestOpen)}
+                    className="w-full h-10 text-[11px] tracking-[0.15em] uppercase border border-border text-foreground hover:bg-muted/50 transition-colors flex items-center justify-center gap-2"
+                  >
+                    Express Interest
+                  </button>
+                  <AnimatePresence>
+                    {interestOpen && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        className="overflow-hidden"
+                      >
+                        <form onSubmit={handleExpressInterest} className="pt-3 pb-1 flex flex-col gap-2">
+                          <p className="text-xs text-muted-foreground text-center">Leave your email to stay updated on this piece.</p>
+                          <div className="flex gap-2">
+                            <input
+                              type="email"
+                              required
+                              placeholder="Your email address"
+                              value={interestEmail}
+                              onChange={(e) => setInterestEmail(e.target.value)}
+                              disabled={interestStatus === "loading" || interestStatus === "success"}
+                              className="flex-1 min-w-0 h-10 px-3 text-xs border border-border bg-transparent focus:outline-none focus:border-primary transition-colors disabled:opacity-50"
+                            />
+                            <button
+                              type="submit"
+                              disabled={interestStatus === "loading" || interestStatus === "success"}
+                              className="h-10 flex-shrink-0 px-4 text-[10px] tracking-widest uppercase bg-primary text-background hover:bg-primary/90 transition-colors disabled:opacity-50"
+                            >
+                              {interestStatus === "loading" ? "..." : "Submit"}
+                            </button>
+                          </div>
+                          {interestStatus === "success" && (
+                            <p className="text-[10px] text-[#4efa84] text-center mt-1 uppercase tracking-widest">Interest recorded.</p>
+                          )}
+                          {interestStatus === "error" && (
+                            <p className="text-[10px] text-destructive text-center mt-1 uppercase tracking-widest">Something went wrong.</p>
+                          )}
+                        </form>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+
                 {alreadyInCart ? (
                   <Link
                     href="/cart"
