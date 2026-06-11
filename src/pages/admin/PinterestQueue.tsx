@@ -2,8 +2,9 @@ import React, { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { Share2, Check, Loader2, SlidersHorizontal, X } from "lucide-react";
 import AdminLayout from "./AdminLayout";
-import { useArchive } from "../../hooks/useArchive";
+import { useArchive, type ArchiveRecord } from "../../hooks/useArchive";
 import { FilterGroup } from "../../components/FilterGroup";
+import { Lightbox } from "../ArchivePage";
 import BauhausLoader from "../../components/BauhausLoader";
 
 export default function PinterestQueue() {
@@ -21,6 +22,7 @@ export default function PinterestQueue() {
   const [localPublishedIds, setLocalPublishedIds] = useState<Set<string>>(new Set());
   const [localUnpublishedIds, setLocalUnpublishedIds] = useState<Set<string>>(new Set());
   const [isUpdatingId, setIsUpdatingId] = useState<string | null>(null);
+  const [lightboxRecord, setLightboxRecord] = useState<ArchiveRecord | null>(null);
 
   /* Derive unique filter values from data */
   const filters = useMemo(() => {
@@ -216,7 +218,13 @@ export default function PinterestQueue() {
                       )}
                       
                       {/* Overlay */}
-                      <div className="absolute inset-0 bg-background/80 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center p-4">
+                      <div className="absolute inset-0 bg-background/80 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center p-4 gap-2">
+                        <button
+                          onClick={() => setLightboxRecord(record)}
+                          className="flex items-center justify-center gap-2 w-full py-3 text-xs tracking-[0.15em] uppercase font-medium transition-colors bg-secondary text-secondary-foreground hover:bg-secondary/80 border border-border"
+                        >
+                          View Artwork
+                        </button>
                         <button
                           disabled={isUpdating}
                           onClick={() => togglePublishedStatus(record.id, isPublished)}
@@ -245,6 +253,27 @@ export default function PinterestQueue() {
         </div>
 
       </div>
+
+      {lightboxRecord && (
+        <Lightbox
+          record={lightboxRecord}
+          onClose={() => setLightboxRecord(null)}
+          allRecords={filteredArchive}
+          onSelectRecord={setLightboxRecord}
+          onNext={() => {
+            const idx = filteredArchive.findIndex(r => r.id === lightboxRecord.id);
+            if (idx !== -1) {
+              setLightboxRecord(filteredArchive[(idx + 1) % filteredArchive.length]);
+            }
+          }}
+          onPrev={() => {
+            const idx = filteredArchive.findIndex(r => r.id === lightboxRecord.id);
+            if (idx !== -1) {
+              setLightboxRecord(filteredArchive[(idx - 1 + filteredArchive.length) % filteredArchive.length]);
+            }
+          }}
+        />
+      )}
     </AdminLayout>
   );
 }

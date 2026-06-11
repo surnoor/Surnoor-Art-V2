@@ -112,7 +112,7 @@ function ArchiveImage({
 }
 
 /* ── Lightbox / detail overlay ── */
-function Lightbox({
+export function Lightbox({
   record,
   onClose,
   onNext,
