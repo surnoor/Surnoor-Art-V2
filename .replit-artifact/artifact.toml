@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "Surnoor Art"
+version = "1.0.0"
+id = "artifacts/surnoor-art"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 22089
+
+[services.development]
+run = "pnpm --filter @workspace/surnoor-art run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/surnoor-art", "run", "build" ]
+publicDir = "artifacts/surnoor-art/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "22089"
+BASE_PATH = "/"
