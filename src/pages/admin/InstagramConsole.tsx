@@ -591,7 +591,7 @@ ${hashtags}`;
             </div>
             
             {/* Draggable workspace */}
-            <div className="relative w-full aspect-square flex items-center justify-center bg-[#eae8e3] rounded border border-border overflow-hidden select-none">
+            <div className="relative w-full h-[450px] sm:h-[520px] flex items-center justify-center bg-[#eae8e3] rounded border border-border p-8 overflow-hidden select-none">
               {!imageLoaded && !imageError && (
                 <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-muted/20">
                   <Loader2 className="w-8 h-8 text-primary animate-spin" />
@@ -615,9 +615,7 @@ ${hashtags}`;
                 onTouchStart={(e) => handleStart(e.touches[0].clientX, e.touches[0].clientY)}
                 onTouchMove={(e) => handleMove(e.touches[0].clientX, e.touches[0].clientY)}
                 onTouchEnd={handleEnd}
-                className={`max-w-full max-h-full object-contain cursor-grab active:cursor-grabbing border border-black/5 shadow-lg ${
-                  format === "story" ? "aspect-[9/16]" : "aspect-[1/1]"
-                }`}
+                className="max-w-full max-h-full object-contain cursor-grab active:cursor-grabbing border border-black/5 shadow-lg"
               />
 
               {/* Hidden offscreen canvas for exporting full-resolution copies */}
