@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "wouter";
-import { Crop, LogOut, Share2, Menu, X } from "lucide-react";
+import { Crop, LogOut, Share2, Menu, X, LayoutTemplate } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const sidebarLinks = [
   { id: "pinterest", label: "Pinterest Queue", icon: Share2, href: "/admin" },
   { id: "instagram", label: "Instagram Console", icon: Crop, href: "/admin/instagram" },
+  { id: "exhibitions", label: "Exhibition Planner", icon: LayoutTemplate, href: "/admin/exhibitions" },
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
