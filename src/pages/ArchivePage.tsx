@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState, useRef } from "react";
 import { motion, type Variants } from "framer-motion";
-import { ChevronLeft, ChevronRight, SlidersHorizontal, X, Download, Share2, Check, Loader2, Printer, Facebook, Twitter, Linkedin, Mail, Link as LinkIcon, MessageCircle, Image as ImageIcon } from "lucide-react";
+import { ChevronLeft, ChevronRight, SlidersHorizontal, X, Download, Share2, Check, Loader2, Printer, Facebook, Twitter, Linkedin, Mail, Link as LinkIcon, MessageCircle, Image as ImageIcon, Instagram } from "lucide-react";
 import { useArchive, type ArchiveRecord } from "../hooks/useArchive";
 import { FilterGroup } from "../components/FilterGroup";
 import BauhausLoader from "../components/BauhausLoader";
@@ -134,6 +134,7 @@ export function Lightbox({
   const [copied, setCopied] = useState(false);
   const [showShareMenu, setShowShareMenu] = useState(false);
   const [pinterestShareData, setPinterestShareData] = useState<{ url: string, description: string } | null>(null);
+  const [instagramShareData, setInstagramShareData] = useState<{ caption: string } | null>(null);
   
   const downloadAbortRef = useRef<AbortController | null>(null);
 
@@ -145,6 +146,7 @@ export function Lightbox({
       setIsDownloading(false);
       setShowShareMenu(false);
       setPinterestShareData(null);
+      setInstagramShareData(null);
     };
   }, [record.id]);
 
@@ -283,6 +285,68 @@ export function Lightbox({
       onClick: shareImageViaOS,
     },
     {
+      name: "Instagram Caption",
+      icon: <Instagram className="w-4 h-4" />,
+      onClick: () => {
+        setPinterestShareData(null);
+        
+        // Build professional, academic Instagram caption
+        const title = `"${record.name}"`;
+        const yearText = record.year ? `, ${record.year}` : '';
+        
+        const detailsArray = [];
+        if (record.medium) detailsArray.push(record.medium);
+        if (record.substrate) detailsArray.push(record.substrate);
+        if (record.dimensions) detailsArray.push(record.dimensions);
+        const details = detailsArray.length > 0 ? detailsArray.join(", ") : "";
+        
+        const notesText = record.notes ? `\n\n"${record.notes}"` : "";
+        
+        const baseTags = ["ContemporaryRealism", "FineArt", "VisualArtist"];
+        if (record.medium) {
+          const med = record.medium.toLowerCase();
+          if (med.includes("oil")) baseTags.push("OilPainting", "OilOnCanvas", "StudioPractice");
+          if (med.includes("water") || med.includes("watercolor")) baseTags.push("Watercolor", "Watercolour", "Aquarelle");
+          if (med.includes("draw") || med.includes("charcoal") || med.includes("pencil")) baseTags.push("Drawing", "WorkOnPaper", "Draftsmanship");
+        }
+        if (record.subject && Array.isArray(record.subject)) {
+          record.subject.forEach(sub => {
+            const formattedSub = sub.replace(/\s+/g, '');
+            baseTags.push(formattedSub);
+            if (formattedSub.toLowerCase() === "landscape" || formattedSub.toLowerCase() === "pleinair") {
+              baseTags.push("PleinAirPainting", "LandscapePainting");
+            }
+            if (formattedSub.toLowerCase() === "portrait" || formattedSub.toLowerCase() === "figurative" || formattedSub.toLowerCase() === "figure") {
+              baseTags.push("FigurativeArt", "Portraiture", "FromLife");
+            }
+            if (formattedSub.toLowerCase() === "stilllife") {
+              baseTags.push("StillLifePainting", "FromLife");
+            }
+          });
+        }
+        
+        const hashtags = Array.from(new Set(baseTags))
+          .map(tag => `#${tag.charAt(0).toUpperCase() + tag.slice(1)}`)
+          .join(" ");
+
+        const caption = `Surnoor Sembhi (b. Fraser Valley, BC)
+${title}${yearText}
+${details}${notesText}
+
+Full catalog & availability: www.surnoor.art | @surnoorsembhi
+
+${hashtags}`;
+
+        navigator.clipboard.writeText(caption)
+          .then(() => {
+            setCopied(true);
+            setTimeout(() => setCopied(false), 2000);
+          })
+          .catch(() => {});
+        setInstagramShareData({ caption });
+      },
+    },
+    {
       name: "Email",
       icon: <Mail className="w-4 h-4" />,
       onClick: () => { setShowShareMenu(false); window.open(`mailto:?subject=${encodeURIComponent(shareTitle)}&body=${encodeURIComponent(shareText + "\n" + shareUrl)}`); },
@@ -311,6 +375,7 @@ export function Lightbox({
       name: "Pinterest",
       icon: <ImageIcon className="w-4 h-4" />,
       onClick: () => { 
+        setInstagramShareData(null);
         // Build Pinterest SEO-optimized hashtags
         const baseTags = ["SurnoorArt", "OriginalArt", "ContemporaryRealism"];
         if (record.medium) baseTags.push(record.medium.replace(/\s+/g, ''));
@@ -374,12 +439,7 @@ export function Lightbox({
 
   const handleShareClick = (e: React.MouseEvent) => {
     e.stopPropagation();
-    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-    if (isMobile && navigator.share) {
-      handleNativeShare();
-    } else {
-      setShowShareMenu((prev) => !prev);
-    }
+    setShowShareMenu((prev) => !prev);
   };
 
   const handleNativeShare = async () => {
@@ -529,17 +589,51 @@ export function Lightbox({
               {/* Invisible overlay to close menu */}
               <div 
                 className="fixed inset-0 z-40" 
-                onClick={(e) => { e.stopPropagation(); setShowShareMenu(false); setPinterestShareData(null); }}
+                onClick={(e) => { e.stopPropagation(); setShowShareMenu(false); setPinterestShareData(null); setInstagramShareData(null); }}
               />
               <motion.div
                 initial={{ opacity: 0, y: 10, scale: 0.95 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: 10, scale: 0.95 }}
                 transition={{ duration: 0.15 }}
-                className={`absolute top-full right-0 mt-2 bg-background border border-border shadow-xl rounded-md overflow-hidden z-50 py-1 ${pinterestShareData ? 'w-72' : 'w-48'}`}
+                className={`absolute top-full right-0 mt-2 bg-background border border-border shadow-xl rounded-md overflow-hidden z-50 py-1 ${pinterestShareData || instagramShareData ? 'w-72' : 'w-48'}`}
                 onClick={(e) => e.stopPropagation()}
               >
-                {pinterestShareData ? (
+                {instagramShareData ? (
+                  <div className="p-4 flex flex-col gap-3">
+                    <p className="text-xs font-medium text-foreground">Instagram Caption</p>
+                    <p className="text-[10px] text-muted-foreground leading-snug">
+                      Instagram doesn't support pre-filling captions. We've copied this professional description to your clipboard!
+                    </p>
+                    <textarea 
+                      className="w-full h-28 text-[11px] p-2 bg-muted/30 border border-border rounded resize-none focus:outline-none scrollbar-thin text-muted-foreground"
+                      readOnly
+                      value={instagramShareData.caption}
+                    />
+                    <div className="flex flex-col gap-2 mt-1">
+                      <button 
+                        onClick={() => {
+                          navigator.clipboard.writeText(instagramShareData.caption);
+                          setCopied(true);
+                          setTimeout(() => setCopied(false), 2000);
+                        }}
+                        className="w-full py-2 bg-muted hover:bg-muted/80 text-foreground text-xs font-medium rounded transition-colors flex items-center justify-center gap-2"
+                      >
+                        {copied ? <><Check className="w-3.5 h-3.5 text-green-500" /> Copied!</> : 'Copy Caption'}
+                      </button>
+                      <button 
+                        onClick={async () => {
+                          setShowShareMenu(false);
+                          setInstagramShareData(null);
+                          await shareImageViaOS();
+                        }}
+                        className="w-full py-2 bg-foreground hover:bg-foreground/90 text-background text-xs font-medium rounded transition-colors"
+                      >
+                        Share Image
+                      </button>
+                    </div>
+                  </div>
+                ) : pinterestShareData ? (
                   <div className="p-4 flex flex-col gap-3">
                     <p className="text-xs font-medium text-foreground">Pinterest Description</p>
                     <p className="text-[10px] text-muted-foreground leading-snug">
