@@ -294,27 +294,34 @@ function EditorModal({
     const ctx = offscreen.getContext("2d");
     if (!ctx) return;
 
-    // Set dimensions based on format
-    const width = 1080;
-    const height = format === "story" ? 1920 : 1080;
+    // We scale everything by a multiplier of 2 to output 4K/UHD quality renders (2160px wide)
+    const scale = 2;
+
+    // Set dimensions based on format (doubled)
+    const width = 1080 * scale;
+    const height = (format === "story" ? 1920 : 1080) * scale;
     offscreen.width = width;
     offscreen.height = height;
+
+    // Enable high quality image smoothing
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = "high";
 
     // 1. Draw solid background
     ctx.fillStyle = "#f8f8f8"; // Neutral light gray matching official branding
     ctx.fillRect(0, 0, width, height);
 
-    // 2. Define crop window coordinates using custom user frame states
-    const cropWidth = frameWidth;
-    const cropHeight = frameHeight;
-    const cropX = Math.round((1080 - cropWidth) / 2);
-    const cropY = frameY;
+    // 2. Define crop window coordinates using custom user frame states (doubled)
+    const cropWidth = frameWidth * scale;
+    const cropHeight = frameHeight * scale;
+    const cropX = Math.round((width - cropWidth) / 2);
+    const cropY = frameY * scale;
 
-    // Draw Drop Shadow under the crop area
+    // Draw Drop Shadow under the crop area (doubled values)
     ctx.save();
     ctx.shadowColor = "rgba(0,0,0,0.12)";
-    ctx.shadowBlur = 48;
-    ctx.shadowOffsetY = 24;
+    ctx.shadowBlur = 48 * scale;
+    ctx.shadowOffsetY = 24 * scale;
     ctx.fillStyle = "#FFFFFF";
     ctx.fillRect(cropX, cropY, cropWidth, cropHeight);
     ctx.restore();
@@ -331,74 +338,76 @@ function EditorModal({
     const baseWidth = img.width * baseScale;
     const baseHeight = img.height * baseScale;
 
-    // Apply zoom and panning offsets
+    // Apply zoom and panning offsets (panning offsets are scaled as well)
     const drawWidth = baseWidth * zoom;
     const drawHeight = baseHeight * zoom;
-    const drawX = cropX + (cropWidth - drawWidth) / 2 + offsetX;
-    const drawY = cropY + (cropHeight - drawHeight) / 2 + offsetY;
+    const drawX = cropX + (cropWidth - drawWidth) / 2 + offsetX * scale;
+    const drawY = cropY + (cropHeight - drawHeight) / 2 + offsetY * scale;
 
     ctx.drawImage(img, drawX, drawY, drawWidth, drawHeight);
     ctx.restore();
 
-    // Subtle outline border around crop window
+    // Subtle outline border around crop window (doubled width)
     ctx.strokeStyle = "rgba(0,0,0,0.06)";
-    ctx.lineWidth = 2;
+    ctx.lineWidth = 2 * scale;
     ctx.strokeRect(cropX, cropY, cropWidth, cropHeight);
 
-    // 4. Draw Branding Elements
+    // 4. Draw Branding Elements (doubled coordinates and fonts)
     ctx.textAlign = "center";
 
     if (format === "story") {
       // Title
       ctx.fillStyle = "#111111";
-      ctx.font = "300 64px 'Hanken Grotesk', 'Playfair Display', Georgia, serif";
-      ctx.fillText(record.name, 540, 1390);
+      ctx.font = `300 ${64 * scale}px 'Hanken Grotesk', 'Playfair Display', Georgia, serif`;
+      ctx.fillText(record.name, 540 * scale, 1390 * scale);
 
       // Medium & Details
       ctx.fillStyle = "#666666";
-      ctx.font = "400 28px 'Hanken Grotesk', sans-serif";
+      ctx.font = `400 ${28 * scale}px 'Hanken Grotesk', sans-serif`;
       const detailStr = [record.medium, record.substrate, record.year].filter(Boolean).join(" · ");
-      ctx.fillText(detailStr.toUpperCase(), 540, 1465);
+      ctx.fillText(detailStr.toUpperCase(), 540 * scale, 1465 * scale);
 
       // Accent Line
       ctx.fillStyle = "rgba(0,0,0,0.15)";
-      ctx.fillRect(490, 1525, 100, 2);
+      ctx.fillRect((540 - 50) * scale, 1525 * scale, 100 * scale, 2 * scale);
 
       // Artist Brand
       ctx.fillStyle = "#111111";
-      ctx.font = "300 32px 'Hanken Grotesk', sans-serif";
-      ctx.fillText("Surnoor Sembhi", 540, 1595);
+      ctx.font = `300 ${32 * scale}px 'Hanken Grotesk', sans-serif`;
+      ctx.fillText("Surnoor Sembhi", 540 * scale, 1595 * scale);
 
       // Portfolio URL
       ctx.fillStyle = "#888888";
-      ctx.font = "400 24px 'Hanken Grotesk', sans-serif";
-      ctx.fillText("surnoor.art", 540, 1655);
+      ctx.font = `400 ${24 * scale}px 'Hanken Grotesk', sans-serif`;
+      ctx.fillText("surnoor.art", 540 * scale, 1655 * scale);
     } else {
-      // 1:1 Post Branding Layout
+      // 1:1 Post Branding Layout (doubled coordinates and fonts)
       ctx.fillStyle = "#111111";
-      ctx.font = "300 48px 'Hanken Grotesk', 'Playfair Display', Georgia, serif";
-      ctx.fillText(record.name, 540, 875);
+      ctx.font = `300 ${48 * scale}px 'Hanken Grotesk', 'Playfair Display', Georgia, serif`;
+      ctx.fillText(record.name, 540 * scale, 875 * scale);
 
       ctx.fillStyle = "#666666";
-      ctx.font = "400 24px 'Hanken Grotesk', sans-serif";
+      ctx.font = `400 ${24 * scale}px 'Hanken Grotesk', sans-serif`;
       const details = [record.medium, record.year].filter(Boolean).join(" · ");
-      ctx.fillText(details.toUpperCase(), 540, 930);
+      ctx.fillText(details.toUpperCase(), 540 * scale, 930 * scale);
 
+      // Accent Line
       ctx.fillStyle = "rgba(0,0,0,0.15)";
-      ctx.fillRect(500, 970, 80, 2);
+      ctx.fillRect((540 - 40) * scale, 970 * scale, 80 * scale, 2 * scale);
 
+      // Artist Brand & website
       ctx.fillStyle = "#888888";
-      ctx.font = "300 26px 'Hanken Grotesk', sans-serif";
-      ctx.fillText("Surnoor Sembhi  ·  surnoor.art", 540, 1020);
+      ctx.font = `300 ${26 * scale}px 'Hanken Grotesk', sans-serif`;
+      ctx.fillText("Surnoor Sembhi  ·  surnoor.art", 540 * scale, 1020 * scale);
     }
 
     // 5. Draw from offscreen to visible screen canvas (keeps aspect ratio)
     const sCtx = screen.getContext("2d");
     if (!sCtx) return;
 
-    screen.width = width;
-    screen.height = height;
-    sCtx.drawImage(offscreen, 0, 0);
+    screen.width = 1080;
+    screen.height = format === "story" ? 1920 : 1080;
+    sCtx.drawImage(offscreen, 0, 0, 1080, format === "story" ? 1920 : 1080);
   };
 
   // Re-draw whenever parameters change
