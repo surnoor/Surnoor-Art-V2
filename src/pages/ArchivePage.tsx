@@ -1021,7 +1021,7 @@ export default function ArchivePage() {
                 style={{
                   fontFamily: '"Courier New", Courier, monospace',
                   color: '#ff0033',
-                  fontWeight: 'bold',
+                  fontWeight: 'normal',
                   marginLeft: '0.5rem',
                   fontSize: '14.5px',
                   lineHeight: '1',
@@ -1101,7 +1101,7 @@ export default function ArchivePage() {
                     style={{
                       fontFamily: '"Courier New", Courier, monospace',
                       color: '#ff0033',
-                      fontWeight: 'bold',
+                      fontWeight: 'normal',
                       marginLeft: '1rem',
                       fontSize: '14.5px',
                       lineHeight: '1',
