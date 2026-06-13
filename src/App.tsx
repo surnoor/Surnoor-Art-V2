@@ -380,9 +380,22 @@ const ACCOMPLISHMENTS = [
 function AccomplishmentsSection() {
   return (
     <section id="about" className="relative w-full py-16 md:py-28 bg-background print:py-8 print:w-[100vw] print:m-0 print:left-0 print:top-0">
-      <FadeIn className="px-6 md:px-12 mb-10 md:mb-16">
+      <FadeIn className="px-6 md:px-12 mb-10 md:mb-16 print:hidden">
         <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground">Exhibitions & Recognition</p>
       </FadeIn>
+      
+      {/* Print-only CV Header */}
+      <div className="hidden print:block px-6 md:px-12 mb-12 border-b border-foreground/10 pb-6">
+        <h1 className="font-serif text-3xl font-light tracking-[0.05em] uppercase text-foreground mb-3">Surnoor Singh</h1>
+        <div className="flex flex-wrap items-center gap-x-6 gap-y-1 text-xs tracking-wider text-muted-foreground">
+          <span>Abbotsford, BC</span>
+          <span className="text-foreground/20">•</span>
+          <a href="mailto:surnoorsingh@gmail.com" className="hover:text-foreground">surnoorsingh@gmail.com</a>
+          <span className="text-foreground/20">•</span>
+          <a href="https://www.surnoor.art" className="hover:text-foreground">www.surnoor.art</a>
+        </div>
+      </div>
+
       <div className="px-6 md:px-12 grid grid-cols-1 md:grid-cols-2 gap-16 text-sm">
         
         {/* Column 1: Exhibitions */}
