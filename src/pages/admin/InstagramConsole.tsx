@@ -184,6 +184,9 @@ function EditorModal({
   const [zoom, setZoom] = useState<number>(1.0);
   const [offsetX, setOffsetX] = useState<number>(0);
   const [offsetY, setOffsetY] = useState<number>(0);
+  const [frameWidth, setFrameWidth] = useState<number>(840);
+  const [frameHeight, setFrameHeight] = useState<number>(1000);
+  const [frameY, setFrameY] = useState<number>(200);
   const [isCopied, setIsCopied] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
@@ -199,10 +202,57 @@ function EditorModal({
 
   // Reset editor settings when switching format or artwork
   useEffect(() => {
+    if (format === "story") {
+      setFrameWidth(840);
+      setFrameHeight(1000);
+      setFrameY(200);
+    } else {
+      setFrameWidth(800);
+      setFrameHeight(680);
+      setFrameY(120);
+    }
     setZoom(1.0);
     setOffsetX(0);
     setOffsetY(0);
   }, [format, record.id]);
+
+  const handleAutoFit = () => {
+    const img = imgRef.current;
+    if (!img) return;
+    
+    const imgRatio = img.width / img.height;
+    
+    let maxWidth = 900;
+    let maxHeight = 1100;
+    let defaultY = 200;
+    
+    if (format === "post") {
+      maxWidth = 900;
+      maxHeight = 720;
+      defaultY = 120;
+    }
+    
+    let targetWidth = maxWidth;
+    let targetHeight = maxWidth / imgRatio;
+    
+    if (targetHeight > maxHeight) {
+      targetHeight = maxHeight;
+      targetWidth = maxHeight * imgRatio;
+    }
+    
+    targetWidth = Math.max(300, Math.min(maxWidth, Math.round(targetWidth)));
+    targetHeight = Math.max(300, Math.min(maxHeight, Math.round(targetHeight)));
+    
+    const newY = Math.round(defaultY + (maxHeight - targetHeight) / 2);
+    
+    setFrameWidth(targetWidth);
+    setFrameHeight(targetHeight);
+    setFrameY(newY);
+    
+    setZoom(1.0);
+    setOffsetX(0);
+    setOffsetY(0);
+  };
 
   // Preload full resolution artwork image
   useEffect(() => {
@@ -254,18 +304,11 @@ function EditorModal({
     ctx.fillStyle = "#F8F8F4"; // Cream / off-white matching admin/site theme
     ctx.fillRect(0, 0, width, height);
 
-    // 2. Define crop window coordinates
-    let cropX = 120;
-    let cropWidth = 840;
-    let cropY = 200;
-    let cropHeight = 1000;
-
-    if (format === "post") {
-      cropX = 140;
-      cropWidth = 800;
-      cropY = 120;
-      cropHeight = 680;
-    }
+    // 2. Define crop window coordinates using custom user frame states
+    const cropWidth = frameWidth;
+    const cropHeight = frameHeight;
+    const cropX = Math.round((1080 - cropWidth) / 2);
+    const cropY = frameY;
 
     // Draw Drop Shadow under the crop area
     ctx.save();
@@ -361,7 +404,7 @@ function EditorModal({
   // Re-draw whenever parameters change
   useEffect(() => {
     drawComposite();
-  }, [format, zoom, offsetX, offsetY, imageLoaded]);
+  }, [format, zoom, offsetX, offsetY, frameWidth, frameHeight, frameY, imageLoaded]);
 
   // Drag interaction handlers
   const handleStart = (clientX: number, clientY: number) => {
@@ -574,35 +617,106 @@ ${hashtags}`;
           </div>
 
           {/* Controls */}
-          <div className="mt-6 pt-6 border-t border-border space-y-4">
-            <div className="flex items-center gap-4">
-              <ZoomOut className="w-4 h-4 text-muted-foreground" />
-              <input
-                type="range"
-                min="1.0"
-                max="4.0"
-                step="0.01"
-                value={zoom}
-                onChange={(e) => setZoom(parseFloat(e.target.value))}
-                className="flex-1 accent-primary cursor-pointer"
-              />
-              <ZoomIn className="w-4 h-4 text-muted-foreground" />
-              <span className="text-xs font-mono text-muted-foreground w-10 text-right">{zoom.toFixed(2)}x</span>
+          <div className="mt-6 pt-6 border-t border-border space-y-6">
+            
+            {/* Image Transformations Section */}
+            <div className="space-y-3">
+              <span className="text-[10px] tracking-[0.2em] uppercase text-muted-foreground font-semibold block">Artwork Zoom & Offset</span>
+              
+              <div className="flex items-center gap-4">
+                <ZoomOut className="w-4 h-4 text-muted-foreground" />
+                <input
+                  type="range"
+                  min="1.0"
+                  max="4.0"
+                  step="0.01"
+                  value={zoom}
+                  onChange={(e) => setZoom(parseFloat(e.target.value))}
+                  className="flex-1 accent-primary cursor-pointer"
+                />
+                <ZoomIn className="w-4 h-4 text-muted-foreground" />
+                <span className="text-xs font-mono text-muted-foreground w-10 text-right">{zoom.toFixed(2)}x</span>
+              </div>
+
+              <div className="flex items-center justify-between text-xs text-muted-foreground">
+                <span className="flex items-center gap-1.5">
+                  <Crop className="w-3.5 h-3.5" />
+                  Drag image directly on the preview to pan
+                </span>
+                <button 
+                  onClick={() => { setZoom(1.0); setOffsetX(0); setOffsetY(0); }}
+                  className="flex items-center gap-1.5 hover:text-foreground transition-colors font-medium"
+                >
+                  <RefreshCw className="w-3.5 h-3.5" />
+                  Reset Offset
+                </button>
+              </div>
             </div>
 
-            <div className="flex items-center justify-between text-xs text-muted-foreground">
-              <span className="flex items-center gap-1.5">
-                <Crop className="w-3.5 h-3.5" />
-                Drag image to pan / position crop
-              </span>
-              <button 
-                onClick={() => { setZoom(1.0); setOffsetX(0); setOffsetY(0); }}
-                className="flex items-center gap-1.5 hover:text-foreground transition-colors font-medium"
-              >
-                <RefreshCw className="w-3.5 h-3.5" />
-                Reset Frame
-              </button>
+            {/* Crop Frame Customization Section */}
+            <div className="space-y-4 pt-4 border-t border-border/50">
+              <div className="flex justify-between items-center">
+                <span className="text-[10px] tracking-[0.2em] uppercase text-muted-foreground font-semibold block">Crop Frame Dimensions</span>
+                <button
+                  onClick={handleAutoFit}
+                  className="text-[10px] tracking-wider uppercase text-primary font-bold hover:opacity-80 transition-opacity border border-primary/20 px-2 py-1 bg-primary/5 rounded font-sans"
+                >
+                  Auto-Fit to Painting
+                </button>
+              </div>
+
+              {/* Width Slider */}
+              <div className="space-y-1">
+                <div className="flex justify-between text-xs text-muted-foreground">
+                  <span>Width</span>
+                  <span className="font-mono">{frameWidth}px</span>
+                </div>
+                <input
+                  type="range"
+                  min="300"
+                  max="1000"
+                  step="10"
+                  value={frameWidth}
+                  onChange={(e) => setFrameWidth(parseInt(e.target.value))}
+                  className="w-full accent-primary cursor-pointer"
+                />
+              </div>
+
+              {/* Height Slider */}
+              <div className="space-y-1">
+                <div className="flex justify-between text-xs text-muted-foreground">
+                  <span>Height</span>
+                  <span className="font-mono">{frameHeight}px</span>
+                </div>
+                <input
+                  type="range"
+                  min="300"
+                  max={format === "story" ? 1200 : 800}
+                  step="10"
+                  value={frameHeight}
+                  onChange={(e) => setFrameHeight(parseInt(e.target.value))}
+                  className="w-full accent-primary cursor-pointer"
+                />
+              </div>
+
+              {/* Y Position Slider */}
+              <div className="space-y-1">
+                <div className="flex justify-between text-xs text-muted-foreground">
+                  <span>Vertical Position (Y)</span>
+                  <span className="font-mono">{frameY}px</span>
+                </div>
+                <input
+                  type="range"
+                  min="50"
+                  max={format === "story" ? 800 : 400}
+                  step="5"
+                  value={frameY}
+                  onChange={(e) => setFrameY(parseInt(e.target.value))}
+                  className="w-full accent-primary cursor-pointer"
+                />
+              </div>
             </div>
+
           </div>
         </div>
 
