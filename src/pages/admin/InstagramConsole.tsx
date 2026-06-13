@@ -301,7 +301,7 @@ function EditorModal({
     offscreen.height = height;
 
     // 1. Draw solid background
-    ctx.fillStyle = "#F8F8F4"; // Cream / off-white matching admin/site theme
+    ctx.fillStyle = "#f8f8f8"; // Neutral light gray matching official branding
     ctx.fillRect(0, 0, width, height);
 
     // 2. Define crop window coordinates using custom user frame states
