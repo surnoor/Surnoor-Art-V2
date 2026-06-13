@@ -501,12 +501,12 @@ ${hashtags}`;
       onClick={onClose}
     >
       <div 
-        className="max-w-6xl w-full bg-background border border-border shadow-2xl rounded-md overflow-hidden grid grid-cols-1 lg:grid-cols-12 max-h-[calc(100vh-4rem)]"
+        className="max-w-6xl w-full bg-background border border-border shadow-2xl rounded-md overflow-hidden grid grid-cols-1 lg:grid-cols-12 max-h-[calc(100vh-2rem)] lg:max-h-[calc(100vh-4rem)] overflow-y-auto lg:overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         
         {/* Left column: Canvas & interactive cropping */}
-        <div className="lg:col-span-7 p-6 border-r border-border flex flex-col justify-between max-h-[calc(100vh-4rem)] overflow-y-auto">
+        <div className="lg:col-span-7 p-6 border-b lg:border-b-0 lg:border-r border-border flex flex-col justify-between lg:max-h-[calc(100vh-4rem)] lg:overflow-y-auto">
           <div>
             <div className="flex justify-between items-center mb-6">
               <div>
@@ -607,7 +607,7 @@ ${hashtags}`;
         </div>
 
         {/* Right column: Branding review & caption */}
-        <div className="lg:col-span-5 p-6 flex flex-col justify-between bg-muted/10 max-h-[calc(100vh-4rem)] overflow-y-auto">
+        <div className="lg:col-span-5 p-6 flex flex-col justify-between bg-muted/10 lg:max-h-[calc(100vh-4rem)] lg:overflow-y-auto">
           <div>
             <div className="hidden lg:flex justify-between items-center mb-6">
               <span className="text-[10px] tracking-[0.25em] uppercase text-muted-foreground">Preview & Share</span>
