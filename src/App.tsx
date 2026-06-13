@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, useInView, Variants, AnimatePresence } from "framer-motion";
-import { ArrowUpRight, Instagram, ExternalLink, Calendar, ChevronLeft, ChevronRight, ShoppingBag } from "lucide-react";
+import { ArrowUpRight, Instagram, ExternalLink, Calendar, ChevronLeft, ChevronRight, ShoppingBag, Download, Printer } from "lucide-react";
 import { Router, Route, Link, useLocation } from "wouter";
 import { Analytics } from "@vercel/analytics/react";
 import ShopPage from "./pages/ShopPage";
@@ -308,7 +308,7 @@ function SelectedWorksSection() {
   if (!loading && featured.length === 0) return null;
 
   return (
-    <section id="work" className="px-6 md:px-12 pt-6 md:pt-10 pb-16 md:pb-24">
+    <section id="work" className="px-6 md:px-12 pt-6 md:pt-10 pb-16 md:pb-24 print:hidden">
       <FadeIn className="mb-12">
         <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground">Available Works</p>
       </FadeIn>
@@ -379,7 +379,7 @@ const ACCOMPLISHMENTS = [
 
 function AccomplishmentsSection() {
   return (
-    <section id="about" className="relative w-full py-16 md:py-28 bg-background ">
+    <section id="about" className="relative w-full py-16 md:py-28 bg-background print:py-8 print:w-[100vw] print:m-0 print:left-0 print:top-0">
       <FadeIn className="px-6 md:px-12 mb-10 md:mb-16">
         <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground">Exhibitions & Recognition</p>
       </FadeIn>
@@ -641,7 +641,17 @@ function AccomplishmentsSection() {
             </div>
           </div>
         </div>
+      </div>
 
+      {/* Print Button */}
+      <div className="px-6 md:px-12 mt-16 print:hidden">
+        <button
+          onClick={() => window.print()}
+          className="inline-flex items-center gap-2 border border-primary text-primary text-xs tracking-[0.15em] uppercase px-5 py-2.5 hover:bg-primary hover:text-background transition-colors"
+        >
+          <Printer className="w-3.5 h-3.5" />
+          Print / Save CV as PDF
+        </button>
       </div>
     </section>
   );
@@ -730,7 +740,7 @@ function HomePage() {
       <SelectedWorksSection />
 
       {/* ── 1. HERO ── */}
-      <section id="hero" className="flex flex-col">
+      <section id="hero" className="flex flex-col print:hidden">
         {SHOW_HERO_SLIDESHOW && (
           <>
             <div
@@ -798,7 +808,7 @@ function HomePage() {
 
       {/* ── 3. ABOUT ── */}
       {false && (
-      <section id="about" className=" px-6 md:px-12 py-16 md:py-28 bg-card">
+      <section id="about-info" className=" px-6 md:px-12 py-16 md:py-28 bg-card print:hidden">
         <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-20">
           <div className="lg:col-span-4">
             <FadeIn>
@@ -838,7 +848,7 @@ function HomePage() {
       )}
 
       {/* ── 4. LEARN ── */}
-      <section id="instruction" className=" px-6 md:px-12 py-16 md:py-28">
+      <section id="instruction" className=" px-6 md:px-12 py-16 md:py-28 print:hidden">
         <FadeIn className="mb-14">
           <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground">Instruction</p>
         </FadeIn>
@@ -879,7 +889,7 @@ function HomePage() {
       </section>
 
       {/* ── 5. UPCOMING ── */}
-      <section id="upcoming" className=" px-6 md:px-12 py-16 md:py-28 bg-card">
+      <section id="upcoming" className=" px-6 md:px-12 py-16 md:py-28 bg-card print:hidden">
         <FadeIn className="mb-14">
           <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground">Workshops & Exhibitions</p>
         </FadeIn>
@@ -956,7 +966,7 @@ function HomePage() {
 
       {/* ── 6. RECOGNITION ── */}
       {false && (
-        <section className=" px-6 md:px-12 py-12 md:py-20">
+        <section className=" px-6 md:px-12 py-12 md:py-20 print:hidden">
           <FadeIn>
             <div className="flex flex-wrap items-center gap-x-8 gap-y-3 text-xs tracking-[0.15em] uppercase text-muted-foreground">
               <span>Solo Show · Basic Inquiry, Vancouver · 2024</span>
@@ -974,7 +984,7 @@ function HomePage() {
 
 function Footer() {
   return (
-    <footer className=" bg-background px-6 md:px-12 py-12 md:py-16">
+    <footer className=" bg-background px-6 md:px-12 py-12 md:py-16 print:hidden">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-16 items-start">
           {/* Branding */}
           <div>
@@ -1144,13 +1154,15 @@ function AppInner() {
 
   return (
     <div id="site-top" className="min-h-screen bg-background text-foreground font-sans selection:bg-primary/20">
-      <div ref={headerRef}>
+      <div ref={headerRef} className="print:hidden">
         <NewsletterBanner />
       </div>
-      <div ref={navWrapperRef} className="relative z-50">
+      <div ref={navWrapperRef} className="relative z-50 print:hidden">
         <Nav />
       </div>
-      <FloatingCartButton />
+      <div className="print:hidden">
+        <FloatingCartButton />
+      </div>
       <div className="pt-0">
         <Route path="/" component={HomePage} />
         <Route path="/shop">
