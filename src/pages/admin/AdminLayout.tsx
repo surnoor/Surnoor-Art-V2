@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 
 const sidebarLinks = [
   { id: "pinterest", label: "Pinterest Queue", icon: Share2, href: "/admin" },
+  { id: "instagram", label: "Instagram Console", icon: Crop, href: "/admin/instagram" },
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {

@@ -9,6 +9,7 @@ import OrderConfirmationPage from "./pages/OrderConfirmationPage";
 import ProductDetailPage from "./pages/ProductDetailPage";
 import CartPage from "./pages/CartPage";
 import PinterestQueue from "./pages/admin/PinterestQueue";
+import InstagramConsole from "./pages/admin/InstagramConsole";
 import PollPage from "./pages/PollPage";
 import EventPage from "./pages/EventPage";
 import SupportPage from "./pages/SupportPage";
@@ -1182,6 +1183,9 @@ function AppInner() {
         </Route>
         <Route path="/admin/pinterest">
           <AdminAuth><PinterestQueue /></AdminAuth>
+        </Route>
+        <Route path="/admin/instagram">
+          <AdminAuth><InstagramConsole /></AdminAuth>
         </Route>
       </div>
       <Footer />
