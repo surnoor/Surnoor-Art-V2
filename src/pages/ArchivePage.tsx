@@ -1013,9 +1013,21 @@ export default function ArchivePage() {
             </span>
           )}
         </button>
-        <span className="text-xs text-muted-foreground">
+        <span className="text-xs text-muted-foreground flex items-center gap-1.5">
           {(!loading && !isAnimatingLoader) ? (
-            <>{filtered.length} work{filtered.length !== 1 ? "s" : ""}</>
+            <>
+              <span>{filtered.length} work{filtered.length !== 1 ? "s" : ""}</span>
+              <span
+                style={{
+                  fontFamily: '"Courier New", Courier, monospace',
+                  color: '#ff0033',
+                  fontWeight: 'bold',
+                  marginLeft: '0.5rem',
+                }}
+              >
+                cataloging is in progress
+              </span>
+            </>
           ) : (
             <>&nbsp;</>
           )}
@@ -1078,9 +1090,19 @@ export default function ArchivePage() {
           {!loading && !isAnimatingLoader && !error && filtered.length > 0 && (
             <>
               <div className="hidden md:flex items-center justify-between mb-8">
-                <p className="text-xs text-muted-foreground">
+                <p className="text-xs text-muted-foreground flex items-center">
                   {filtered.length} work{filtered.length !== 1 ? "s" : ""}
                   {activeFilterCount > 0 && " (filtered)"}
+                  <span
+                    style={{
+                      fontFamily: '"Courier New", Courier, monospace',
+                      color: '#ff0033',
+                      fontWeight: 'bold',
+                      marginLeft: '1rem',
+                    }}
+                  >
+                    cataloging is in progress
+                  </span>
                 </p>
               </div>
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8">
