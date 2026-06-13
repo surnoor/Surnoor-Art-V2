@@ -1013,7 +1013,7 @@ export default function ArchivePage() {
             </span>
           )}
         </button>
-        <span className="text-xs text-muted-foreground flex items-center gap-1.5">
+        <span className="text-xs text-muted-foreground flex items-baseline gap-1.5">
           {(!loading && !isAnimatingLoader) ? (
             <>
               <span>{filtered.length} work{filtered.length !== 1 ? "s" : ""}</span>
@@ -1023,6 +1023,8 @@ export default function ArchivePage() {
                   color: '#ff0033',
                   fontWeight: 'bold',
                   marginLeft: '0.5rem',
+                  fontSize: '14.5px',
+                  lineHeight: '1',
                 }}
               >
                 cataloging is in progress
@@ -1090,15 +1092,19 @@ export default function ArchivePage() {
           {!loading && !isAnimatingLoader && !error && filtered.length > 0 && (
             <>
               <div className="hidden md:flex items-center justify-between mb-8">
-                <p className="text-xs text-muted-foreground flex items-center">
-                  {filtered.length} work{filtered.length !== 1 ? "s" : ""}
-                  {activeFilterCount > 0 && " (filtered)"}
+                <p className="text-xs text-muted-foreground flex items-baseline">
+                  <span>
+                    {filtered.length} work{filtered.length !== 1 ? "s" : ""}
+                    {activeFilterCount > 0 && " (filtered)"}
+                  </span>
                   <span
                     style={{
                       fontFamily: '"Courier New", Courier, monospace',
                       color: '#ff0033',
                       fontWeight: 'bold',
                       marginLeft: '1rem',
+                      fontSize: '14.5px',
+                      lineHeight: '1',
                     }}
                   >
                     cataloging is in progress
