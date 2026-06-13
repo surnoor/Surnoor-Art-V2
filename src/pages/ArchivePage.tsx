@@ -326,6 +326,7 @@ export function Lightbox({
         }
         
         const hashtags = Array.from(new Set(baseTags))
+          .slice(0, 5)
           .map(tag => `#${tag.charAt(0).toUpperCase() + tag.slice(1)}`)
           .join(" ");
 
