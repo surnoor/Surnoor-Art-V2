@@ -201,7 +201,7 @@ function Nav() {
             <CartBadge />
           </Link>
           <button
-            className="text-xs tracking-[0.18em] uppercase"
+            className="text-xs tracking-[0.18em] uppercase w-[72px] text-right"
             onClick={() => setMenuOpen(!menuOpen)}
             data-testid="nav-menu-toggle"
           >
