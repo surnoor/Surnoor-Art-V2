@@ -3,6 +3,7 @@ import { motion, useInView, Variants, AnimatePresence } from "framer-motion";
 import { ArrowUpRight, Instagram, ExternalLink, Calendar, ChevronLeft, ChevronRight, ShoppingBag, Download, Printer } from "lucide-react";
 import { Router, Route, Link, useLocation } from "wouter";
 import { Analytics } from "@vercel/analytics/react";
+import { usePostHog } from "@posthog/react";
 import ShopPage from "./pages/ShopPage";
 import ArchivePage from "./pages/ArchivePage";
 import OrderConfirmationPage from "./pages/OrderConfirmationPage";
@@ -1064,14 +1065,16 @@ function AppInner() {
   const headerRef = useRef<HTMLDivElement>(null);
   const navWrapperRef = useRef<HTMLDivElement>(null);
 
+  const posthog = usePostHog();
+
   // Manually track pageviews on route/location changes for React Router (wouter)
   useEffect(() => {
     try {
-      (window as any).posthog?.capture('$pageview', {
+      posthog?.capture('$pageview', {
         $current_url: window.location.href,
       });
     } catch {}
-  }, [location]);
+  }, [location, posthog]);
 
   useEffect(() => {
     const updateHeaderHeight = () => {
