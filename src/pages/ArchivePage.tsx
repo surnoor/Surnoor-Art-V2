@@ -1000,40 +1000,42 @@ export default function ArchivePage() {
     <div className="min-h-screen bg-background">
 
       {/* Mobile filter toggle */}
-      <div className="md:hidden relative z-30 bg-background px-6 py-3 flex items-center justify-between">
-        <button
-          onClick={() => setSidebarOpen(!sidebarOpen)}
-          className="flex items-center gap-2 text-xs tracking-[0.15em] uppercase text-muted-foreground"
-        >
-          <SlidersHorizontal className="w-3.5 h-3.5" />
-          Filters
-          {activeFilterCount > 0 && (
-            <span className="w-5 h-5 rounded-full bg-primary text-background text-[10px] flex items-center justify-center">
-              {activeFilterCount}
+      <div className="md:hidden relative z-30 bg-background px-6 py-3 flex flex-col gap-1">
+        <div className="flex items-center justify-between w-full">
+          <button
+            onClick={() => setSidebarOpen(!sidebarOpen)}
+            className="flex items-center gap-2 text-xs tracking-[0.15em] uppercase text-muted-foreground"
+          >
+            <SlidersHorizontal className="w-3.5 h-3.5" />
+            Filters
+            {activeFilterCount > 0 && (
+              <span className="w-5 h-5 rounded-full bg-primary text-background text-[10px] flex items-center justify-center">
+                {activeFilterCount}
+              </span>
+            )}
+          </button>
+          {!loading && !isAnimatingLoader && (
+            <span className="text-xs text-muted-foreground whitespace-nowrap">
+              {filtered.length} work{filtered.length !== 1 ? "s" : ""}
+              {activeFilterCount > 0 && " (filtered)"}
             </span>
           )}
-        </button>
-        <span className="text-xs text-muted-foreground flex items-baseline gap-1.5">
-          {(!loading && !isAnimatingLoader) ? (
-            <>
-              <span>{filtered.length} work{filtered.length !== 1 ? "s" : ""}</span>
-              <span
-                style={{
-                  fontFamily: '"Courier New", Courier, monospace',
-                  color: '#ff0033',
-                  fontWeight: 'normal',
-                  marginLeft: '0.5rem',
-                  fontSize: '14.5px',
-                  lineHeight: '1',
-                }}
-              >
-                cataloging is in progress
-              </span>
-            </>
-          ) : (
-            <>&nbsp;</>
-          )}
-        </span>
+        </div>
+        {!loading && !isAnimatingLoader && (
+          <div className="flex justify-end">
+            <span
+              style={{
+                fontFamily: '"Courier New", Courier, monospace',
+                color: '#ff0033',
+                fontWeight: 'normal',
+                fontSize: '13px',
+                lineHeight: '1',
+              }}
+            >
+              cataloging is in progress
+            </span>
+          </div>
+        )}
       </div>
 
       {/* Mobile sidebar drawer */}
