@@ -1064,6 +1064,15 @@ function AppInner() {
   const headerRef = useRef<HTMLDivElement>(null);
   const navWrapperRef = useRef<HTMLDivElement>(null);
 
+  // Manually track pageviews on route/location changes for React Router (wouter)
+  useEffect(() => {
+    try {
+      (window as any).posthog?.capture('$pageview', {
+        $current_url: window.location.href,
+      });
+    } catch {}
+  }, [location]);
+
   useEffect(() => {
     const updateHeaderHeight = () => {
       if (navWrapperRef.current) {
