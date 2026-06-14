@@ -5,6 +5,7 @@ import type { ShopProduct } from "../hooks/useShop";
 import { useCart } from "../context/CartContext";
 import { formatPrice } from "../utils/format";
 import { ARButton } from "./ARViewer";
+import { identifyUser } from "../utils/analytics";
 
 interface WorkCardProps {
   product: ShopProduct;
@@ -39,6 +40,7 @@ export default function WorkCard({ product, sold = false }: WorkCardProps) {
         body: JSON.stringify({ email: interestEmail, artwork: product.name }),
       });
       if (!res.ok) throw new Error("Failed");
+      identifyUser(interestEmail, { expressed_interest_artwork: product.name });
       setInterestStatus("success");
     } catch {
       setInterestStatus("error");

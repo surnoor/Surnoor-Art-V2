@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
-import { trackArtworkView } from "../utils/analytics";
+import { trackArtworkView, identifyUser } from "../utils/analytics";
 import { ChevronDown } from "lucide-react";
 import { useShop, type ShopProduct } from "../hooks/useShop";
 import { useCart } from "../context/CartContext";
@@ -243,6 +243,7 @@ export default function ProductDetailPage({ productId }: { productId: string }) 
         body: JSON.stringify({ email: interestEmail, artwork: product.name }),
       });
       if (!res.ok) throw new Error("Failed");
+      identifyUser(interestEmail, { expressed_interest_artwork: product.name });
       setInterestStatus("success");
     } catch {
       setInterestStatus("error");

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "wouter";
-import { trackPurchaseComplete } from "../utils/analytics";
+import { trackPurchaseComplete, identifyUser } from "../utils/analytics";
 
 interface OrderLineItem {
   id: string;
@@ -105,6 +105,12 @@ export default function OrderConfirmationPage() {
         ) {
           sessionStorage.setItem(trackedKey, "1");
           trackPurchaseComplete(data.amountTotal, data.currency);
+          if (data.customerEmail) {
+            identifyUser(data.customerEmail, { 
+              name: data.customerName,
+              has_purchased: true 
+            });
+          }
         }
       })
       .catch((err: unknown) => {

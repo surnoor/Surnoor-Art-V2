@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNewsletter } from '../context/NewsletterContext';
+import { identifyUser } from '../utils/analytics';
 
 interface NewsletterFormProps {
   variant?: 'banner' | 'footer';
@@ -40,6 +41,7 @@ export default function NewsletterForm({ variant = 'banner' }: NewsletterFormPro
       });
 
       if (res.ok) {
+        identifyUser(email, { newsletter_subscriber: true });
         subscribe(); // Update global state
         setEmail('');
       } else {

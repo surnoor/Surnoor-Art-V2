@@ -3,14 +3,26 @@ declare global {
     umami?: {
       track: (eventName: string, eventData?: Record<string, string | number>) => void;
     };
+    posthog?: {
+      capture: (eventName: string, eventData?: Record<string, any>) => void;
+      identify: (distinctId: string, userProperties?: Record<string, any>) => void;
+    };
   }
 }
 
 function track(eventName: string, data?: Record<string, string | number>) {
   try {
     window.umami?.track(eventName, data);
-  } catch {
-  }
+  } catch {}
+  try {
+    window.posthog?.capture(eventName, data);
+  } catch {}
+}
+
+export function identifyUser(email: string, properties?: Record<string, any>) {
+  try {
+    window.posthog?.identify(email, properties);
+  } catch {}
 }
 
 export function trackArtworkView(name: string, category: string) {
