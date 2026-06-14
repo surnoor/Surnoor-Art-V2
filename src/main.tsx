@@ -6,9 +6,9 @@ import App from "./App";
 import "./index.css";
 
 const posthogKey = import.meta.env.VITE_POSTHOG_PROJECT_TOKEN;
-const posthogHost = import.meta.env.VITE_POSTHOG_HOST;
+const posthogHost = import.meta.env.VITE_POSTHOG_HOST || "https://us.i.posthog.com";
 
-if (posthogKey && posthogHost) {
+if (posthogKey) {
   posthog.init(posthogKey, {
     api_host: posthogHost,
     person_profiles: "always",
