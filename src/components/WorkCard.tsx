@@ -62,7 +62,7 @@ export default function WorkCard({ product, sold = false }: WorkCardProps) {
   }
 
   return (
-    <div className={`${sold ? "opacity-50" : ""} group h-full flex flex-col`}>
+    <div className={`${sold ? "opacity-50" : ""} group flex-1 w-full flex flex-col`}>
       {/* Image block */}
       <Link href={`/shop/${product.id}`} className="block mb-4">
         <div className="relative aspect-[3/4] overflow-hidden">
