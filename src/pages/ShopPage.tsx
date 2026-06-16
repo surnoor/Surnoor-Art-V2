@@ -252,7 +252,7 @@ export default function ShopPage() {
           {currentAvailable.length > 0 && (
             <div className="grid grid-cols-2 md:grid-cols-3 gap-6 md:gap-8 lg:gap-12">
               {currentAvailable.map((product, idx) => (
-                <FadeIn key={product.id} delay={idx * 0.05}>
+                <FadeIn key={product.id} delay={idx * 0.05} className="h-full flex flex-col">
                   <WorkCard product={product} />
                 </FadeIn>
               ))}
@@ -267,7 +267,7 @@ export default function ShopPage() {
               </FadeIn>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-6 md:gap-8 lg:gap-12">
                 {currentSold.map((product, idx) => (
-                  <FadeIn key={product.id} delay={idx * 0.05}>
+                  <FadeIn key={product.id} delay={idx * 0.05} className="h-full flex flex-col">
                     <WorkCard product={product} sold />
                   </FadeIn>
                 ))}

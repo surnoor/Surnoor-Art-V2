@@ -3,7 +3,6 @@ import { motion, useInView, Variants, AnimatePresence } from "framer-motion";
 import { ArrowUpRight, Instagram, ExternalLink, Calendar, ChevronLeft, ChevronRight, ShoppingBag, Download, Printer } from "lucide-react";
 import { Router, Route, Link, useLocation } from "wouter";
 import { Analytics } from "@vercel/analytics/react";
-import { usePostHog } from "@posthog/react";
 import ShopPage from "./pages/ShopPage";
 import ArchivePage from "./pages/ArchivePage";
 import OrderConfirmationPage from "./pages/OrderConfirmationPage";
@@ -324,7 +323,7 @@ function SelectedWorksSection() {
             </div>
           ))
           : featured.map((product, idx) => (
-            <FadeIn key={product.id} delay={idx * 0.07}>
+            <FadeIn key={product.id} delay={idx * 0.07} className="h-full flex flex-col">
               <WorkCard product={product} />
             </FadeIn>
           ))}
@@ -1064,17 +1063,6 @@ function AppInner() {
   const [location] = useLocation();
   const headerRef = useRef<HTMLDivElement>(null);
   const navWrapperRef = useRef<HTMLDivElement>(null);
-
-  const posthog = usePostHog();
-
-  // Manually track pageviews on route/location changes for React Router (wouter)
-  useEffect(() => {
-    try {
-      posthog?.capture('$pageview', {
-        $current_url: window.location.href,
-      });
-    } catch {}
-  }, [location, posthog]);
 
   useEffect(() => {
     const updateHeaderHeight = () => {

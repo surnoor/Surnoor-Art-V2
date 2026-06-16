@@ -62,7 +62,7 @@ export default function WorkCard({ product, sold = false }: WorkCardProps) {
   }
 
   return (
-    <div className={`${sold ? "opacity-50" : ""} group`}>
+    <div className={`${sold ? "opacity-50" : ""} group h-full flex flex-col`}>
       {/* Image block */}
       <Link href={`/shop/${product.id}`} className="block mb-4">
         <div className="relative aspect-[3/4] overflow-hidden">
@@ -125,7 +125,7 @@ export default function WorkCard({ product, sold = false }: WorkCardProps) {
       )}
 
       {/* Price + CTA row */}
-      <div className="mt-3 flex flex-col gap-2">
+      <div className="mt-auto pt-3 flex flex-col gap-2">
         <div className="flex items-center justify-between">
           <p className="text-[10px] tracking-widest text-foreground flex-shrink-0">{priceDisplay}</p>
           {sold && (

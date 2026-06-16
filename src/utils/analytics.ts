@@ -1,5 +1,3 @@
-import posthog from "posthog-js";
-
 declare global {
   interface Window {
     umami?: {
@@ -12,14 +10,11 @@ function track(eventName: string, data?: Record<string, string | number>) {
   try {
     window.umami?.track(eventName, data);
   } catch {}
-  try {
-    posthog.capture(eventName, data);
-  } catch {}
 }
 
 export function identifyUser(email: string, properties?: Record<string, any>) {
   try {
-    posthog.identify(email, properties);
+    window.umami?.track("identify", { email, ...properties });
   } catch {}
 }
 
