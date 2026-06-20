@@ -226,11 +226,11 @@ function Lightbox({
                   {record.category}
                 </p>
               )}
-              {record.subject && (
+              {record.series && record.series.length > 0 && (
                 <p>
-                  <span className="text-foreground text-xs uppercase tracking-[0.12em]">Subject</span>
+                  <span className="text-foreground text-xs uppercase tracking-[0.12em]">Series</span>
                   <br />
-                  {record.subject}
+                  {Array.isArray(record.series) ? record.series.join(", ") : record.series}
                 </p>
               )}
             </div>

@@ -12,7 +12,7 @@ export interface ArchiveRecord {
   filmstrip: string | null;  // Optimized for filmstrip
   status: string;
   category: string | null;
-  subject: string[];
+  series: string[];
   substrate: string | null;
   additionalImages: string[];
   showAtEvent: boolean;
@@ -51,7 +51,7 @@ interface AirtableField {
   Image?: AirtableAttachment[];
   Status?: string;
   Category?: string;
-  Subject?: string | string[];
+  Series?: string | string[];
   Substrate?: string;
   "Additional Images"?: AirtableAttachment[];
   ShowAtEvent?: boolean;
@@ -94,7 +94,7 @@ export function useArchive(): UseArchiveResult {
           filmstrip: mainImage?.thumbnails?.small?.url ?? mainImage?.thumbnails?.large?.url ?? mainImage?.url ?? null,
           status: f.Status ?? "",
           category: f.Category ?? null,
-          subject: Array.isArray(f.Subject) ? f.Subject : (f.Subject ? [f.Subject] : []),
+          series: Array.isArray(f.Series) ? f.Series : (f.Series ? [f.Series] : []),
           substrate: f.Substrate ?? null,
           additionalImages: (f["Additional Images"] ?? []).map((a) => a.url),
           showAtEvent: f.ShowAtEvent ?? false,

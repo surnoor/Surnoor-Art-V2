@@ -309,8 +309,8 @@ export function Lightbox({
           if (med.includes("water") || med.includes("watercolor")) baseTags.push("Watercolor", "Watercolour", "Aquarelle");
           if (med.includes("draw") || med.includes("charcoal") || med.includes("pencil")) baseTags.push("Drawing", "WorkOnPaper", "Draftsmanship");
         }
-        if (record.subject && Array.isArray(record.subject)) {
-          record.subject.forEach(sub => {
+        if (record.series && Array.isArray(record.series)) {
+          record.series.forEach((sub: string) => {
             const formattedSub = sub.replace(/\s+/g, '');
             baseTags.push(formattedSub);
             if (formattedSub.toLowerCase() === "landscape" || formattedSub.toLowerCase() === "pleinair") {
@@ -382,8 +382,8 @@ ${hashtags}`;
         if (record.medium) baseTags.push(record.medium.replace(/\s+/g, ''));
         if (record.category) baseTags.push(record.category.replace(/\s+/g, ''));
         if (record.year) baseTags.push(`Art${record.year}`);
-        if (record.subject) {
-          record.subject.forEach(sub => baseTags.push(sub.replace(/\s+/g, '')));
+        if (record.series) {
+          record.series.forEach(sub => baseTags.push(sub.replace(/\s+/g, '')));
         }
         
         const hashtags = baseTags.map(tag => `#${tag}`).join(" ");
@@ -786,11 +786,11 @@ ${hashtags}`;
                   {record.category}
                 </p>
               )}
-              {record.subject && record.subject.length > 0 && (
+              {record.series && record.series.length > 0 && (
                 <p>
-                  <span className="text-foreground text-xs uppercase tracking-[0.12em]">Subject</span>
+                  <span className="text-foreground text-xs uppercase tracking-[0.12em]">Series</span>
                   <br />
-                  {Array.isArray(record.subject) ? record.subject.join(", ") : record.subject}
+                  {Array.isArray(record.series) ? record.series.join(", ") : record.series}
                 </p>
               )}
             </div>
@@ -845,7 +845,7 @@ export default function ArchivePage() {
   const { archive, loading, error } = useArchive();
   const [selectedYear, setSelectedYear] = useState("All");
   const [selectedMedium, setSelectedMedium] = useState("All");
-  const [selectedSubject, setSelectedSubject] = useState("All");
+  const [selectedSeries, setSelectedSeries] = useState("All");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [lightboxRecord, setLightboxRecord] = useState<ArchiveRecord | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -887,21 +887,21 @@ export default function ArchivePage() {
   const filters = useMemo(() => {
     const years = new Set<string>();
     const mediums = new Set<string>();
-    const subjects = new Set<string>();
+    const series = new Set<string>();
     const categories = new Set<string>();
 
     for (const r of archive) {
       if (r.status !== 'Archive') continue;
       if (r.year) years.add(r.year.trim());
       if (r.medium) mediums.add(r.medium.trim());
-      if (r.subject) r.subject.forEach(s => subjects.add(s.trim()));
+      if (r.series) r.series.forEach(s => series.add(s.trim()));
       if (r.category) categories.add(r.category.trim());
     }
 
     return {
       years: [...years].sort((a, b) => parseInt(b) - parseInt(a)),
       mediums: [...mediums].sort(),
-      subjects: [...subjects].sort(),
+      series: [...series].sort(),
       categories: [...categories].sort(),
     };
   }, [archive]);
@@ -912,7 +912,7 @@ export default function ArchivePage() {
       if (r.status !== 'Archive') return false;
       if (selectedYear !== "All" && r.year?.trim() !== selectedYear) return false;
       if (selectedMedium !== "All" && r.medium?.trim() !== selectedMedium) return false;
-      if (selectedSubject !== "All" && !r.subject?.includes(selectedSubject)) return false;
+      if (selectedSeries !== "All" && !r.series?.includes(selectedSeries)) return false;
       if (selectedCategory !== "All" && r.category?.trim() !== selectedCategory) return false;
       return true;
     });
@@ -932,16 +932,16 @@ export default function ArchivePage() {
       if (!aIsWatercolor && bIsWatercolor) return 1;
       return 0;
     });
-  }, [archive, selectedYear, selectedMedium, selectedSubject, selectedCategory]);
+  }, [archive, selectedYear, selectedMedium, selectedSeries, selectedCategory]);
 
-  const activeFilterCount = [selectedYear, selectedMedium, selectedSubject, selectedCategory].filter(
+  const activeFilterCount = [selectedYear, selectedMedium, selectedSeries, selectedCategory].filter(
     (v) => v !== "All"
   ).length;
 
   function clearAll() {
     setSelectedYear("All");
     setSelectedMedium("All");
-    setSelectedSubject("All");
+    setSelectedSeries("All");
     setSelectedCategory("All");
   }
 
@@ -977,12 +977,12 @@ export default function ArchivePage() {
           onSelect={setSelectedMedium}
         />
       )}
-      {filters.subjects.length > 0 && (
+      {filters.series.length > 0 && (
         <FilterGroup
-          label="Subject"
-          options={["All", ...filters.subjects]}
-          selected={selectedSubject}
-          onSelect={setSelectedSubject}
+          label="Series"
+          options={["All", ...filters.series]}
+          selected={selectedSeries}
+          onSelect={setSelectedSeries}
         />
       )}
       {filters.categories.length > 0 && (

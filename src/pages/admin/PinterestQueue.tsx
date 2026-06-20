@@ -13,7 +13,7 @@ export default function PinterestQueue() {
   // Archive Filters
   const [selectedYear, setSelectedYear] = useState("All");
   const [selectedMedium, setSelectedMedium] = useState("All");
-  const [selectedSubject, setSelectedSubject] = useState("All");
+  const [selectedSeries, setSelectedSeries] = useState("All");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -27,21 +27,21 @@ export default function PinterestQueue() {
   const filters = useMemo(() => {
     const years = new Set<string>();
     const mediums = new Set<string>();
-    const subjects = new Set<string>();
+    const series = new Set<string>();
     const categories = new Set<string>();
 
     for (const r of archive) {
       if (r.status !== 'Archive') continue;
       if (r.year) years.add(r.year.trim());
       if (r.medium) mediums.add(r.medium.trim());
-      if (r.subject) r.subject.forEach(s => subjects.add(s.trim()));
+      if (r.series) r.series.forEach(s => series.add(s.trim()));
       if (r.category) categories.add(r.category.trim());
     }
 
     return {
       years: ["All", ...Array.from(years).sort().reverse()],
       mediums: ["All", ...Array.from(mediums).sort()],
-      subjects: ["All", ...Array.from(subjects).sort()],
+      series: ["All", ...Array.from(series).sort()],
       categories: ["All", ...Array.from(categories).sort()],
     };
   }, [archive]);
@@ -67,11 +67,11 @@ export default function PinterestQueue() {
       if (selectedYear !== "All" && r.year !== selectedYear) return false;
       if (selectedMedium !== "All" && r.medium !== selectedMedium) return false;
       if (selectedCategory !== "All" && r.category !== selectedCategory) return false;
-      if (selectedSubject !== "All" && !r.subject.includes(selectedSubject)) return false;
+      if (selectedSeries !== "All" && !r.series.includes(selectedSeries)) return false;
 
       return true;
     });
-  }, [archive, filterMode, selectedYear, selectedMedium, selectedCategory, selectedSubject, localPublishedIds, localUnpublishedIds]);
+  }, [archive, filterMode, selectedYear, selectedMedium, selectedCategory, selectedSeries, localPublishedIds, localUnpublishedIds]);
 
   const togglePublishedStatus = async (id: string, currentStatus: boolean) => {
     if (isUpdatingId) return; // Prevent multiple clicks
@@ -114,8 +114,8 @@ export default function PinterestQueue() {
     if (record.medium) baseTags.push(record.medium.replace(/\s+/g, ''));
     if (record.category) baseTags.push(record.category.replace(/\s+/g, ''));
     if (record.year) baseTags.push(`Art${record.year}`);
-    if (record.subject && Array.isArray(record.subject)) {
-      record.subject.forEach((sub: string) => baseTags.push(sub.replace(/\s+/g, '')));
+    if (record.series && Array.isArray(record.series)) {
+      record.series.forEach((sub: string) => baseTags.push(sub.replace(/\s+/g, '')));
     }
     
     const hashtags = baseTags.map(tag => `#${tag}`).join(" ");
@@ -200,7 +200,7 @@ export default function PinterestQueue() {
             <AdminFilterGroup label="Year" options={filters.years} selected={selectedYear} onSelect={setSelectedYear} />
             <AdminFilterGroup label="Medium" options={filters.mediums} selected={selectedMedium} onSelect={setSelectedMedium} />
             <AdminFilterGroup label="Category" options={filters.categories} selected={selectedCategory} onSelect={setSelectedCategory} />
-            <AdminFilterGroup label="Subject" options={filters.subjects} selected={selectedSubject} onSelect={setSelectedSubject} />
+            <AdminFilterGroup label="Series" options={filters.series} selected={selectedSeries} onSelect={setSelectedSeries} />
           </div>
         </aside>
 
