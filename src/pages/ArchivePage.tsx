@@ -22,6 +22,8 @@ const fadeUp: Variants = {
 function ArchiveCard({
   record,
   onClick,
+  isPinned,
+}: {
   record: ArchiveRecord;
   onClick: () => void;
   isPinned?: boolean;
