@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState, useRef } from "react";
 import { motion, type Variants } from "framer-motion";
-import { ChevronLeft, ChevronRight, SlidersHorizontal, X, Download, Share2, Check, Loader2, Printer, Facebook, Twitter, Linkedin, Mail, Link as LinkIcon, MessageCircle, Image as ImageIcon, Instagram } from "lucide-react";
+import { ChevronLeft, ChevronRight, SlidersHorizontal, X, Download, Share2, Check, Loader2, Printer, Facebook, Twitter, Linkedin, Mail, Link as LinkIcon, MessageCircle, Image as ImageIcon, Instagram, Pin } from "lucide-react";
 import { useArchive, type ArchiveRecord } from "../hooks/useArchive";
 import { FilterGroup } from "../components/FilterGroup";
 import BauhausLoader from "../components/BauhausLoader";
@@ -22,9 +22,9 @@ const fadeUp: Variants = {
 function ArchiveCard({
   record,
   onClick,
-}: {
   record: ArchiveRecord;
   onClick: () => void;
+  isPinned?: boolean;
 }) {
   return (
     <motion.div
@@ -51,6 +51,13 @@ function ArchiveCard({
         )}
         {/* Hover overlay */}
         <div className="absolute inset-0 bg-background/0 group-hover:bg-background/10 transition-colors duration-300" />
+        
+        {/* Pinned Indicator */}
+        {isPinned && (
+          <div className="absolute top-3 right-3 bg-background/60 backdrop-blur-md p-1.5 rounded shadow-sm opacity-80" aria-label="Pinned artwork">
+            <Pin className="w-3.5 h-3.5 text-foreground" />
+          </div>
+        )}
       </div>
       <h3 className="font-serif text-base mb-0.5 group-hover:text-primary transition-colors">
         {record.name}
@@ -907,9 +914,18 @@ export default function ArchivePage() {
   }, [archive]);
 
   /* Filter & Sort records */
-  const filtered = useMemo(() => {
-    const list = archive.filter((r) => {
+  const { featuredWorks, regularWorks } = useMemo(() => {
+    // 1. Get all featured works (max 4) - ignoring filters
+    const featured = archive
+      .filter((r) => r.status === 'Archive' && r.featured)
+      .slice(0, 4);
+    
+    const featuredIds = new Set(featured.map(r => r.id));
+
+    // 2. Get regular works by applying filters
+    const filteredRegular = archive.filter((r) => {
       if (r.status !== 'Archive') return false;
+      if (featuredIds.has(r.id)) return false; // Exclude pinned works from the regular list
       if (selectedYear !== "All" && r.year?.trim() !== selectedYear) return false;
       if (selectedMedium !== "All" && r.medium?.trim() !== selectedMedium) return false;
       if (selectedSeries !== "All" && !r.series?.includes(selectedSeries)) return false;
@@ -917,8 +933,8 @@ export default function ArchivePage() {
       return true;
     });
 
-    // Sort to bring recent paintings first, then Watercolors to the top
-    return [...list].sort((a, b) => {
+    // 3. Sort regular works
+    filteredRegular.sort((a, b) => {
       const yearA = a.year ? parseInt(a.year, 10) : 0;
       const yearB = b.year ? parseInt(b.year, 10) : 0;
       if (yearA !== yearB) {
@@ -932,7 +948,13 @@ export default function ArchivePage() {
       if (!aIsWatercolor && bIsWatercolor) return 1;
       return 0;
     });
+
+    return { featuredWorks: featured, regularWorks: filteredRegular };
   }, [archive, selectedYear, selectedMedium, selectedSeries, selectedCategory]);
+
+  const displayedCount = featuredWorks.length + regularWorks.length;
+  // Use a combined list for the lightbox navigation
+  const combinedFiltered = useMemo(() => [...featuredWorks, ...regularWorks], [featuredWorks, regularWorks]);
 
   const activeFilterCount = [selectedYear, selectedMedium, selectedSeries, selectedCategory].filter(
     (v) => v !== "All"
@@ -1016,7 +1038,7 @@ export default function ArchivePage() {
           </button>
           {!loading && !isAnimatingLoader && (
             <span className="text-xs text-muted-foreground whitespace-nowrap">
-              {filtered.length} work{filtered.length !== 1 ? "s" : ""}
+              {displayedCount} work{displayedCount !== 1 ? "s" : ""}
               {activeFilterCount > 0 && " (filtered)"}
             </span>
           )}
@@ -1075,7 +1097,7 @@ export default function ArchivePage() {
             </p>
           )}
 
-          {!loading && !isAnimatingLoader && !error && filtered.length === 0 && (
+          {!loading && !isAnimatingLoader && !error && displayedCount === 0 && (
             <div className="text-center py-16">
               <p className="text-sm text-muted-foreground italic mb-4">
                 No works match the selected filters.
@@ -1091,12 +1113,12 @@ export default function ArchivePage() {
             </div>
           )}
 
-          {!loading && !isAnimatingLoader && !error && filtered.length > 0 && (
+          {!loading && !isAnimatingLoader && !error && displayedCount > 0 && (
             <>
               <div className="hidden md:flex items-center justify-between mb-8">
                 <p className="text-xs text-muted-foreground flex items-baseline">
                   <span>
-                    {filtered.length} work{filtered.length !== 1 ? "s" : ""}
+                    {displayedCount} work{displayedCount !== 1 ? "s" : ""}
                     {activeFilterCount > 0 && " (filtered)"}
                   </span>
                   <span
@@ -1113,15 +1135,42 @@ export default function ArchivePage() {
                   </span>
                 </p>
               </div>
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8">
-                {filtered.map((record) => (
-                  <ArchiveCard
-                    key={record.id}
-                    record={record}
-                    onClick={() => setLightboxRecord(record)}
-                  />
-                ))}
-              </div>
+
+              {/* Featured Section */}
+              {featuredWorks.length > 0 && (
+                <div className="mb-12">
+                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8">
+                    {featuredWorks.map((record) => (
+                      <ArchiveCard
+                        key={record.id}
+                        record={record}
+                        onClick={() => setLightboxRecord(record)}
+                        isPinned={true}
+                      />
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Soft Visual Separation */}
+              {featuredWorks.length > 0 && regularWorks.length > 0 && (
+                <div className="flex items-center gap-4 mb-12 opacity-40">
+                  <hr className="flex-1 border-border" />
+                </div>
+              )}
+
+              {/* Regular Archive Grid */}
+              {regularWorks.length > 0 && (
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8">
+                  {regularWorks.map((record) => (
+                    <ArchiveCard
+                      key={record.id}
+                      record={record}
+                      onClick={() => setLightboxRecord(record)}
+                    />
+                  ))}
+                </div>
+              )}
             </>
           )}
         </main>
@@ -1129,18 +1178,18 @@ export default function ArchivePage() {
 
       {/* Lightbox */}
       {lightboxRecord && (() => {
-        const idx = filtered.findIndex((r) => r.id === lightboxRecord.id);
-        const hasNext = idx !== -1 && idx < filtered.length - 1;
+        const idx = combinedFiltered.findIndex((r) => r.id === lightboxRecord.id);
+        const hasNext = idx !== -1 && idx < combinedFiltered.length - 1;
         const hasPrev = idx > 0;
 
         return (
           <Lightbox
             record={lightboxRecord}
-            allRecords={filtered}
+            allRecords={combinedFiltered}
             onSelectRecord={setLightboxRecord}
             onClose={() => setLightboxRecord(null)}
-            onNext={hasNext ? () => setLightboxRecord(filtered[idx + 1]) : undefined}
-            onPrev={hasPrev ? () => setLightboxRecord(filtered[idx - 1]) : undefined}
+            onNext={hasNext ? () => setLightboxRecord(combinedFiltered[idx + 1]) : undefined}
+            onPrev={hasPrev ? () => setLightboxRecord(combinedFiltered[idx - 1]) : undefined}
           />
         );
       })()}

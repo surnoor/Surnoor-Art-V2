@@ -18,6 +18,7 @@ export interface ArchiveRecord {
   showAtEvent: boolean;
   artSupplyPrint: boolean;
   pinterestPublished: boolean;
+  featured: boolean;
 }
 
 interface UseArchiveResult {
@@ -57,6 +58,7 @@ interface AirtableField {
   ShowAtEvent?: boolean;
   ArtSupplyPrint?: boolean;
   Pinterest?: boolean;
+  Featured?: boolean;
 }
 
 interface AirtableRecord {
@@ -100,6 +102,7 @@ export function useArchive(): UseArchiveResult {
           showAtEvent: f.ShowAtEvent ?? false,
           artSupplyPrint: f.ArtSupplyPrint ?? false,
           pinterestPublished: f.Pinterest ?? false,
+          featured: f.Featured ?? false,
         };
       });
 
