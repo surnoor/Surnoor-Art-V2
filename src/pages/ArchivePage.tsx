@@ -852,10 +852,10 @@ ${hashtags}`;
 /* ── Main Archive Page ── */
 export default function ArchivePage() {
   const { archive, loading, error } = useArchive();
-  const [selectedYear, setSelectedYear] = useState("All");
-  const [selectedMedium, setSelectedMedium] = useState("All");
-  const [selectedSeries, setSelectedSeries] = useState("All");
-  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [selectedYear, setSelectedYear] = useState(() => new URLSearchParams(window.location.search).get('year') || "All");
+  const [selectedMedium, setSelectedMedium] = useState(() => new URLSearchParams(window.location.search).get('medium') || "All");
+  const [selectedSeries, setSelectedSeries] = useState(() => new URLSearchParams(window.location.search).get('series') || "All");
+  const [selectedCategory, setSelectedCategory] = useState(() => new URLSearchParams(window.location.search).get('category') || "All");
   const [lightboxRecord, setLightboxRecord] = useState<ArchiveRecord | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isAnimatingLoader, setIsAnimatingLoader] = useState(true);
@@ -877,20 +877,19 @@ export default function ArchivePage() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [archive]);
 
-  // Update URL when lightbox opens/closes
-  const isFirstRender = useRef(true);
+  // Update URL when filters or lightbox changes
   useEffect(() => {
-    if (isFirstRender.current) {
-      isFirstRender.current = false;
-      return;
-    }
-    if (lightboxRecord) {
-      const newUrl = `${window.location.pathname}?artwork=${lightboxRecord.id}`;
-      window.history.replaceState(null, '', newUrl);
-    } else {
-      window.history.replaceState(null, '', window.location.pathname);
-    }
-  }, [lightboxRecord]);
+    const params = new URLSearchParams();
+    
+    if (selectedYear !== "All") params.set('year', selectedYear);
+    if (selectedMedium !== "All") params.set('medium', selectedMedium);
+    if (selectedSeries !== "All") params.set('series', selectedSeries);
+    if (selectedCategory !== "All") params.set('category', selectedCategory);
+    if (lightboxRecord) params.set('artwork', lightboxRecord.id);
+
+    const newUrl = `${window.location.pathname}${params.toString() ? `?${params.toString()}` : ''}`;
+    window.history.replaceState(null, '', newUrl);
+  }, [selectedYear, selectedMedium, selectedSeries, selectedCategory, lightboxRecord]);
 
   /* Derive unique filter values from data */
   const filters = useMemo(() => {
