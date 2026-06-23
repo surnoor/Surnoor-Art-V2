@@ -425,29 +425,33 @@ export default function ProductDetailPage({ productId }: { productId: string }) 
                   </AnimatePresence>
                 </div>
 
-                {alreadyInCart ? (
-                  <div className="flex flex-col gap-2">
+                {/* Add to Cart Container - reserves space for Remove button to prevent layout shifts */}
+                <div className="flex flex-col gap-2 w-full">
+                  {alreadyInCart ? (
                     <Link
                       href="/cart"
                       className="flex items-center justify-center w-full h-10 text-[11px] tracking-[0.15em] uppercase bg-[#4efa84] text-primary border-none hover:opacity-90 transition-opacity"
                     >
                       In Cart — View Cart →
                     </Link>
+                  ) : (
                     <button
-                      onClick={() => removeFromCart(product.id)}
-                      className="text-[9px] tracking-[0.15em] uppercase text-[#ff4e4e] hover:opacity-80 transition-opacity text-center w-full"
+                      onClick={handleAddToCart}
+                      className="w-full h-10 text-[11px] tracking-[0.15em] uppercase border border-primary text-primary hover:bg-primary hover:text-background transition-colors"
                     >
-                      Remove from cart
+                      {addedFeedback ? "Added to Cart" : "Add to Cart"}
                     </button>
-                  </div>
-                ) : (
+                  )}
+                  
                   <button
-                    onClick={handleAddToCart}
-                    className="w-full h-10 text-[11px] tracking-[0.15em] uppercase border border-primary text-primary hover:bg-primary hover:text-background transition-colors"
+                    onClick={() => { if (alreadyInCart) removeFromCart(product.id); }}
+                    className={`text-[9px] tracking-[0.15em] uppercase text-[#ff4e4e] transition-opacity text-center w-full ${alreadyInCart ? 'hover:opacity-80' : 'opacity-0 pointer-events-none'}`}
+                    tabIndex={alreadyInCart ? 0 : -1}
+                    aria-hidden={!alreadyInCart}
                   >
-                    {addedFeedback ? "Added to Cart" : "Add to Cart"}
+                    Remove from cart
                   </button>
-                )}
+                </div>
               </div>
             )}
 

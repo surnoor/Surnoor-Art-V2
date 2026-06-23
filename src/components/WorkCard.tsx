@@ -182,30 +182,37 @@ export default function WorkCard({ product, sold = false }: WorkCardProps) {
               </AnimatePresence>
             </div>
 
-            {/* Add to Cart */}
-            {alreadyInCart ? (
-              <div className="flex flex-col gap-1.5 w-full">
+            {/* Add to Cart Container - reserves space for Remove button to prevent layout shifts */}
+            <div className="flex flex-col gap-1.5 w-full">
+              {alreadyInCart ? (
                 <Link
                   href="/cart"
                   className="w-full h-7 flex items-center justify-center text-[9px] tracking-[0.15em] uppercase bg-[#4efa84] text-primary border-none hover:opacity-80 transition-opacity"
                 >
                   In Cart →
                 </Link>
+              ) : (
                 <button
-                  onClick={(e) => { e.preventDefault(); e.stopPropagation(); removeFromCart(product.id); }}
-                  className="text-[8px] tracking-[0.15em] uppercase text-[#ff4e4e] hover:opacity-80 transition-opacity text-center w-full"
+                  onClick={handleAddToCart}
+                  className="w-full h-7 text-[9px] tracking-[0.15em] uppercase border border-primary text-primary hover:bg-primary hover:text-background transition-colors"
                 >
-                  Remove
+                  Add to Cart
                 </button>
-              </div>
-            ) : (
+              )}
+              
               <button
-                onClick={handleAddToCart}
-                className="w-full h-7 text-[9px] tracking-[0.15em] uppercase border border-primary text-primary hover:bg-primary hover:text-background transition-colors"
+                onClick={(e) => { 
+                  e.preventDefault(); 
+                  e.stopPropagation(); 
+                  if (alreadyInCart) removeFromCart(product.id); 
+                }}
+                className={`text-[8px] tracking-[0.15em] uppercase text-[#ff4e4e] transition-opacity text-center w-full ${alreadyInCart ? 'hover:opacity-80' : 'opacity-0 pointer-events-none'}`}
+                tabIndex={alreadyInCart ? 0 : -1}
+                aria-hidden={!alreadyInCart}
               >
-                Add to Cart
+                Remove
               </button>
-            )}
+            </div>
           </div>
         )}
       </div>
