@@ -206,7 +206,28 @@ export default function ShopPage() {
             className="absolute inset-0 bg-background/60 backdrop-blur-sm"
             onClick={() => setSidebarOpen(false)}
           />
-          <div className="relative w-72 max-w-[80vw] h-full bg-background  p-6 overflow-y-auto">
+          <div 
+            className="relative w-72 max-w-[80vw] h-full bg-background p-6 overflow-y-auto"
+            onTouchStart={(e) => {
+              const touch = e.touches[0];
+              (e.currentTarget as any)._startX = touch.clientX;
+              (e.currentTarget as any)._startY = touch.clientY;
+            }}
+            onTouchEnd={(e) => {
+              const startX = (e.currentTarget as any)._startX;
+              const startY = (e.currentTarget as any)._startY;
+              if (startX == null || startY == null) return;
+              
+              const touch = e.changedTouches[0];
+              const deltaX = startX - touch.clientX;
+              const deltaY = startY - touch.clientY;
+              
+              // If swiped left by at least 50px and it's mostly horizontal
+              if (deltaX > 50 && Math.abs(deltaX) > Math.abs(deltaY)) {
+                setSidebarOpen(false);
+              }
+            }}
+          >
             {sidebarContent}
           </div>
         </motion.div>
