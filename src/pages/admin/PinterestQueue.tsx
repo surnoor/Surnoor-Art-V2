@@ -5,6 +5,7 @@ import AdminLayout from "./AdminLayout";
 import { useArchive, type ArchiveRecord } from "../../hooks/useArchive";
 import { AdminFilterGroup } from "./components/AdminFilterGroup";
 import AdminLoader from "./components/AdminLoader";
+import { supabase } from "../../lib/supabase";
 
 export default function PinterestQueue() {
   const { archive, loading, error } = useArchive();
@@ -79,16 +80,13 @@ export default function PinterestQueue() {
     const newStatus = !currentStatus;
 
     try {
-      const response = await fetch('/api/update-archive', {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          records: [{ id, fields: { Pinterest: newStatus } }]
-        })
-      });
+      const { error } = await supabase
+        .from('Archive')
+        .update({ Pinterest: newStatus })
+        .eq('id', id);
 
-      if (!response.ok) {
-        throw new Error("Failed to update status");
+      if (error) {
+        throw new Error(error.message || "Failed to update status");
       }
 
       // Optimistic update

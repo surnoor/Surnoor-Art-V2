@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion, Variants } from "framer-motion";
 import { ArrowUpRight, Check } from "lucide-react";
+import { supabase } from "../lib/supabase";
 
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 16 },
@@ -56,15 +57,19 @@ export default function PollPage() {
     };
 
     try {
-      const response = await fetch('/api/survey', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
+      const { error } = await supabase.from('Survey Responses').insert({
+        'Discovery Source': data.q1 ? String(data.q1) : null,
+        'Resonances': (data.q2 || []).join(', '),
+        'Art as Dialogue': data.q3 ? String(data.q3) : null,
+        'Interaction Frequency': data.q4 ? String(data.q4) : null,
+        'Purchase Intent': data.q5 ? String(data.q5) : null,
+        'Values': (data.q6 || []).join(', '),
+        'Requests': data.q7 ? String(data.q7) : null,
+        'Additional Thoughts': data.q8 ? String(data.q8) : null,
       });
 
-      if (!response.ok) {
-        const errJson = await response.json().catch(() => ({ error: 'Submission failed' }));
-        throw new Error(errJson.error || 'Failed to submit survey');
+      if (error) {
+        throw new Error(error.message || 'Failed to submit survey');
       }
 
       setSubmitted(true);

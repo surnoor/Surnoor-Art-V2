@@ -8,6 +8,7 @@ import { useCart } from "../context/CartContext";
 import { formatPrice } from "../utils/format";
 import WorkCard from "../components/WorkCard";
 import { ARButton } from "../components/ARViewer";
+import { supabase } from "../lib/supabase";
 
 function Accordion({ title, children }: { title: string; children: React.ReactNode }) {
   const [open, setOpen] = useState(false);
@@ -237,12 +238,8 @@ export default function ProductDetailPage({ productId }: { productId: string }) 
     if (!interestEmail || !product) return;
     setInterestStatus("loading");
     try {
-      const res = await fetch("/api/interest", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: interestEmail, artwork: product.name }),
-      });
-      if (!res.ok) throw new Error("Failed");
+      const { error } = await supabase.from('Interests').insert({ Email: interestEmail, Artwork: product.name });
+      if (error) throw error;
       identifyUser(interestEmail, { expressed_interest_artwork: product.name });
       setInterestStatus("success");
     } catch {

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { supabase } from "../lib/supabase";
 
 export interface HeroSlide {
   url: string;
@@ -10,38 +11,42 @@ export function useHeroSlides() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const token = import.meta.env.VITE_AIRTABLE_TOKEN;
-    const baseId = import.meta.env.VITE_AIRTABLE_BASE_ID;
+    let mounted = true;
 
-    if (!token || !baseId) {
-      setLoading(false);
-      return;
+    async function fetchSlides() {
+      try {
+        const { data, error } = await supabase
+          .from('HeroSlideshow')
+          .select('id, Image_url')
+          .eq('Active', true)
+          .order('Order', { ascending: true });
+
+        if (error) throw error;
+
+        if (mounted) {
+          const mapped = (data || [])
+            .map((r) => ({
+              id: String(r.id),
+              url: r.Image_url || "",
+            }))
+            .filter((s: HeroSlide) => s.url !== "");
+
+          setSlides(mapped);
+          setLoading(false);
+        }
+      } catch (error) {
+        if (mounted) {
+          console.error("Failed to fetch hero slides:", error);
+          setLoading(false);
+        }
+      }
     }
 
-    // Filter by Active=true and sort by Order
-    const tableName = "HeroSlideshow";
-    const filter = encodeURIComponent("{Active} = 1");
-    const sort = encodeURIComponent('[{"field": "Order", "direction": "asc"}]');
-    const url = `https://api.airtable.com/v0/${baseId}/${tableName}?filterByFormula=${filter}&sort=${sort}`;
+    fetchSlides();
 
-    fetch(url, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        const mapped = data.records?.map((r: any) => ({
-          id: r.id,
-          url: r.fields.Image?.[0]?.url || "",
-        })).filter((s: HeroSlide) => s.url !== "") || [];
-        
-        setSlides(mapped);
-        setLoading(false);
-      })
-      .catch(() => {
-        setLoading(false);
-      });
+    return () => {
+      mounted = false;
+    };
   }, []);
 
   return { slides, loading };
