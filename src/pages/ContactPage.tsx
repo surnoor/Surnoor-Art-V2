@@ -1,7 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowUpRight, Mail, Instagram, ArrowLeft, CheckCircle, Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
-import { supabase } from "../lib/supabase";
 import { toast } from "sonner";
 
 const easing: [number, number, number, number] = [0.16, 1, 0.3, 1];
@@ -61,14 +60,18 @@ export default function ContactPage() {
     e.preventDefault();
     setIsSubmitting(true);
     try {
-      const { error } = await supabase.from("ShowcaseInquiries").insert({
-        Name: form.name,
-        Email: form.email,
-        Location: form.location,
-        InterestType: form.interestType,
-        Availability: form.availability,
+      const res = await fetch('/api/showcase-inquiry', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          location: form.location,
+          interestType: form.interestType,
+          availability: form.availability,
+        }),
       });
-      if (error) throw error;
+      if (!res.ok) throw new Error('Submission failed');
       setView("success");
     } catch (err: any) {
       toast.error("Something went wrong. Please try again.");
