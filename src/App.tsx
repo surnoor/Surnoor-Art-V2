@@ -335,13 +335,20 @@ function SelectedWorksSection() {
       </div>
 
       {!loading && (
-        <FadeIn className="mt-14 flex items-center gap-6 flex-wrap">
+        <FadeIn className="mt-14 flex items-center gap-4 flex-wrap">
           <Link
             href="/shop"
             className="inline-flex items-center gap-2 border border-primary text-primary text-xs tracking-[0.15em] uppercase px-6 py-3.5 hover:bg-[#4efa84] hover:border-[#4efa84] transition-colors"
             data-testid="link-all-works"
           >
             Acquire <ArrowUpRight className="w-3.5 h-3.5" />
+          </Link>
+          <Link
+            href="/showcase"
+            className="inline-flex items-center gap-2 border border-border text-muted-foreground text-xs tracking-[0.15em] uppercase px-6 py-3.5 hover:border-primary hover:text-primary transition-colors"
+            data-testid="link-studio-visit"
+          >
+            Visit the Studio <ArrowUpRight className="w-3.5 h-3.5" />
           </Link>
         </FadeIn>
       )}
