@@ -20,6 +20,7 @@ import SupportPage from "./pages/SupportPage";
 import { CartProvider, useCart } from "./context/CartContext";
 import { NewsletterProvider } from "./context/NewsletterContext";
 import ContactPage from "./pages/ContactPage";
+import ShowcasePage from "./pages/ShowcasePage";
 import { useShop } from "./hooks/useShop";
 import { useHeroSlides } from "./hooks/useHeroSlides";
 import { trackSlideshowInteraction } from "./utils/analytics";
@@ -1207,6 +1208,9 @@ function AppInner() {
         </Route>
         <Route path="/contact">
           <ContactPage />
+        </Route>
+        <Route path="/showcase">
+          <ShowcasePage />
         </Route>
 
         {/* Admin Routes */}
