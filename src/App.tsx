@@ -345,7 +345,7 @@ function SelectedWorksSection() {
           </Link>
           <Link
             href="/showcase"
-            className="inline-flex items-center gap-2 border border-border text-muted-foreground text-xs tracking-[0.15em] uppercase px-6 py-3.5 hover:border-primary hover:text-primary transition-colors"
+            className="inline-flex items-center gap-2 border border-primary text-primary text-xs tracking-[0.15em] uppercase px-6 py-3.5 hover:bg-[#4efa84] hover:border-[#4efa84] transition-colors"
             data-testid="link-studio-visit"
           >
             Book a Studio Visit <ArrowUpRight className="w-3.5 h-3.5" />
