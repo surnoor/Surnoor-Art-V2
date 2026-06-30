@@ -6,6 +6,7 @@ import { useCart } from "../context/CartContext";
 import { formatPrice } from "../utils/format";
 import { ARButton } from "./ARViewer";
 import { identifyUser } from "../utils/analytics";
+import { supabase } from "../lib/supabase";
 
 interface WorkCardProps {
   product: ShopProduct;
@@ -34,12 +35,8 @@ export default function WorkCard({ product, sold = false }: WorkCardProps) {
     if (!interestEmail) return;
     setInterestStatus("loading");
     try {
-      const res = await fetch("/api/interest", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: interestEmail, artwork: product.name }),
-      });
-      if (!res.ok) throw new Error("Failed");
+      const { error } = await supabase.from('Interests').insert({ Email: interestEmail, Artwork: product.name });
+      if (error) throw error;
       identifyUser(interestEmail, { expressed_interest_artwork: product.name });
       setInterestStatus("success");
     } catch {

@@ -207,6 +207,7 @@ export function ARButton({
             {error && <p className="text-red-500 text-sm">Failed to generate 3D model.</p>}
             
             {glbUrl && (
+              // @ts-ignore
               <model-viewer
                 src={glbUrl}
                 ar
@@ -225,6 +226,7 @@ export function ARButton({
                   <Box className="w-4 h-4" />
                   View in your space
                 </button>
+              {/* @ts-ignore */}
               </model-viewer>
             )}
           </div>

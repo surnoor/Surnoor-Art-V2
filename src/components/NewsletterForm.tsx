@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNewsletter } from '../context/NewsletterContext';
 import { identifyUser } from '../utils/analytics';
+import { supabase } from '../lib/supabase';
 
 interface NewsletterFormProps {
   variant?: 'banner' | 'footer';
@@ -34,20 +35,15 @@ export default function NewsletterForm({ variant = 'banner' }: NewsletterFormPro
 
     setStatus('loading');
     try {
-      const res = await fetch('/api/subscribe', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
-      });
+      const { error } = await supabase.from('Newsletter').insert({ Email: email });
 
-      if (res.ok) {
-        identifyUser(email, { newsletter_subscriber: true });
-        subscribe(); // Update global state
-        setEmail('');
-      } else {
-        const data = await res.json();
-        throw new Error(data.error || 'Failed to subscribe');
+      if (error && error.code !== '23505') {
+        throw new Error(error.message || 'Failed to subscribe');
       }
+
+      identifyUser(email, { newsletter_subscriber: true });
+      subscribe(); // Update global state
+      setEmail('');
     } catch (err) {
       setStatus('error');
       setMessage(err instanceof Error ? err.message : 'Something went wrong');

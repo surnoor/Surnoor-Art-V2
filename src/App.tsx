@@ -8,7 +8,9 @@ import ArchivePage from "./pages/ArchivePage";
 import OrderConfirmationPage from "./pages/OrderConfirmationPage";
 import ProductDetailPage from "./pages/ProductDetailPage";
 import CartPage from "./pages/CartPage";
+import ArchiveManager from "./pages/admin/ArchiveManager";
 import PinterestQueue from "./pages/admin/PinterestQueue";
+import MobileUpload from "./pages/admin/MobileUpload";
 import InstagramConsole from "./pages/admin/InstagramConsole";
 import ExhibitionPlanner from "./pages/admin/ExhibitionPlanner";
 import PollPage from "./pages/PollPage";
@@ -1205,7 +1207,13 @@ function AppInner() {
 
         {/* Admin Routes */}
         <Route path="/admin">
-          <AdminAuth><PinterestQueue /></AdminAuth>
+          <AdminAuth><ArchiveManager /></AdminAuth>
+        </Route>
+        <Route path="/admin/mobile-upload/:id">
+          <MobileUpload />
+        </Route>
+        <Route path="/admin/archive">
+          <AdminAuth><ArchiveManager /></AdminAuth>
         </Route>
         <Route path="/admin/pinterest">
           <AdminAuth><PinterestQueue /></AdminAuth>

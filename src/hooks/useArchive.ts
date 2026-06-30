@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { supabase } from "../lib/supabase";
 
 export interface ArchiveRecord {
   id: string;
@@ -19,6 +20,7 @@ export interface ArchiveRecord {
   artSupplyPrint: boolean;
   pinterestPublished: boolean;
   featured: boolean;
+  sort_order: number | null;
 }
 
 interface UseArchiveResult {
@@ -27,83 +29,75 @@ interface UseArchiveResult {
   error: string | null;
 }
 
-interface AirtableThumbnail {
-  url: string;
-  width: number;
-  height: number;
-}
-
-interface AirtableAttachment {
-  url: string;
-  thumbnails?: {
-    small?: AirtableThumbnail;
-    large?: AirtableThumbnail;
-    full?: AirtableThumbnail;
-  };
-}
-
-interface AirtableField {
-  Name?: string;
-  Medium?: string;
-  Year?: string | number;
-  Dimensions?: string;
-  Notes?: string;
-  Note?: string;
-  Image?: AirtableAttachment[];
-  Status?: string;
-  Category?: string;
-  Series?: string | string[];
-  Substrate?: string;
-  "Additional Images"?: AirtableAttachment[];
-  ShowAtEvent?: boolean;
-  ArtSupplyPrint?: boolean;
-  Pinterest?: boolean;
-  Featured?: boolean;
-}
-
-interface AirtableRecord {
-  id: string;
-  fields: AirtableField;
-}
-
-export function useArchive(): UseArchiveResult {
-  const apiBase = ((import.meta.env.VITE_API_URL as string | undefined) ?? "").replace(/\/$/, "");
-
+export function useArchive(options?: { includeHidden?: boolean }): UseArchiveResult {
   const { data, isLoading, error } = useQuery({
-    queryKey: ['archive'],
+    queryKey: ['archive', options?.includeHidden],
     queryFn: async () => {
-      const res = await fetch(`${apiBase}/api/archive`);
-      if (!res.ok) {
-        throw new Error(`Failed to load archive: HTTP ${res.status}`);
-      }
-      const json = await res.json();
+      let query = supabase
+        .from('Archive')
+        .select('*');
       
-      const mapped: ArchiveRecord[] = (json.records || [])
-        .filter((r: AirtableRecord) => r.fields.Status?.toLowerCase() !== 'hide')
-        .map((r: AirtableRecord) => {
-        const f = r.fields;
-        const mainImage = f.Image?.[0];
+      if (!options?.includeHidden) {
+        query = query.neq('Status', 'Hide');
+      }
 
+      const { data: records, error: supabaseError } = await query
+        .order('Year', { ascending: false, nullsFirst: false })
+        .order('sort_order', { ascending: true, nullsFirst: false })
+        .order('created_at', { ascending: false });
+
+      if (supabaseError) {
+        throw new Error(`Failed to load archive: ${supabaseError.message}`);
+      }
+      
+      const mapped: ArchiveRecord[] = (records || []).map((r) => {
         return {
           id: r.id,
-          name: f.Name ?? "Untitled",
-          medium: f.Medium ?? null,
-          year: f.Year != null ? String(f.Year) : null,
-          dimensions: f.Dimensions ?? null,
-          notes: f.Notes ?? f.Note ?? null,
-          image: mainImage?.url ?? null,
-          thumbnail: mainImage?.thumbnails?.large?.url ?? mainImage?.url ?? null,
-          filmstrip: mainImage?.thumbnails?.small?.url ?? mainImage?.thumbnails?.large?.url ?? mainImage?.url ?? null,
-          status: f.Status ?? "",
-          category: f.Category ?? null,
-          series: Array.isArray(f.Series) ? f.Series : (f.Series ? [f.Series] : []),
-          substrate: f.Substrate ?? null,
-          additionalImages: (f["Additional Images"] ?? []).map((a) => a.url),
-          showAtEvent: f.ShowAtEvent ?? false,
-          artSupplyPrint: f.ArtSupplyPrint ?? false,
-          pinterestPublished: f.Pinterest ?? false,
-          featured: f.Featured ?? false,
+          name: r.Name || "Untitled",
+          medium: r.Medium || null,
+          year: r.Year != null ? String(r.Year) : null,
+          dimensions: r.Dimensions || null,
+          notes: r.Notes || null,
+          image: r.Image_url || null,
+          thumbnail: r.Thumbnail_url || r.Image_url || null,
+          filmstrip: r.Filmstrip_url || r.Thumbnail_url || r.Image_url || null,
+          status: r.Status || "",
+          category: r.Category || null,
+          series: Array.isArray(r.Series) ? r.Series : [],
+          substrate: r.Substrate || null,
+          additionalImages: Array.isArray(r.Additional_Images) ? r.Additional_Images : [],
+          showAtEvent: r.ShowAtEvent || false,
+          artSupplyPrint: r.ArtSupplyPrint || false,
+          pinterestPublished: r.Pinterest || false,
+          featured: r.Featured || false,
+          sort_order: r.sort_order ?? null,
         };
+      });
+
+      const mediumOrder: Record<string, number> = {
+        "Watercolor": 1,
+        "Oil": 2,
+        "Sketchbooks": 3
+      };
+
+      mapped.sort((a, b) => {
+        // 1. Year (descending)
+        const yearA = parseInt(a.year || "0");
+        const yearB = parseInt(b.year || "0");
+        if (yearA !== yearB) return yearB - yearA;
+
+        // 2. Medium (Custom order)
+        // Put items without a medium at the top (0) so newly added records don't disappear
+        const medA = a.medium ? (mediumOrder[a.medium] || 99) : 0;
+        const medB = b.medium ? (mediumOrder[b.medium] || 99) : 0;
+        if (medA !== medB) return medA - medB;
+
+        // 3. sort_order (ascending)
+        const sortA = a.sort_order ?? 999999;
+        const sortB = b.sort_order ?? 999999;
+        if (sortA !== sortB) return sortA - sortB;
+
+        return 0;
       });
 
       return mapped;
