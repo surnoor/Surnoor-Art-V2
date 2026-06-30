@@ -296,10 +296,21 @@ export default function ArchiveManager() {
     // Optimistic UI update
     setRecords((prev) => prev.map(r => r.id === id ? { ...r, [field]: value } : r));
 
+    const fieldMapping: Record<string, string> = {
+      name: 'Name',
+      image: 'Image_url',
+      thumbnail: 'Thumbnail_url',
+      filmstrip: 'Filmstrip_url',
+      additionalImages: 'Additional_Images',
+      pinterestPublished: 'Pinterest'
+    };
+    
+    const dbColumn = fieldMapping[field] || (field.charAt(0).toUpperCase() + field.slice(1));
+
     try {
       const { error } = await supabase
         .from('Archive')
-        .update({ [field === 'name' ? 'Name' : field.charAt(0).toUpperCase() + field.slice(1)]: value })
+        .update({ [dbColumn]: value })
         .eq('id', id);
 
       if (error) throw error;
