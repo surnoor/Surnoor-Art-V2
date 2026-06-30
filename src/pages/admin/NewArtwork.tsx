@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useLocation } from "wouter";
 import { ArrowLeft, Upload, Loader2, Image as ImageIcon } from "lucide-react";
 import { supabase } from "../../lib/supabase";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
 
 const STATUS_OPTIONS = ["Archive", "Private", "Hide"];
 const MEDIUM_OPTIONS = ["Watercolor", "Oil", "Acrylic", "Ink", "Digital", "Mixed Media", "Graphite", "Charcoal", "Sketchbooks"];
