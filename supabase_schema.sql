@@ -117,3 +117,26 @@ CREATE POLICY "Allow public insert to Survey Responses" ON "Survey Responses"
 -- Create policy for admin
 CREATE POLICY "Allow all actions for admin" ON "Survey Responses"
   FOR ALL USING (true);
+
+
+-- Create the ShowcaseInquiries table
+CREATE TABLE IF NOT EXISTS "ShowcaseInquiries" (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  "Name" text NOT NULL,
+  "Email" text NOT NULL,
+  "Location" text,
+  "InterestType" text,
+  "Details" text,
+  created_at timestamp with time zone DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+-- Enable RLS on ShowcaseInquiries
+ALTER TABLE "ShowcaseInquiries" ENABLE ROW LEVEL SECURITY;
+
+-- Create policy to allow public insert
+CREATE POLICY "Allow public insert to ShowcaseInquiries" ON "ShowcaseInquiries"
+  FOR INSERT WITH CHECK (true);
+
+-- Create policy for admin
+CREATE POLICY "Allow all actions for admin on ShowcaseInquiries" ON "ShowcaseInquiries"
+  FOR ALL USING (true);

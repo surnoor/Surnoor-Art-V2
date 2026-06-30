@@ -19,6 +19,7 @@ import EventPage from "./pages/EventPage";
 import SupportPage from "./pages/SupportPage";
 import { CartProvider, useCart } from "./context/CartContext";
 import { NewsletterProvider } from "./context/NewsletterContext";
+import ContactPage from "./pages/ContactPage";
 import { useShop } from "./hooks/useShop";
 import { useHeroSlides } from "./hooks/useHeroSlides";
 import { trackSlideshowInteraction } from "./utils/analytics";
@@ -181,7 +182,7 @@ function Nav() {
           >
             Support
           </Link>
-          <a href="mailto:surnoorsingh@gmail.com" className="hover:text-foreground transition-colors" data-testid="nav-contact">Contact</a>
+          <Link href="/contact" className="hover:text-foreground transition-colors" data-testid="nav-contact">Contact</Link>
           <Link
             href="/cart"
             className={`relative transition-colors ${isCart ? "text-[#4efa84]" : "hover:text-foreground"}`}
@@ -268,13 +269,13 @@ function Nav() {
             >
               Support
             </Link>
-            <a 
-              href="mailto:surnoorsingh@gmail.com" 
+            <Link 
+              href="/contact"
               onClick={() => setMenuOpen(false)}
               data-testid="mobile-nav-contact"
             >
               Contact
-            </a>
+            </Link>
           </motion.div>
         )}
       </AnimatePresence>
@@ -1045,13 +1046,12 @@ function Footer() {
             >
               Etsy Shop
             </a>
-            <a
-              href="mailto:surnoorsingh@gmail.com"
-              className="hover:text-primary transition-colors"
-              data-testid="footer-email"
+            <Link 
+              href="/contact" 
+              className="text-muted-foreground hover:text-foreground transition-colors"
             >
               Contact
-            </a>
+            </Link>
           </div>
         </div>
 
@@ -1204,6 +1204,9 @@ function AppInner() {
         </Route>
         <Route path="/support">
           <SupportPage />
+        </Route>
+        <Route path="/contact">
+          <ContactPage />
         </Route>
 
         {/* Admin Routes */}
