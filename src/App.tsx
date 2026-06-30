@@ -348,7 +348,7 @@ function SelectedWorksSection() {
             className="inline-flex items-center gap-2 border border-border text-muted-foreground text-xs tracking-[0.15em] uppercase px-6 py-3.5 hover:border-primary hover:text-primary transition-colors"
             data-testid="link-studio-visit"
           >
-            Visit the Studio <ArrowUpRight className="w-3.5 h-3.5" />
+            Book a Studio Visit <ArrowUpRight className="w-3.5 h-3.5" />
           </Link>
         </FadeIn>
       )}
