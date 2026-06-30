@@ -337,9 +337,16 @@ export default function ArchiveManager() {
       
       if (!uploadRes.ok) throw new Error("Failed to upload file to storage");
 
-      // Update Supabase record
-      await updateRecord(recordId, 'image', publicUrl);
-      await updateRecord(recordId, 'thumbnail', publicUrl);
+      // Update record
+      if (isNewUnsavedRecord && expandedRecord) {
+        setExpandedRecord({ ...expandedRecord, image: publicUrl, thumbnail: publicUrl });
+      } else {
+        await updateRecord(recordId, 'image', publicUrl);
+        await updateRecord(recordId, 'thumbnail', publicUrl);
+        if (expandedRecord?.id === recordId) {
+          setExpandedRecord({ ...expandedRecord, image: publicUrl, thumbnail: publicUrl });
+        }
+      }
       
       toast.success("Image uploaded successfully!");
     } catch (err: any) {
@@ -606,22 +613,30 @@ export default function ArchiveManager() {
                       }}
                     />
                   </div>
-                  <button 
-                    onClick={() => setShowQR(!showQR)}
-                    className="w-full flex items-center justify-center gap-2 py-2 text-sm text-primary hover:bg-primary/5 rounded border border-primary/20 transition-colors"
-                  >
-                    <Smartphone className="w-4 h-4" /> {showQR ? "Hide Mobile Upload" : "Upload from Phone"}
-                  </button>
-                  {showQR && (
-                    <div className="bg-white border rounded-lg p-6 flex flex-col items-center justify-center gap-3 animate-in slide-in-from-top-2">
-                      <p className="text-sm text-gray-500 text-center mb-2 font-medium">Scan with iPhone to upload instantly</p>
-                      <div className="bg-white p-3 rounded-xl shadow-sm border border-gray-100">
-                        <QRCodeSVG value={`${window.location.origin}/admin/mobile-upload/${expandedRecord.id}`} size={160} />
-                      </div>
-                      <a href={`${window.location.origin}/admin/mobile-upload/${expandedRecord.id}`} target="_blank" rel="noreferrer" className="text-xs text-primary hover:underline mt-2 flex items-center gap-1">
-                        Open link on this device
-                      </a>
+                  {isNewUnsavedRecord ? (
+                    <div className="w-full py-2 px-3 text-xs text-amber-600 bg-amber-50 rounded border border-amber-100 flex items-center justify-center text-center">
+                      Save this artwork first to enable mobile photo upload.
                     </div>
+                  ) : (
+                    <>
+                      <button 
+                        onClick={() => setShowQR(!showQR)}
+                        className="w-full flex items-center justify-center gap-2 py-2 text-sm text-primary hover:bg-primary/5 rounded border border-primary/20 transition-colors"
+                      >
+                        <Smartphone className="w-4 h-4" /> {showQR ? "Hide Mobile Upload" : "Upload from Phone"}
+                      </button>
+                      {showQR && (
+                        <div className="bg-white border rounded-lg p-6 flex flex-col items-center justify-center gap-3 animate-in slide-in-from-top-2">
+                          <p className="text-sm text-gray-500 text-center mb-2 font-medium">Scan with iPhone to upload instantly</p>
+                          <div className="bg-white p-3 rounded-xl shadow-sm border border-gray-100">
+                            <QRCodeSVG value={`${window.location.origin}/admin/mobile-upload/${expandedRecord.id}`} size={160} />
+                          </div>
+                          <a href={`${window.location.origin}/admin/mobile-upload/${expandedRecord.id}`} target="_blank" rel="noreferrer" className="text-xs text-primary hover:underline mt-2 flex items-center gap-1">
+                            Open link on this device
+                          </a>
+                        </div>
+                      )}
+                    </>
                   )}
                 </div>
 
