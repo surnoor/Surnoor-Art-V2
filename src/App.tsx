@@ -182,7 +182,7 @@ function Nav() {
           >
             Support
           </Link>
-          <Link href="/contact" className="hover:text-foreground transition-colors" data-testid="nav-contact">Contact</Link>
+          <Link href="/contact" className={`transition-colors ${location === "/contact" ? "text-[#4efa84]" : "hover:text-foreground"}`} data-testid="nav-contact">Contact</Link>
           <Link
             href="/cart"
             className={`relative transition-colors ${isCart ? "text-[#4efa84]" : "hover:text-foreground"}`}
