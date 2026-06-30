@@ -9,6 +9,7 @@ import OrderConfirmationPage from "./pages/OrderConfirmationPage";
 import ProductDetailPage from "./pages/ProductDetailPage";
 import CartPage from "./pages/CartPage";
 import ArchiveManager from "./pages/admin/ArchiveManager";
+import NewArtwork from "./pages/admin/NewArtwork";
 import PinterestQueue from "./pages/admin/PinterestQueue";
 import MobileUpload from "./pages/admin/MobileUpload";
 import InstagramConsole from "./pages/admin/InstagramConsole";
@@ -1206,6 +1207,9 @@ function AppInner() {
         </Route>
 
         {/* Admin Routes */}
+        <Route path="/admin/new-artwork">
+          <AdminAuth><NewArtwork /></AdminAuth>
+        </Route>
         <Route path="/admin">
           <AdminAuth><ArchiveManager /></AdminAuth>
         </Route>

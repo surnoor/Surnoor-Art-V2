@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import { useLocation } from "wouter";
 import { useArchive, ArchiveRecord } from "../../hooks/useArchive";
 import { supabase } from "../../lib/supabase";
 import { toast } from "sonner";
@@ -248,10 +249,9 @@ const SortableTile = ({ record, getPillColor, setExpandedRecord }: any) => {
 };
 
 export default function ArchiveManager() {
+  const [, setLocation] = useLocation();
   const { archive, loading } = useArchive({ includeHidden: true });
-  const [isAdding, setIsAdding] = useState(false);
-  const [isNewUnsavedRecord, setIsNewUnsavedRecord] = useState(false);
-  const [records, setRecords] = useState<ArchiveRecord[]>([]);
+      const [records, setRecords] = useState<ArchiveRecord[]>([]);
   const [search, setSearch] = useState("");
   const [expandedRecord, setExpandedRecord] = useState<ArchiveRecord | null>(null);
   const [showQR, setShowQR] = useState(false);
@@ -289,10 +289,6 @@ export default function ArchiveManager() {
   };
 
   const updateRecord = async (id: string, field: string, value: any) => {
-    if (isNewUnsavedRecord && id === expandedRecord?.id) {
-      return; // Do not hit Supabase or update main records yet. (Local state is handled by setExpandedRecord in the inputs)
-    }
-    
     // Optimistic UI update
     setRecords((prev) => prev.map(r => r.id === id ? { ...r, [field]: value } : r));
 
@@ -348,97 +344,13 @@ export default function ArchiveManager() {
       
       if (!uploadRes.ok) throw new Error("Failed to upload file to storage");
 
-      // Update record
-      if (isNewUnsavedRecord && expandedRecord) {
-        setExpandedRecord({ ...expandedRecord, image: publicUrl, thumbnail: publicUrl });
-      } else {
-        await updateRecord(recordId, 'image', publicUrl);
-        await updateRecord(recordId, 'thumbnail', publicUrl);
-        if (expandedRecord?.id === recordId) {
-          setExpandedRecord({ ...expandedRecord, image: publicUrl, thumbnail: publicUrl });
-        }
-      }
+      // Update recordawait updateRecord(recordId, 'image', publicUrl); await updateRecord(recordId, 'thumbnail', publicUrl); if (expandedRecord?.id === recordId) { setExpandedRecord({ ...expandedRecord, image: publicUrl, thumbnail: publicUrl }); }
       
       toast.success("Image uploaded successfully!");
     } catch (err: any) {
       toast.error(`Upload failed: ${err.message}`);
     } finally {
       setUploading(false);
-    }
-  };
-
-  const addNewRow = () => {
-    const newArchiveRecord: ArchiveRecord = {
-      id: crypto.randomUUID(),
-      name: "Untitled",
-      medium: null,
-      year: String(new Date().getFullYear()),
-      dimensions: null,
-      notes: null,
-      image: null,
-      thumbnail: null,
-      filmstrip: null,
-      status: "Archive",
-      category: null,
-      series: [],
-      substrate: null,
-      additionalImages: [],
-      showAtEvent: false,
-      artSupplyPrint: false,
-      pinterestPublished: false,
-      featured: false,
-      sort_order: null,
-    };
-    setIsNewUnsavedRecord(true);
-    setExpandedRecord(newArchiveRecord);
-    setShowQR(false);
-  };
-
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    if (params.get('action') === 'new') {
-      addNewRow();
-      window.history.replaceState(null, '', window.location.pathname);
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const saveNewRecord = async () => {
-    if (!expandedRecord) return;
-    setIsAdding(true);
-    try {
-      const dbRecord = {
-        id: expandedRecord.id,
-        Name: expandedRecord.name,
-        Medium: expandedRecord.medium,
-        Year: expandedRecord.year ? parseInt(expandedRecord.year) : null,
-        Dimensions: expandedRecord.dimensions,
-        Notes: expandedRecord.notes,
-        Image_url: expandedRecord.image,
-        Thumbnail_url: expandedRecord.thumbnail,
-        Filmstrip_url: expandedRecord.filmstrip,
-        Status: expandedRecord.status,
-        Category: expandedRecord.category,
-        Series: expandedRecord.series,
-        Substrate: expandedRecord.substrate,
-        Additional_Images: expandedRecord.additionalImages,
-        ShowAtEvent: expandedRecord.showAtEvent,
-        ArtSupplyPrint: expandedRecord.artSupplyPrint,
-        Pinterest: expandedRecord.pinterestPublished,
-        Featured: expandedRecord.featured,
-        sort_order: expandedRecord.sort_order,
-      };
-      const { error } = await supabase.from('Archive').insert(dbRecord);
-      if (error) throw error;
-      
-      toast.success("Added new artwork");
-      setRecords([expandedRecord, ...records]);
-      setIsNewUnsavedRecord(false);
-      setExpandedRecord(null);
-    } catch (err: any) {
-      toast.error(`Error: ${err.message}`);
-    } finally {
-      setIsAdding(false);
     }
   };
 
@@ -497,12 +409,10 @@ export default function ArchiveManager() {
             />
           </div>
           <button 
-            onClick={addNewRow}
-            disabled={isAdding}
-            className={`flex items-center gap-2 bg-primary text-primary-foreground px-4 py-2 rounded-md transition-opacity text-sm font-medium ${isAdding ? 'opacity-50 cursor-not-allowed' : 'hover:opacity-90 cursor-pointer'}`}
+            onClick={() => setLocation('/admin/new-artwork')}
+            className={`flex items-center gap-2 bg-primary text-primary-foreground px-4 py-2 rounded-md transition-opacity text-sm font-medium hover:opacity-90 cursor-pointer`}
           >
-            {isAdding ? <Loader2 className="w-4 h-4 animate-spin" /> : <Plus className="w-4 h-4" />} 
-            {isAdding ? "Adding..." : "Add Artwork"}
+            <Plus className="w-4 h-4" /> Add Artwork
           </button>
         </div>
       </div>
