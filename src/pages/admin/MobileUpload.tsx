@@ -26,11 +26,13 @@ export default function MobileUpload() {
     setSuccess(false);
 
     try {
+      const fileType = file.type || 'application/octet-stream';
+      
       // 1. Get presigned URL
       const res = await fetch('/api/upload-url', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ filename: file.name, contentType: file.type })
+        body: JSON.stringify({ filename: file.name, contentType: fileType })
       });
       const { signedUrl, publicUrl } = await res.json();
       if (!signedUrl) throw new Error("Failed to get upload URL");
@@ -39,7 +41,7 @@ export default function MobileUpload() {
       const uploadRes = await fetch(signedUrl, {
         method: 'PUT',
         body: file,
-        headers: { 'Content-Type': file.type }
+        headers: { 'Content-Type': fileType }
       });
       if (!uploadRes.ok) throw new Error("Failed to upload to Cloudflare R2");
 

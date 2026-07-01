@@ -34,10 +34,12 @@ export default function NewArtwork() {
       setUploadingImage(true);
       toast.info("Uploading image...");
 
+      const fileType = file.type || 'application/octet-stream';
+      
       const res = await fetch('/api/upload-url', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ filename: file.name, contentType: file.type })
+        body: JSON.stringify({ filename: file.name, contentType: fileType })
       });
       
       const { signedUrl, publicUrl } = await res.json();
@@ -46,7 +48,7 @@ export default function NewArtwork() {
       const uploadRes = await fetch(signedUrl, {
         method: 'PUT',
         body: file,
-        headers: { 'Content-Type': file.type }
+        headers: { 'Content-Type': fileType }
       });
       
       if (!uploadRes.ok) {
