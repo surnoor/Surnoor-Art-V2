@@ -3,6 +3,7 @@ import { motion, useInView, Variants, AnimatePresence } from "framer-motion";
 import { ArrowUpRight, Instagram, ExternalLink, Calendar, ChevronLeft, ChevronRight, ShoppingBag, Download, Printer } from "lucide-react";
 import { Router, Route, Link, useLocation } from "wouter";
 import { Analytics } from "@vercel/analytics/react";
+import { Toaster } from "sonner";
 import ShopPage from "./pages/ShopPage";
 import ArchivePage from "./pages/ArchivePage";
 import OrderConfirmationPage from "./pages/OrderConfirmationPage";
@@ -1253,6 +1254,7 @@ export default function App() {
     <Router>
       <CartProvider>
         <NewsletterProvider>
+          <Toaster position="bottom-right" />
           <AppInner />
           <Analytics />
         </NewsletterProvider>
