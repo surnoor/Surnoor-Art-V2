@@ -15,6 +15,7 @@ const s3 = new S3Client({
     accessKeyId: R2_ACCESS_KEY || '',
     secretAccessKey: R2_SECRET_KEY || '',
   },
+  forcePathStyle: true, // Cloudflare R2 requires path-style, otherwise DNS resolution fails (Load failed)
 });
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -38,7 +39,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     });
 
     const signedUrl = await getSignedUrl(s3, command, { expiresIn: 3600 });
-    const publicUrl = `${R2_PUBLIC_URL}/${uniqueKey}`;
+    
+    // Fallback if env var is missing in Vercel
+    const baseUrl = R2_PUBLIC_URL || `https://pub-2ff9e3b996114aab81e1957cdfcb97c0.r2.dev`; 
+    const publicUrl = `${baseUrl}/${uniqueKey}`;
 
     return res.status(200).json({ signedUrl, publicUrl, key: uniqueKey });
   } catch (error) {
