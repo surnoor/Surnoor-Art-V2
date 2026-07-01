@@ -49,7 +49,11 @@ export default function NewArtwork() {
         headers: { 'Content-Type': file.type }
       });
       
-      if (!uploadRes.ok) throw new Error("Failed to upload file to Cloudflare");
+      if (!uploadRes.ok) {
+        const errorText = await uploadRes.text();
+        console.error("R2 Upload Error Body:", errorText);
+        throw new Error(`R2 Error (${uploadRes.status}): ${errorText.substring(0, 150)}`);
+      }
 
       setImageUrl(publicUrl);
       toast.success("Image uploaded!");
