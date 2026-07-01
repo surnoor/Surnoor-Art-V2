@@ -9,6 +9,7 @@ import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, us
 import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy, rectSortingStrategy, useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { motion, AnimatePresence } from "framer-motion";
+import AdminLayout from "./AdminLayout";
 
 const STATUS_OPTIONS = ["Available", "Sold", "Archive", "Hide", "Hold"];
 const MEDIUM_OPTIONS = ["Watercolor", "Oil", "Acrylic", "Ink", "Digital", "Mixed Media", "Graphite", "Charcoal"];
@@ -375,7 +376,8 @@ export default function ArchiveManager() {
   );
 
   return (
-    <div className="p-3 md:p-6 max-w-[100vw] overflow-hidden bg-gray-50 min-h-screen">
+    <AdminLayout>
+      <div className="max-w-full">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
         <div>
           <h1 className="text-xl md:text-2xl font-bold text-gray-900">Archive Manager</h1>
@@ -656,6 +658,7 @@ export default function ArchiveManager() {
           </motion.div>
         )}
       </AnimatePresence>
-    </div>
+      </div>
+    </AdminLayout>
   );
 }

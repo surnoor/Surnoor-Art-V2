@@ -3,6 +3,7 @@ import { useLocation } from "wouter";
 import { ArrowLeft, Upload, Loader2, Image as ImageIcon } from "lucide-react";
 import { supabase } from "../../lib/supabase";
 import { toast } from "sonner";
+import AdminLayout from "./AdminLayout";
 
 const STATUS_OPTIONS = ["Archive", "Private", "Hide"];
 const MEDIUM_OPTIONS = ["Watercolor", "Oil", "Acrylic", "Ink", "Digital", "Mixed Media", "Graphite", "Charcoal", "Sketchbooks"];
@@ -114,7 +115,7 @@ export default function NewArtwork() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50/50 p-4 md:p-8">
+    <AdminLayout>
       <div className="max-w-4xl mx-auto">
         <button 
           onClick={() => setLocation('/admin/archive')}
@@ -335,6 +336,6 @@ export default function NewArtwork() {
           </form>
         </div>
       </div>
-    </div>
+    </AdminLayout>
   );
 }
