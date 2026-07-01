@@ -38,7 +38,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       ContentType: contentType,
     });
 
-    const signedUrl = await getSignedUrl(s3, command, { expiresIn: 3600 });
+    const signedUrl = await getSignedUrl(s3, command, { 
+      expiresIn: 3600,
+      signableHeaders: new Set(['content-type']) // Force SDK to sign content-type to fix R2 SignatureDoesNotMatch
+    });
     
     // Fallback if env var is missing in Vercel
     const baseUrl = R2_PUBLIC_URL || `https://pub-2ff9e3b996114aab81e1957cdfcb97c0.r2.dev`; 
