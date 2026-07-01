@@ -200,21 +200,25 @@ function EditorModal({
   const isDragging = useRef(false);
   const dragStart = useRef({ x: 0, y: 0 });
 
-  // Reset editor settings when switching format or artwork
+  // Reset and auto-fit editor settings when switching format, artwork, or when image loads
   useEffect(() => {
-    if (format === "story") {
-      setFrameWidth(840);
-      setFrameHeight(1000);
-      setFrameY(200);
+    if (imageLoaded) {
+      handleAutoFit();
     } else {
-      setFrameWidth(800);
-      setFrameHeight(680);
-      setFrameY(120);
+      if (format === "story") {
+        setFrameWidth(840);
+        setFrameHeight(1000);
+        setFrameY(200);
+      } else {
+        setFrameWidth(800);
+        setFrameHeight(680);
+        setFrameY(120);
+      }
+      setZoom(1.0);
+      setOffsetX(0);
+      setOffsetY(0);
     }
-    setZoom(1.0);
-    setOffsetX(0);
-    setOffsetY(0);
-  }, [format, record.id]);
+  }, [format, record.id, imageLoaded]);
 
   const handleAutoFit = () => {
     const img = imgRef.current;
@@ -356,9 +360,9 @@ function EditorModal({
     ctx.textAlign = "center";
 
     if (format === "story") {
-      // Title
+      // Title (using Cormorant Garamond brand serif font)
       ctx.fillStyle = "#111111";
-      ctx.font = `300 ${64 * scale}px 'Hanken Grotesk', 'Playfair Display', Georgia, serif`;
+      ctx.font = `300 ${64 * scale}px 'Cormorant Garamond', Georgia, serif`;
       ctx.fillText(record.name, 540 * scale, 1390 * scale);
 
       // Medium & Details
@@ -383,7 +387,7 @@ function EditorModal({
     } else {
       // 1:1 Post Branding Layout (doubled coordinates and fonts)
       ctx.fillStyle = "#111111";
-      ctx.font = `300 ${48 * scale}px 'Hanken Grotesk', 'Playfair Display', Georgia, serif`;
+      ctx.font = `300 ${48 * scale}px 'Cormorant Garamond', Georgia, serif`;
       ctx.fillText(record.name, 540 * scale, 875 * scale);
 
       ctx.fillStyle = "#666666";
@@ -571,19 +575,19 @@ ${hashtags}`;
             </div>
 
             {/* Layout selector */}
-            <div className="flex gap-2 p-1 bg-muted/30 border border-border rounded mb-6">
+            <div className="flex p-0.5 bg-zinc-50 border border-zinc-200 rounded-lg shadow-sm mb-6">
               <button
                 onClick={() => setFormat("story")}
-                className={`flex-1 py-2 text-xs tracking-wider uppercase font-semibold rounded transition-colors ${
-                  format === "story" ? "bg-background shadow text-foreground" : "text-muted-foreground hover:text-foreground"
+                className={`flex-1 py-1.5 text-xs tracking-wider uppercase font-semibold rounded-md transition-all duration-150 ${
+                  format === "story" ? "bg-white shadow-sm text-zinc-900" : "text-zinc-500 hover:text-zinc-900"
                 }`}
               >
                 9:16 Story (1080x1920)
               </button>
               <button
                 onClick={() => setFormat("post")}
-                className={`flex-1 py-2 text-xs tracking-wider uppercase font-semibold rounded transition-colors ${
-                  format === "post" ? "bg-background shadow text-foreground" : "text-muted-foreground hover:text-foreground"
+                className={`flex-1 py-1.5 text-xs tracking-wider uppercase font-semibold rounded-md transition-all duration-150 ${
+                  format === "post" ? "bg-white shadow-sm text-zinc-900" : "text-zinc-500 hover:text-zinc-900"
                 }`}
               >
                 1:1 Post (1080x1080)

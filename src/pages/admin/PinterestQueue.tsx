@@ -139,31 +139,31 @@ export default function PinterestQueue() {
 
   return (
     <AdminLayout>
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-8">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
         <div>
-          <h1 className="text-4xl md:text-5xl font-serif mb-2 flex items-center gap-3">
-            <Share2 className="w-8 h-8 text-primary" />
+          <h1 className="text-xl md:text-2xl font-bold text-zinc-900 flex items-center gap-2.5">
+            <Share2 className="w-5 h-5 text-zinc-500" />
             Pinterest Queue
           </h1>
-          <p className="text-sm text-muted-foreground max-w-xl">
-            Keep track of which artworks from your archive have been published to Pinterest.
+          <p className="text-sm text-zinc-500 mt-0.5">
+            Track which archived artworks have been published to Pinterest.
           </p>
         </div>
 
         {/* Tab Toggle */}
-        <div className="flex p-1 bg-card border border-border rounded w-full md:w-auto">
+        <div className="flex p-0.5 bg-white border border-zinc-200 rounded-lg shadow-sm w-full md:w-auto">
           <button
             onClick={() => setFilterMode("pending")}
-            className={`flex-1 md:px-6 py-2 text-xs tracking-[0.15em] uppercase font-medium rounded transition-colors ${
-              filterMode === "pending" ? "bg-primary text-background" : "text-muted-foreground hover:text-foreground"
+            className={`flex-1 md:px-5 py-1.5 text-xs tracking-wider uppercase font-semibold rounded-md transition-all duration-150 ${
+              filterMode === "pending" ? "bg-zinc-900 text-white shadow-sm" : "text-zinc-500 hover:text-zinc-950"
             }`}
           >
             Needs Publishing
           </button>
           <button
             onClick={() => setFilterMode("published")}
-            className={`flex-1 md:px-6 py-2 text-xs tracking-[0.15em] uppercase font-medium rounded transition-colors ${
-              filterMode === "published" ? "bg-primary text-background" : "text-muted-foreground hover:text-foreground"
+            className={`flex-1 md:px-5 py-1.5 text-xs tracking-wider uppercase font-semibold rounded-md transition-all duration-150 ${
+              filterMode === "published" ? "bg-zinc-900 text-white shadow-sm" : "text-zinc-500 hover:text-zinc-950"
             }`}
           >
             Published
@@ -175,7 +175,7 @@ export default function PinterestQueue() {
         
         {/* Mobile Filter Toggle */}
         <button
-          className="lg:hidden fixed bottom-6 right-6 z-40 bg-primary text-background p-4 rounded-full shadow-xl"
+          className="lg:hidden fixed bottom-6 right-6 z-40 bg-zinc-900 text-white p-4 rounded-full shadow-xl"
           onClick={() => setSidebarOpen(true)}
         >
           <SlidersHorizontal className="w-5 h-5" />

@@ -1177,17 +1177,23 @@ function AppInner() {
     };
   }, [location]); // We still depend on location to trigger when switching pages
 
+  const isAdminPath = location.startsWith("/admin");
+
   return (
     <div id="site-top" className="min-h-screen bg-background text-foreground font-sans selection:bg-primary/20">
-      <div ref={headerRef} className="print:hidden">
-        <NewsletterBanner />
-      </div>
-      <div ref={navWrapperRef} className="relative z-50 print:hidden">
-        <Nav />
-      </div>
-      <div className="print:hidden">
-        <FloatingCartButton />
-      </div>
+      {!isAdminPath && (
+        <>
+          <div ref={headerRef} className="print:hidden">
+            <NewsletterBanner />
+          </div>
+          <div ref={navWrapperRef} className="relative z-50 print:hidden">
+            <Nav />
+          </div>
+          <div className="print:hidden">
+            <FloatingCartButton />
+          </div>
+        </>
+      )}
       <div className="pt-0">
         <Route path="/" component={HomePage} />
         <Route path="/shop">
@@ -1244,7 +1250,7 @@ function AppInner() {
           <AdminAuth><ExhibitionPlanner /></AdminAuth>
         </Route>
       </div>
-      <Footer />
+      {!isAdminPath && <Footer />}
     </div>
   );
 }

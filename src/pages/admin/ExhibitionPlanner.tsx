@@ -165,28 +165,28 @@ export default function ExhibitionPlanner() {
 
   return (
     <AdminLayout>
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-8">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
         <div>
-          <h1 className="text-4xl md:text-5xl font-serif mb-2 flex items-center gap-3">
-            <LayoutTemplate className="w-8 h-8 text-primary" />
+          <h1 className="text-xl md:text-2xl font-bold text-zinc-900 flex items-center gap-2.5">
+            <LayoutTemplate className="w-5 h-5 text-zinc-500" />
             Exhibition Planner
           </h1>
-          <p className="text-sm text-muted-foreground max-w-xl">
-            Select and group artworks into collections. Your plans are saved locally in this browser.
+          <p className="text-sm text-zinc-500 mt-0.5">
+            Group artworks into exhibition collections. Plans are saved locally in this browser.
           </p>
         </div>
 
         {/* Plan Selector */}
         {isClient && (
-          <div className="flex flex-col gap-2 w-full md:w-auto">
-            <label className="text-xs tracking-[0.15em] uppercase text-muted-foreground font-medium">
+          <div className="flex flex-col gap-1.5 w-full md:w-auto">
+            <label className="text-[9px] font-bold tracking-[0.2em] uppercase text-zinc-400">
               Current Plan
             </label>
             <div className="flex items-center gap-2">
               <select
                 value={activePlanId || ""}
                 onChange={(e) => setActivePlanId(e.target.value)}
-                className="bg-card border border-border rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary flex-1 min-w-[200px]"
+                className="bg-white border border-zinc-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-zinc-100 focus:border-zinc-400 flex-1 min-w-[200px] shadow-sm"
               >
                 {plans.map(p => (
                   <option key={p.id} value={p.id}>{p.name} ({p.artworks.length})</option>
@@ -194,10 +194,10 @@ export default function ExhibitionPlanner() {
               </select>
               <button
                 onClick={createNewPlan}
-                className="p-2 bg-primary text-background rounded hover:opacity-90 transition-opacity"
+                className="p-2 bg-zinc-900 hover:bg-zinc-800 text-white rounded-lg transition-colors shadow-sm cursor-pointer"
                 title="Create New Plan"
               >
-                <Plus className="w-5 h-5" />
+                <Plus className="w-4 h-4" />
               </button>
             </div>
           </div>
@@ -205,25 +205,25 @@ export default function ExhibitionPlanner() {
       </div>
 
       {isClient && activePlan && (
-        <div className="bg-card border border-border p-6 mb-10 shadow-sm relative">
+        <div className="bg-white border border-zinc-200 rounded-xl p-6 mb-8 shadow-sm relative">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
             <input
               type="text"
               value={activePlan.name}
               onChange={(e) => updatePlanName(activePlan.id, e.target.value)}
-              className="text-2xl font-serif bg-transparent border-b border-transparent hover:border-border focus:border-primary focus:outline-none transition-colors px-1 py-1"
+              className="text-xl font-bold bg-transparent border-b border-transparent hover:border-zinc-200 focus:border-zinc-400 focus:outline-none transition-colors px-1 py-1 text-zinc-900"
               placeholder="Name your exhibition..."
             />
             
-            <div className="flex items-center gap-3 text-xs tracking-[0.15em] uppercase font-medium">
-              <span className="text-muted-foreground">
+            <div className="flex items-center gap-3">
+              <span className="text-xs text-zinc-400 font-medium">
                 {activePlan.artworks.length} items
               </span>
               <button
                 onClick={exportPlan}
-                className="flex items-center gap-2 px-4 py-2 bg-secondary text-secondary-foreground hover:bg-secondary/80 rounded transition-colors"
+                className="flex items-center gap-2 px-3 py-1.5 bg-zinc-100 text-zinc-700 hover:bg-zinc-200 rounded-lg transition-colors text-sm font-medium"
               >
-                {copied ? <Check className="w-4 h-4 text-green-500" /> : <Copy className="w-4 h-4" />}
+                {copied ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
                 {copied ? "Copied!" : "Copy List"}
               </button>
               <button
@@ -232,7 +232,7 @@ export default function ExhibitionPlanner() {
                     removePlan(activePlan.id);
                   }
                 }}
-                className="p-2 text-destructive hover:bg-destructive/10 rounded transition-colors"
+                className="p-1.5 text-red-400 hover:bg-red-50 hover:text-red-600 rounded-lg transition-colors"
                 title="Delete Plan"
               >
                 <Trash2 className="w-4 h-4" />
