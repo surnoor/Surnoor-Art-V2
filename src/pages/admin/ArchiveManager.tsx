@@ -469,10 +469,8 @@ export default function ArchiveManager() {
             className="fixed inset-0 bg-black/20 z-50 flex justify-end"
             onClick={(e) => {
               if (e.target === e.currentTarget) {
-                if (isNewUnsavedRecord && !window.confirm("Discard unsaved artwork?")) return;
                 setExpandedRecord(null);
                 setShowQR(false);
-                setIsNewUnsavedRecord(false);
               }
             }}
           >
@@ -484,27 +482,14 @@ export default function ArchiveManager() {
               className="w-full max-w-lg bg-white h-full shadow-2xl overflow-y-auto flex flex-col"
             >
               <div className="p-4 border-b flex justify-between items-center bg-white sticky top-0 z-10">
-                <h2 className="font-semibold text-lg">{isNewUnsavedRecord ? "New Artwork" : expandedRecord.name}</h2>
+                <h2 className="font-semibold text-lg">{expandedRecord.name}</h2>
                 <div className="flex items-center gap-2">
-                  {isNewUnsavedRecord ? (
-                    <button 
-                      onClick={saveNewRecord} 
-                      disabled={isAdding}
-                      className={`flex items-center gap-2 bg-primary text-primary-foreground px-4 py-2 rounded-md transition-opacity text-sm font-medium ${isAdding ? 'opacity-50 cursor-not-allowed' : 'hover:opacity-90 cursor-pointer'}`}
-                    >
-                      {isAdding ? <Loader2 className="w-4 h-4 animate-spin" /> : <Check className="w-4 h-4" />}
-                      {isAdding ? "Saving..." : "Save Artwork"}
-                    </button>
-                  ) : (
-                    <button onClick={() => deleteRecord(expandedRecord.id)} className="p-2 text-red-500 hover:bg-red-50 rounded-full transition-colors" title="Delete Artwork">
-                      <Trash2 className="w-5 h-5" />
-                    </button>
-                  )}
+                  <button onClick={() => deleteRecord(expandedRecord.id)} className="p-2 text-red-500 hover:bg-red-50 rounded-full transition-colors" title="Delete Artwork">
+                    <Trash2 className="w-5 h-5" />
+                  </button>
                   <button onClick={() => {
-                    if (isNewUnsavedRecord && !window.confirm("Discard unsaved artwork?")) return;
                     setExpandedRecord(null); 
                     setShowQR(false); 
-                    setIsNewUnsavedRecord(false);
                   }} className="p-2 hover:bg-gray-100 rounded-full">
                     <X className="w-5 h-5" />
                   </button>
@@ -534,30 +519,22 @@ export default function ArchiveManager() {
                       }}
                     />
                   </div>
-                  {isNewUnsavedRecord ? (
-                    <div className="w-full py-2 px-3 text-xs text-amber-600 bg-amber-50 rounded border border-amber-100 flex items-center justify-center text-center">
-                      Save this artwork first to enable mobile photo upload.
+                  <button 
+                    onClick={() => setShowQR(!showQR)}
+                    className="w-full flex items-center justify-center gap-2 py-2 text-sm text-primary hover:bg-primary/5 rounded border border-primary/20 transition-colors"
+                  >
+                    <Smartphone className="w-4 h-4" /> {showQR ? "Hide Mobile Upload" : "Upload from Phone"}
+                  </button>
+                  {showQR && (
+                    <div className="bg-white border rounded-lg p-6 flex flex-col items-center justify-center gap-3 animate-in slide-in-from-top-2">
+                      <p className="text-sm text-gray-500 text-center mb-2 font-medium">Scan with iPhone to upload instantly</p>
+                      <div className="bg-white p-3 rounded-xl shadow-sm border border-gray-100">
+                        <QRCodeSVG value={`${window.location.origin}/admin/mobile-upload/${expandedRecord.id}`} size={160} />
+                      </div>
+                      <a href={`${window.location.origin}/admin/mobile-upload/${expandedRecord.id}`} target="_blank" rel="noreferrer" className="text-xs text-primary hover:underline mt-2 flex items-center gap-1">
+                        Open link on this device
+                      </a>
                     </div>
-                  ) : (
-                    <>
-                      <button 
-                        onClick={() => setShowQR(!showQR)}
-                        className="w-full flex items-center justify-center gap-2 py-2 text-sm text-primary hover:bg-primary/5 rounded border border-primary/20 transition-colors"
-                      >
-                        <Smartphone className="w-4 h-4" /> {showQR ? "Hide Mobile Upload" : "Upload from Phone"}
-                      </button>
-                      {showQR && (
-                        <div className="bg-white border rounded-lg p-6 flex flex-col items-center justify-center gap-3 animate-in slide-in-from-top-2">
-                          <p className="text-sm text-gray-500 text-center mb-2 font-medium">Scan with iPhone to upload instantly</p>
-                          <div className="bg-white p-3 rounded-xl shadow-sm border border-gray-100">
-                            <QRCodeSVG value={`${window.location.origin}/admin/mobile-upload/${expandedRecord.id}`} size={160} />
-                          </div>
-                          <a href={`${window.location.origin}/admin/mobile-upload/${expandedRecord.id}`} target="_blank" rel="noreferrer" className="text-xs text-primary hover:underline mt-2 flex items-center gap-1">
-                            Open link on this device
-                          </a>
-                        </div>
-                      )}
-                    </>
                   )}
                 </div>
 
