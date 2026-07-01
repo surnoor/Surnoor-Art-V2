@@ -22,6 +22,11 @@ export default function NewArtwork() {
   const [dimensions, setDimensions] = useState("");
   const [substrate, setSubstrate] = useState("");
   const [notes, setNotes] = useState("");
+  const [series, setSeries] = useState("");
+  const [showAtEvent, setShowAtEvent] = useState(false);
+  const [artSupplyPrint, setArtSupplyPrint] = useState(false);
+  const [pinterest, setPinterest] = useState(false);
+  const [featured, setFeatured] = useState(false);
   
   // Image State
   const [imageUrl, setImageUrl] = useState<string | null>(null);
@@ -73,9 +78,10 @@ export default function NewArtwork() {
     try {
       // Create record
       const dbRecord = {
+        id: crypto.randomUUID(),
         Name: name,
         Medium: medium || null,
-        Year: year ? parseInt(year) : null,
+        Year: year || null,
         Status: status,
         Category: category || null,
         Dimensions: dimensions || null,
@@ -84,13 +90,12 @@ export default function NewArtwork() {
         Image_url: imageUrl,
         Thumbnail_url: imageUrl, // Optimization: Use same URL or a smaller version
         Filmstrip_url: imageUrl,
-        // Defaults
-        Series: [],
+        Series: series ? series.split(',').map(s => s.trim()).filter(Boolean) : [],
         Additional_Images: [],
-        ShowAtEvent: false,
-        ArtSupplyPrint: false,
-        Pinterest: false,
-        Featured: false,
+        ShowAtEvent: showAtEvent,
+        ArtSupplyPrint: artSupplyPrint,
+        Pinterest: pinterest,
+        Featured: featured,
         sort_order: 0 // Will float to the top
       };
 
@@ -250,13 +255,63 @@ export default function NewArtwork() {
                 </div>
 
                 <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Series (comma-separated)</label>
+                  <input 
+                    type="text" 
+                    placeholder="e.g. Whispers of the Valley, Summer Collection"
+                    value={series}
+                    onChange={e => setSeries(e.target.value)}
+                    className="w-full rounded-lg border-gray-200 focus:border-primary focus:ring-primary text-base py-2.5" 
+                  />
+                </div>
+
+                <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Private Notes</label>
                   <textarea 
-                    rows={3}
+                    rows={2}
                     value={notes}
                     onChange={e => setNotes(e.target.value)}
                     className="w-full rounded-lg border-gray-200 focus:border-primary focus:ring-primary text-base resize-none" 
                   />
+                </div>
+                
+                <div className="pt-4 grid grid-cols-2 gap-4 border-t border-gray-100">
+                  <label className="flex items-center gap-3 cursor-pointer">
+                    <input 
+                      type="checkbox" 
+                      checked={featured}
+                      onChange={e => setFeatured(e.target.checked)}
+                      className="w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary"
+                    />
+                    <span className="text-sm font-medium text-gray-700">Featured</span>
+                  </label>
+                  <label className="flex items-center gap-3 cursor-pointer">
+                    <input 
+                      type="checkbox" 
+                      checked={showAtEvent}
+                      onChange={e => setShowAtEvent(e.target.checked)}
+                      className="w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary"
+                    />
+                    <span className="text-sm font-medium text-gray-700">Show at Event</span>
+                  </label>
+                  <label className="flex items-center gap-3 cursor-pointer">
+                    <input 
+                      type="checkbox" 
+                      checked={artSupplyPrint}
+                      onChange={e => setArtSupplyPrint(e.target.checked)}
+                      className="w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary"
+                    />
+                    <span className="text-sm font-medium text-gray-700">Art Supply Print</span>
+                  </label>
+                  <label className="flex items-center gap-3 cursor-pointer">
+                    <input 
+                      type="checkbox" 
+                      checked={pinterest}
+                      onChange={e => setPinterest(e.target.checked)}
+                      className="w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary"
+                    />
+                    <span className="text-sm font-medium text-gray-700">Sent to Pinterest</span>
+                  </label>
                 </div>
               </div>
             </div>
