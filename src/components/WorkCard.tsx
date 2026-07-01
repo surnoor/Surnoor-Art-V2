@@ -4,7 +4,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import type { ShopProduct } from "../hooks/useShop";
 import { useCart } from "../context/CartContext";
 import { formatPrice } from "../utils/format";
-import { ARButton } from "./ARViewer";
 import { identifyUser } from "../utils/analytics";
 import { supabase } from "../lib/supabase";
 
@@ -63,13 +62,6 @@ export default function WorkCard({ product, sold = false }: WorkCardProps) {
       {/* Image block */}
       <Link href={`/shop/${product.id}`} className="block mb-4">
         <div className="relative aspect-[3/4] overflow-hidden">
-          {primaryImage && (
-            <ARButton 
-              imageUrl={primaryImage} 
-              dimensionsString={product.dimensions || product.description} 
-              productName={product.name} 
-            />
-          )}
           {sold && (
             <>
               <div className="absolute top-2 left-2 z-10">
