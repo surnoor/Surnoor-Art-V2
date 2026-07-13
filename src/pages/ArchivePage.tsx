@@ -916,10 +916,12 @@ export default function ArchivePage() {
 
   /* Filter & Sort records */
   const { featuredWorks, regularWorks } = useMemo(() => {
-    // 1. Get all featured works (max 4) - ignoring filters
-    const featured = archive
-      .filter((r) => r.status === 'Archive' && r.featured)
-      .slice(0, 4);
+    // 1. Get all featured works (max 4) - only show when no filters active
+    const featured = activeFilterCount > 0
+      ? []
+      : archive
+          .filter((r) => r.status === 'Archive' && r.featured)
+          .slice(0, 4);
     
     const featuredIds = new Set(featured.map(r => r.id));
 
