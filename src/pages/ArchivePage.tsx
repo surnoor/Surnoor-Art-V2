@@ -914,6 +914,10 @@ export default function ArchivePage() {
     };
   }, [archive]);
 
+  const activeFilterCount = [selectedYear, selectedMedium, selectedSeries, selectedCategory].filter(
+    (v) => v !== "All"
+  ).length;
+
   /* Filter & Sort records */
   const { featuredWorks, regularWorks } = useMemo(() => {
     // 1. Get all featured works (max 4) - only show when no filters active
@@ -958,10 +962,6 @@ export default function ArchivePage() {
   const displayedCount = featuredWorks.length + regularWorks.length;
   // Use a combined list for the lightbox navigation
   const combinedFiltered = useMemo(() => [...featuredWorks, ...regularWorks], [featuredWorks, regularWorks]);
-
-  const activeFilterCount = [selectedYear, selectedMedium, selectedSeries, selectedCategory].filter(
-    (v) => v !== "All"
-  ).length;
 
   function clearAll() {
     setSelectedYear("All");
