@@ -1255,7 +1255,7 @@ export default function ArchivePage() {
                     className="inline-flex items-center gap-2 text-xs tracking-[0.15em] uppercase text-muted-foreground border border-border/40 hover:text-foreground hover:border-foreground px-6 py-3 transition-all duration-200 hover:gap-3"
                     data-testid="btn-archive-load-more"
                   >
-                    Load More <ArrowUpRight className="w-3.5 h-3.5" />
+                    Load More <ChevronDown className="w-3.5 h-3.5" />
                   </button>
                 </div>
               )}
