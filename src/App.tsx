@@ -922,23 +922,26 @@ function HomePage() {
 
         <div className="max-w-3xl space-y-0">
           <FadeIn>
-            <div className=" py-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-              <div className="flex flex-col gap-1">
+            <div className="py-8 border-b border-border/30 flex flex-col md:flex-row md:items-start md:justify-between gap-4">
+              <div className="flex flex-col gap-1.5 max-w-2xl">
                 <div className="flex items-center gap-2 mb-1">
                   <span className="text-[10px] tracking-[0.2em] uppercase bg-primary text-background px-2 py-0.5">Upcoming</span>
                 </div>
-                <h3 className="font-serif text-xl font-light">ArtBar: Magnolia Postcard in Watercolor</h3>
+                <h3 className="font-serif text-xl font-light">Advanced Watercolour</h3>
                 <div className="flex items-center gap-2 text-muted-foreground text-sm">
-                  <Calendar className="w-3.5 h-3.5" />
-                  <span>ACT Arts Centre · Thursday, June 4, 2026 · 6:30 PM</span>
+                  <Calendar className="w-3.5 h-3.5 shrink-0" />
+                  <span>Silver Harbour Seniors' Activity Centre, North Vancouver · Thursdays, September 10 – October 15, 2026</span>
                 </div>
+                <p className="text-muted-foreground text-xs md:text-sm mt-1 leading-relaxed">
+                  Designed for experienced painters, this sequential course focuses on refining technique and strengthening composition through projects exploring glazing, color harmony, and expressive brushwork.
+                </p>
               </div>
               <a
-                href="https://purchase.mapleridgeact.ca/ChooseSeats/17401"
+                href="https://www.silverharbourcentre.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-xs tracking-[0.15em] uppercase text-primary hover:gap-3 transition-all self-start md:self-auto"
-                data-testid="link-workshop-magnolia"
+                className="inline-flex items-center gap-2 text-xs tracking-[0.15em] uppercase text-primary hover:gap-3 transition-all self-start md:self-auto shrink-0 mt-1 md:mt-0"
+                data-testid="link-workshop-advanced-watercolour"
               >
                 Register Now <ArrowUpRight className="w-3.5 h-3.5" />
               </a>
@@ -946,42 +949,88 @@ function HomePage() {
           </FadeIn>
 
           <FadeIn delay={0.05}>
-            <div className=" py-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-              <div className="flex flex-col gap-1">
+            <div className="py-8 border-b border-border/30 flex flex-col md:flex-row md:items-start md:justify-between gap-4">
+              <div className="flex flex-col gap-1.5 max-w-2xl">
                 <div className="flex items-center gap-2 mb-1">
                   <span className="text-[10px] tracking-[0.2em] uppercase bg-primary text-background px-2 py-0.5">Upcoming</span>
                 </div>
-                <h3 className="font-serif text-xl font-light">ArtBar: Expressive Abstract Rooster in Watercolor</h3>
+                <h3 className="font-serif text-xl font-light">Fall ArtBar: "Watercolor Cat" Workshop</h3>
                 <div className="flex items-center gap-2 text-muted-foreground text-sm">
-                  <Calendar className="w-3.5 h-3.5" />
-                  <span>ACT Arts Centre · Thursday, June 18, 2026 · 6:30 PM</span>
+                  <Calendar className="w-3.5 h-3.5 shrink-0" />
+                  <span>City of Maple Ridge · Fall 2026 (Launch tied to September Season Opening event)</span>
                 </div>
+                <p className="text-muted-foreground text-xs md:text-sm mt-1 leading-relaxed">
+                  A fun, single-evening community workshop set in a light, no-pressure environment meant to encourage playful expression and creative confidence.
+                </p>
               </div>
               <a
-                href="https://purchase.mapleridgeact.ca/ChooseSeats/17601"
+                href="https://purchase.mapleridgeact.ca/Events"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-xs tracking-[0.15em] uppercase text-primary hover:gap-3 transition-all self-start md:self-auto"
-                data-testid="link-workshop-rooster"
+                className="inline-flex items-center gap-2 text-xs tracking-[0.15em] uppercase text-primary hover:gap-3 transition-all self-start md:self-auto shrink-0 mt-1 md:mt-0"
+                data-testid="link-workshop-fall-artbar"
               >
                 Register Now <ArrowUpRight className="w-3.5 h-3.5" />
               </a>
             </div>
           </FadeIn>
 
-          {false && (
           <FadeIn delay={0.1}>
-            <div className=" py-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-              <div className="flex flex-col gap-1">
-                <h3 className="font-serif text-xl font-light text-muted-foreground">5-Year Retrospective Solo Show</h3>
-                <p className="text-muted-foreground text-sm">Basic Inquiry · Vancouver, BC · 2024</p>
+            <div className="py-8 border-b border-border/30 flex flex-col md:flex-row md:items-start md:justify-between gap-4">
+              <div className="flex flex-col gap-1.5 max-w-2xl">
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="text-[10px] tracking-[0.2em] uppercase bg-primary text-background px-2 py-0.5">Upcoming</span>
+                </div>
+                <h3 className="font-serif text-xl font-light">Intro to Watercolors Program</h3>
+                <div className="flex items-center gap-2 text-muted-foreground text-sm">
+                  <Calendar className="w-3.5 h-3.5 shrink-0" />
+                  <span>City of Maple Ridge · Starting Mid-September 2026</span>
+                </div>
+                <p className="text-muted-foreground text-xs md:text-sm mt-1 leading-relaxed">
+                  A sequential, multi-week foundational course introducing watercolors. Each session builds upon the last through specific projects ranging from landscapes to still lifes.
+                </p>
               </div>
+              <a
+                href="https://cityofmapleridge.perfectmind.com/23724/Reports/BookMe4"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-xs tracking-[0.15em] uppercase text-primary hover:gap-3 transition-all self-start md:self-auto shrink-0 mt-1 md:mt-0"
+                data-testid="link-workshop-intro-watercolors"
+              >
+                Register Now <ArrowUpRight className="w-3.5 h-3.5" />
+              </a>
             </div>
           </FadeIn>
-          )}
 
           <FadeIn delay={0.15}>
-            <div className="py-8">
+            <div className="py-8 flex flex-col md:flex-row md:items-start md:justify-between gap-4">
+              <div className="flex flex-col gap-1.5 max-w-2xl">
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="text-[10px] tracking-[0.2em] uppercase bg-primary text-background px-2 py-0.5">Upcoming</span>
+                </div>
+                <h3 className="font-serif text-xl font-light">Life Drawing Sessions</h3>
+                <div className="flex items-center gap-2 text-muted-foreground text-sm">
+                  <Calendar className="w-3.5 h-3.5 shrink-0" />
+                  <span>City of Maple Ridge · Fall 2026</span>
+                </div>
+                <p className="text-muted-foreground text-xs md:text-sm mt-1 leading-relaxed">
+                  Dedicated figurative study sessions working with local models.
+                </p>
+              </div>
+              <a
+                href="https://cityofmapleridge.perfectmind.com/23724/Reports/BookMe4"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-xs tracking-[0.15em] uppercase text-primary hover:gap-3 transition-all self-start md:self-auto shrink-0 mt-1 md:mt-0"
+                data-testid="link-workshop-life-drawing"
+              >
+                Register Now <ArrowUpRight className="w-3.5 h-3.5" />
+              </a>
+            </div>
+          </FadeIn>
+
+          <FadeIn delay={0.2}>
+            <div className="py-8 pt-10">
               <p className="text-muted-foreground text-sm">
                 Group exhibitions and collaborative projects throughout the year. Follow on Instagram for announcements.
               </p>
