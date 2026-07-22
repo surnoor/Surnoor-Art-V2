@@ -41,3 +41,8 @@ export function trackPurchaseComplete(total: number, currency: string) {
 export function trackFilterUsed(filterType: string, value: string) {
   track("filter_used", { type: filterType, value });
 }
+
+export function trackArchiveLoadMore(page: number, totalVisible: number, totalWorks: number) {
+  track("archive_load_more", { page, total_visible: totalVisible, total_works: totalWorks });
+}
+

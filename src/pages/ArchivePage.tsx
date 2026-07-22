@@ -1,9 +1,10 @@
 import { useEffect, useMemo, useState, useRef } from "react";
 import { motion, type Variants } from "framer-motion";
-import { ChevronLeft, ChevronRight, SlidersHorizontal, X, Download, Share2, Check, Loader2, Printer, Facebook, Twitter, Linkedin, Mail, Link as LinkIcon, MessageCircle, Image as ImageIcon, Instagram, Pin } from "lucide-react";
+import { ChevronLeft, ChevronRight, SlidersHorizontal, X, Download, Share2, Check, Loader2, Printer, Facebook, Twitter, Linkedin, Mail, Link as LinkIcon, MessageCircle, Image as ImageIcon, Instagram, Pin, ArrowUpRight } from "lucide-react";
 import { useArchive, type ArchiveRecord } from "../hooks/useArchive";
 import { FilterGroup } from "../components/FilterGroup";
 import BauhausLoader from "../components/BauhausLoader";
+import { trackArchiveLoadMore } from "../utils/analytics";
 
 const easing: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
@@ -77,6 +78,18 @@ function ArchiveCard({
         <p className="text-muted-foreground text-xs mt-0.5">{record.dimensions}</p>
       )}
     </motion.div>
+  );
+}
+
+/* ── Year Stamp divider ── */
+function YearStamp({ year }: { year: string }) {
+  return (
+    <div className="col-span-2 md:col-span-3 lg:col-span-4 flex items-center gap-4 pt-10 pb-3">
+      <span className="text-xs tracking-[0.2em] uppercase text-muted-foreground shrink-0 tabular-nums">
+        {year}
+      </span>
+      <hr className="flex-1 border-border/20" />
+    </div>
   );
 }
 
@@ -859,6 +872,7 @@ export default function ArchivePage() {
   const [lightboxRecord, setLightboxRecord] = useState<ArchiveRecord | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isAnimatingLoader, setIsAnimatingLoader] = useState(true);
+  const [visibleCount, setVisibleCount] = useState(20);
 
   useEffect(() => {
     document.title = "Archive — Surnoor Sembhi | Past Works";
@@ -890,6 +904,11 @@ export default function ArchivePage() {
     const newUrl = `${window.location.pathname}${params.toString() ? `?${params.toString()}` : ''}`;
     window.history.replaceState(null, '', newUrl);
   }, [selectedYear, selectedMedium, selectedSeries, selectedCategory, lightboxRecord]);
+
+  // Reset pagination when filters change
+  useEffect(() => {
+    setVisibleCount(20);
+  }, [selectedYear, selectedMedium, selectedSeries, selectedCategory]);
 
   /* Derive unique filter values from data */
   const filters = useMemo(() => {
@@ -960,8 +979,24 @@ export default function ArchivePage() {
   }, [archive, selectedYear, selectedMedium, selectedSeries, selectedCategory]);
 
   const displayedCount = featuredWorks.length + regularWorks.length;
-  // Use a combined list for the lightbox navigation
+  // Use a combined list for the lightbox navigation (always full set, not paginated)
   const combinedFiltered = useMemo(() => [...featuredWorks, ...regularWorks], [featuredWorks, regularWorks]);
+
+  // Pagination
+  const visibleRegularWorks = regularWorks.slice(0, visibleCount);
+  const hasMore = regularWorks.length > visibleCount;
+
+  // Count label helper
+  const countLabel = (() => {
+    const total = featuredWorks.length + regularWorks.length;
+    const visible = featuredWorks.length + Math.min(visibleCount, regularWorks.length);
+    const isPartial = regularWorks.length > visibleCount;
+    const filteredSuffix = activeFilterCount > 0 ? " (filtered)" : "";
+    if (isPartial) {
+      return `${visible} of ${total} work${total !== 1 ? "s" : ""}${filteredSuffix}`;
+    }
+    return `${total} work${total !== 1 ? "s" : ""}${filteredSuffix}`;
+  })();
 
   function clearAll() {
     setSelectedYear("All");
@@ -1041,8 +1076,7 @@ export default function ArchivePage() {
           </button>
           {!loading && !isAnimatingLoader && (
             <span className="text-xs text-muted-foreground whitespace-nowrap">
-              {displayedCount} work{displayedCount !== 1 ? "s" : ""}
-              {activeFilterCount > 0 && " (filtered)"}
+              {countLabel}
             </span>
           )}
         </div>
@@ -1141,10 +1175,7 @@ export default function ArchivePage() {
             <>
               <div className="hidden md:flex items-center justify-between mb-8">
                 <p className="text-xs text-muted-foreground flex items-baseline">
-                  <span>
-                    {displayedCount} work{displayedCount !== 1 ? "s" : ""}
-                    {activeFilterCount > 0 && " (filtered)"}
-                  </span>
+                  <span>{countLabel}</span>
                   <span
                     style={{
                       fontFamily: '"Courier New", Courier, monospace',
@@ -1183,16 +1214,49 @@ export default function ArchivePage() {
                 </div>
               )}
 
-              {/* Regular Archive Grid */}
-              {regularWorks.length > 0 && (
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8">
-                  {regularWorks.map((record) => (
+              {/* Regular Archive Grid — year-grouped with pagination */}
+              {visibleRegularWorks.length > 0 && (() => {
+                let lastYear: string | null = null;
+                const showYearStamps = selectedYear === "All";
+                const nodes: React.ReactNode[] = [];
+
+                visibleRegularWorks.forEach((record) => {
+                  const year = record.year ?? null;
+                  if (showYearStamps && year && year !== lastYear) {
+                    nodes.push(<YearStamp key={`stamp-${year}`} year={year} />);
+                    lastYear = year;
+                  }
+                  nodes.push(
                     <ArchiveCard
                       key={record.id}
                       record={record}
                       onClick={() => setLightboxRecord(record)}
                     />
-                  ))}
+                  );
+                });
+
+                return (
+                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8">
+                    {nodes}
+                  </div>
+                );
+              })()}
+
+              {/* Load More */}
+              {hasMore && (
+                <div className="flex justify-center mt-12">
+                  <button
+                    onClick={() => {
+                      const nextPage = Math.ceil(visibleCount / 20) + 1;
+                      const nextVisible = Math.min(visibleCount + 20, regularWorks.length);
+                      setVisibleCount((p) => p + 20);
+                      trackArchiveLoadMore(nextPage, nextVisible, regularWorks.length);
+                    }}
+                    className="inline-flex items-center gap-2 text-xs tracking-[0.15em] uppercase text-muted-foreground border border-border/40 hover:text-foreground hover:border-foreground px-6 py-3 transition-all duration-200 hover:gap-3"
+                    data-testid="btn-archive-load-more"
+                  >
+                    Load More <ArrowUpRight className="w-3.5 h-3.5" />
+                  </button>
                 </div>
               )}
             </>
