@@ -583,10 +583,14 @@ ${hashtags}`;
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-[100] bg-background/95 backdrop-blur-sm flex items-center justify-center p-4 md:p-8"
+      className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-md flex items-center justify-center p-4 md:p-8"
       onClick={onClose}
     >
-      <div className="absolute top-4 right-4 md:top-6 md:right-6 z-10 flex flex-col items-end gap-2">
+      <div 
+        className="relative bg-background shadow-2xl max-w-[95vw] md:max-w-6xl w-full max-h-[90vh] h-full flex flex-col rounded-none overflow-hidden"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="absolute top-4 right-4 md:top-6 md:right-6 z-30 flex flex-col items-end gap-2">
         <div className="flex flex-col md:flex-row-reverse items-center gap-2">
         <button
           onClick={onClose}
@@ -726,7 +730,7 @@ ${hashtags}`;
       {onPrev && (
         <button
           onClick={(e) => { e.stopPropagation(); onPrev(); }}
-          className="absolute left-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 flex items-center justify-center hover:bg-muted/50 rounded-full transition-colors group"
+          className="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 flex items-center justify-center hover:bg-muted/50 rounded-full transition-colors group"
           aria-label="Previous artwork"
         >
           <ChevronLeft className="w-8 h-8 text-muted-foreground group-hover:text-foreground transition-colors" />
@@ -735,7 +739,7 @@ ${hashtags}`;
       {onNext && (
         <button
           onClick={(e) => { e.stopPropagation(); onNext(); }}
-          className="absolute right-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 flex items-center justify-center hover:bg-muted/50 rounded-full transition-colors group"
+          className="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 flex items-center justify-center hover:bg-muted/50 rounded-full transition-colors group"
           aria-label="Next artwork"
         >
           <ChevronRight className="w-8 h-8 text-muted-foreground group-hover:text-foreground transition-colors" />
@@ -743,8 +747,7 @@ ${hashtags}`;
       )}
 
       <div
-        className="max-w-5xl w-full max-h-[calc(100vh-7rem)] overflow-y-auto grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 px-12 pb-4 mb-20"
-        onClick={(e) => e.stopPropagation()}
+        className="flex-1 w-full overflow-y-auto grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 px-6 py-8 md:px-12 md:py-10 pb-32"
       >
         {/* Images */}
         <div className="flex flex-col gap-4">
@@ -830,8 +833,7 @@ ${hashtags}`;
       {/* Thumbnail Stripe */}
       {allRecords && allRecords.length > 1 && onSelectRecord && (
         <div 
-          className="absolute bottom-0 left-0 right-0 h-24 bg-background/95 backdrop-blur-md  flex items-center justify-center px-6"
-          onClick={(e) => e.stopPropagation()}
+          className="absolute bottom-0 left-0 right-0 h-24 bg-background border-t border-border flex items-center justify-center px-6 z-20"
         >
           <div className="flex gap-4 overflow-x-auto max-w-full px-4 py-4 scrollbar-hide items-center">
             {allRecords.map((r) => {
@@ -858,6 +860,7 @@ ${hashtags}`;
           </div>
         </div>
       )}
+      </div>
     </motion.div>
   );
 }
