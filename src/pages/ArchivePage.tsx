@@ -873,7 +873,7 @@ export default function ArchivePage() {
   const [selectedSeries, setSelectedSeries] = useState(() => new URLSearchParams(window.location.search).get('series') || "All");
   const [selectedCategory, setSelectedCategory] = useState(() => new URLSearchParams(window.location.search).get('category') || "All");
   const [lightboxRecord, setLightboxRecord] = useState<ArchiveRecord | null>(null);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
   const [isAnimatingLoader, setIsAnimatingLoader] = useState(loading);
   const [visibleCount, setVisibleCount] = useState(20);
 
@@ -1086,9 +1086,9 @@ export default function ArchivePage() {
         {!loading && !isAnimatingLoader && (
           <div className="flex justify-end">
             <span
+              className="text-primary/50"
               style={{
                 fontFamily: '"Courier New", Courier, monospace',
-                color: '#ff0033',
                 fontWeight: 'normal',
                 fontSize: '13px',
                 lineHeight: '1',
@@ -1180,9 +1180,9 @@ export default function ArchivePage() {
                 <p className="text-xs text-muted-foreground flex items-baseline">
                   <span>{countLabel}</span>
                   <span
+                    className="text-primary/50"
                     style={{
                       fontFamily: '"Courier New", Courier, monospace',
-                      color: '#ff0033',
                       fontWeight: 'normal',
                       marginLeft: '1rem',
                       fontSize: '14.5px',
