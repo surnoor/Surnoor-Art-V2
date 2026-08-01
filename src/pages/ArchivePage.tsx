@@ -170,7 +170,7 @@ export function Lightbox({
       setPinterestShareData(null);
       setInstagramShareData(null);
     };
-  }, [record.id]);
+  }, [record?.id]);
 
   const shareUrl = window.location.href;
   const shareTitle = `${record.name} - Surnoor Art`;
@@ -541,6 +541,7 @@ ${hashtags}`;
 
   // Auto-scroll active thumbnail to center
   useEffect(() => {
+    if (!record?.id) return;
     if (activeThumbRef.current) {
       activeThumbRef.current.scrollIntoView({
         behavior: 'smooth',
@@ -548,12 +549,11 @@ ${hashtags}`;
         block: 'nearest',
       });
     }
-  }, [record.id]);
+  }, [record?.id]);
 
   // Preload adjacent images
   useEffect(() => {
-    if (!allRecords || allRecords.length === 0) return;
-    
+    if (!record?.id || !allRecords?.length) return;
     const idx = allRecords.findIndex(r => r.id === record.id);
     if (idx === -1) return;
 
@@ -576,9 +576,9 @@ ${hashtags}`;
     }, 1500);
 
     return () => clearTimeout(timeout);
-  }, [record.id, allRecords]);
+  }, [record?.id, allRecords]);
 
-  return (
+  return record ? (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -590,6 +590,9 @@ ${hashtags}`;
         className="relative bg-background shadow-2xl max-w-[95vw] md:max-w-6xl w-full max-h-[90vh] h-full flex flex-col rounded-none overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
+        {/* ... rest of dialog unchanged ... */}
+    </motion.div>
+  ) : null;
         <div className="absolute top-4 right-4 md:top-6 md:right-6 z-30 flex flex-col items-end gap-2">
         <div className="flex flex-col md:flex-row-reverse items-center gap-2">
         <button
@@ -859,11 +862,11 @@ ${hashtags}`;
             )})}
           </div>
         </div>
-      )}
-      </div>
-    </motion.div>
-  );
-}
+)}
+       </div>
+     </motion.div>
+   ): null;
+ }
 
 /* ── Main Archive Page ── */
 export default function ArchivePage() {
@@ -874,7 +877,7 @@ export default function ArchivePage() {
   const [selectedCategory, setSelectedCategory] = useState(() => new URLSearchParams(window.location.search).get('category') || "All");
   const [lightboxRecord, setLightboxRecord] = useState<ArchiveRecord | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [isAnimatingLoader, setIsAnimatingLoader] = useState(true);
+  const [isAnimatingLoader, setIsAnimatingLoader] = useState(loading);
   const [visibleCount, setVisibleCount] = useState(20);
 
   useEffect(() => {
@@ -1235,14 +1238,14 @@ export default function ArchivePage() {
                       record={record}
                       onClick={() => setLightboxRecord(record)}
                     />
-                  );
+): null;
                 });
 
                 return (
                   <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8">
                     {nodes}
                   </div>
-                );
+): null;
               })()}
 
               {/* Load More */}
@@ -1282,7 +1285,7 @@ export default function ArchivePage() {
             onNext={hasNext ? () => setLightboxRecord(combinedFiltered[idx + 1]) : undefined}
             onPrev={hasPrev ? () => setLightboxRecord(combinedFiltered[idx - 1]) : undefined}
           />
-        );
+): null;
       })()}
     </div>
   );
