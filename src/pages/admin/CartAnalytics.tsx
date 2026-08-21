@@ -1,5 +1,4 @@
 import { useState, useEffect, useMemo } from "react";
-import AdminLayout from "./AdminLayout";
 import { supabase } from "../../lib/supabase";
 import {
   ShoppingBag,
@@ -196,7 +195,7 @@ export default function CartAnalytics() {
   const mostInDemandProduct = productGroups[0]?.title || "None";
 
   return (
-    <AdminLayout>
+    <div className="min-h-screen bg-[#F4F5F7] font-sans selection:bg-zinc-200">
       <div className="p-6 md:p-10 max-w-7xl mx-auto space-y-8">
         
         {/* Top Header */}
@@ -593,6 +592,6 @@ export default function CartAnalytics() {
         )}
 
       </div>
-    </AdminLayout>
+    </div>
   );
 }

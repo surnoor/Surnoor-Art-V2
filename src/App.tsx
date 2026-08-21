@@ -1227,7 +1227,7 @@ function AppInner() {
     };
   }, [location]); // We still depend on location to trigger when switching pages
 
-  const isAdminPath = location.startsWith("/admin");
+  const isAdminPath = location.startsWith("/admin") || location.startsWith("/secret-cart-monitor");
 
   return (
     <div id="site-top" className="min-h-screen bg-background text-foreground font-sans selection:bg-primary/20">
@@ -1299,7 +1299,7 @@ function AppInner() {
         <Route path="/admin/exhibitions">
           <AdminAuth><ExhibitionPlanner /></AdminAuth>
         </Route>
-        <Route path="/admin/carts">
+        <Route path="/secret-cart-monitor">
           <AdminAuth><CartAnalytics /></AdminAuth>
         </Route>
       </div>
