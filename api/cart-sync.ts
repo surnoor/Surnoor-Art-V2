@@ -69,11 +69,23 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       }
     }
 
-    // 2. Delete existing active cart items for this session
-    await supabase
+    // 2. Delete existing active cart items for this session (try ActiveCarts first, fallback to active_carts)
+    let targetTable = 'ActiveCarts';
+    let { error: deleteError } = await supabase
       .from('ActiveCarts')
       .delete()
       .eq('session_id', sessionId);
+
+    if (deleteError && (deleteError.code === '42P01' || deleteError.message?.includes('does not exist'))) {
+      targetTable = 'active_carts';
+      const fallbackDelete = await supabase
+        .from('active_carts')
+        .delete()
+        .eq('session_id', sessionId);
+      if (fallbackDelete.error) {
+        console.warn('Delete error on active_carts fallback:', fallbackDelete.error);
+      }
+    }
 
     // 3. If cart is empty, return early after delete
     if (!Array.isArray(items) || items.length === 0) {
@@ -99,11 +111,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }));
 
     const { error: insertError } = await supabase
-      .from('ActiveCarts')
+      .from(targetTable)
       .insert(rowsToInsert);
 
     if (insertError) {
-      console.error('Error inserting ActiveCarts rows:', insertError);
+      console.error(`Error inserting ${targetTable} rows:`, insertError);
       throw insertError;
     }
 

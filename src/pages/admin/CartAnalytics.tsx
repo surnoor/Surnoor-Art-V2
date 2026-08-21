@@ -52,13 +52,21 @@ export default function CartAnalytics() {
     setLoading(true);
     setError(null);
     try {
-      const { data, error: dbError } = await supabase
+      let { data, error: dbError } = await supabase
         .from("ActiveCarts")
         .select("*")
         .order("last_active_at", { ascending: false });
 
+      if (dbError && (dbError.code === "42P01" || dbError.message?.includes("does not exist"))) {
+        const fallback = await supabase
+          .from("active_carts")
+          .select("*")
+          .order("last_active_at", { ascending: false });
+        data = fallback.data;
+        dbError = fallback.error;
+      }
+
       if (dbError) {
-        // If table doesn't exist yet, show clean state with mock data demo indicator
         console.warn("Supabase ActiveCarts table query note:", dbError.message);
         setRecords([]);
       } else {
