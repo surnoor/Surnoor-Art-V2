@@ -15,6 +15,7 @@ import PinterestQueue from "./pages/admin/PinterestQueue";
 import MobileUpload from "./pages/admin/MobileUpload";
 import InstagramConsole from "./pages/admin/InstagramConsole";
 import ExhibitionPlanner from "./pages/admin/ExhibitionPlanner";
+import CartAnalytics from "./pages/admin/CartAnalytics";
 import PollPage from "./pages/PollPage";
 import EventPage from "./pages/EventPage";
 import SupportPage from "./pages/SupportPage";
@@ -1297,6 +1298,9 @@ function AppInner() {
         </Route>
         <Route path="/admin/exhibitions">
           <AdminAuth><ExhibitionPlanner /></AdminAuth>
+        </Route>
+        <Route path="/admin/carts">
+          <AdminAuth><CartAnalytics /></AdminAuth>
         </Route>
       </div>
       {!isAdminPath && <Footer />}

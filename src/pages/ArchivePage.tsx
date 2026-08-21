@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState, useRef } from "react";
 import { motion, type Variants } from "framer-motion";
-import { ChevronLeft, ChevronRight, SlidersHorizontal, X, Download, Share2, Check, Loader2, Printer, Facebook, Twitter, Linkedin, Mail, Link as LinkIcon, MessageCircle, Image as ImageIcon, Instagram, Pin, ArrowUpRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, ChevronDown, SlidersHorizontal, X, Download, Share2, Check, Loader2, Printer, Facebook, Twitter, Linkedin, Mail, Link as LinkIcon, MessageCircle, Image as ImageIcon, Instagram, Pin, ArrowUpRight } from "lucide-react";
 import { useArchive, type ArchiveRecord } from "../hooks/useArchive";
 import { FilterGroup } from "../components/FilterGroup";
 import BauhausLoader from "../components/BauhausLoader";

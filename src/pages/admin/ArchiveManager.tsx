@@ -575,7 +575,7 @@ export default function ArchiveManager() {
     );
   };
 
-  const uniqueYears = ["All", ...Array.from(new Set(records.map(r => r.year).filter(Boolean))).sort().reverse()];
+  const uniqueYears = ["All", ...Array.from(new Set(records.map(r => r.year).filter((y): y is string => Boolean(y)))).sort().reverse()];
   const activeFilterCount = [filterStatus, filterMedium, filterYear].filter(f => f !== "All").length;
 
   const filteredRecords = records.filter(r => {

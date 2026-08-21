@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "wouter";
-import { Crop, LogOut, Share2, Menu, X, LayoutTemplate, Database } from "lucide-react";
+import { Crop, LogOut, Share2, Menu, X, LayoutTemplate, Database, ShoppingBag } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const sidebarLinks = [
   { id: "archive", label: "Archive Manager", icon: Database, href: "/admin/archive" },
+  { id: "carts", label: "Cart Analytics", icon: ShoppingBag, href: "/admin/carts" },
   { id: "pinterest", label: "Pinterest Queue", icon: Share2, href: "/admin/pinterest" },
   { id: "instagram", label: "Instagram Console", icon: Crop, href: "/admin/instagram" },
   { id: "exhibitions", label: "Exhibition Planner", icon: LayoutTemplate, href: "/admin/exhibitions" },

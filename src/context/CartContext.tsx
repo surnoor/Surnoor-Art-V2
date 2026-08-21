@@ -39,6 +39,16 @@ function cartReducer(state: CartState, action: CartAction): CartState {
 }
 
 const STORAGE_KEY = "surnoor_cart_v3";
+const SESSION_KEY = "surnoor_session_id";
+
+function getOrCreateSessionId(): string {
+  let sessionId = localStorage.getItem(SESSION_KEY);
+  if (!sessionId) {
+    sessionId = "sess_" + Math.random().toString(36).substring(2, 11) + "_" + Date.now();
+    localStorage.setItem(SESSION_KEY, sessionId);
+  }
+  return sessionId;
+}
 
 function loadCart(): CartState {
   try {
@@ -68,20 +78,50 @@ export interface CartContextType {
   subtotal: number;
   currency: string;
   isInCart: (productId: string) => boolean;
+  sessionId: string;
 }
 
 const CartContext = createContext<CartContextType | null>(null);
 
 export function CartProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(cartReducer, undefined, loadCart);
+  const sessionId = getOrCreateSessionId();
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-  }, [state]);
+
+    const syncTimer = setTimeout(async () => {
+      try {
+        const payload = {
+          sessionId,
+          items: state.items.map((i) => ({
+            productId: i.productId,
+            title: i.name,
+            price: i.price,
+            quantity: i.quantity || 1,
+            imageUrl: i.image,
+          })),
+        };
+
+        await fetch("/api/cart-sync", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        }).catch((err) => {
+          console.warn("Server cart sync network error:", err);
+        });
+      } catch (e) {
+        console.warn("Cart sync failed:", e);
+      }
+    }, 400);
+
+    return () => clearTimeout(syncTimer);
+  }, [state, sessionId]);
 
   const totalItems = state.items.length;
   const subtotal = state.items.reduce((acc, i) => acc + i.price, 0);
   const currency = state.items[0]?.currency ?? "cad";
+
 
   function addToCart(item: Omit<CartItem, "quantity">) {
     if (isInCart(item.productId)) return;
@@ -112,6 +152,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
         subtotal,
         currency,
         isInCart,
+        sessionId,
       }}
     >
       {children}

@@ -140,3 +140,32 @@ CREATE POLICY "Allow public insert to ShowcaseInquiries" ON "ShowcaseInquiries"
 -- Create policy for admin
 CREATE POLICY "Allow all actions for admin on ShowcaseInquiries" ON "ShowcaseInquiries"
   FOR ALL USING (true);
+
+
+-- Create the ActiveCarts table for Cart Analytics
+CREATE TABLE IF NOT EXISTS "ActiveCarts" (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  session_id text NOT NULL,
+  product_id text,
+  title text NOT NULL,
+  price numeric(10, 2) NOT NULL DEFAULT 0,
+  quantity integer NOT NULL DEFAULT 1,
+  category text,
+  image_url text,
+  ip_address text,
+  city text,
+  region text,
+  postal_code text,
+  country text,
+  user_agent text,
+  last_active_at timestamp with time zone DEFAULT timezone('utc'::text, now()) NOT NULL,
+  created_at timestamp with time zone DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+-- Enable RLS on ActiveCarts
+ALTER TABLE "ActiveCarts" ENABLE ROW LEVEL SECURITY;
+
+-- Create policy to allow public insert/update (cart sync from client)
+CREATE POLICY "Allow public insert and update to ActiveCarts" ON "ActiveCarts"
+  FOR ALL USING (true);
+
