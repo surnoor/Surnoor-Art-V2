@@ -1,5 +1,7 @@
+// cart-sync v2 — active cart tracking with IP + geolocation
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { createClient } from '@supabase/supabase-js';
+
 
 function getSupabaseClient() {
   const url = process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL;
