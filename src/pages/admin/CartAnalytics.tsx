@@ -23,6 +23,17 @@ import {
 } from "lucide-react";
 import { formatDistanceToNow, parseISO } from "date-fns";
 
+function safeFormatDistance(dateStr?: string | null): string {
+  if (!dateStr) return "Recently";
+  try {
+    const d = parseISO(dateStr);
+    if (isNaN(d.getTime())) return "Recently";
+    return formatDistanceToNow(d, { addSuffix: true });
+  } catch {
+    return "Recently";
+  }
+}
+
 export interface ActiveCartRecord {
   id: string;
   session_id: string;
@@ -654,7 +665,7 @@ export default function CartAnalytics() {
                                   }`}
                                 />
                                 <span className="font-medium text-zinc-800">
-                                  {formatDistanceToNow(parseISO(session.lastActive), { addSuffix: true })}
+                                  {safeFormatDistance(session.lastActive)}
                                 </span>
                               </div>
                             </td>
@@ -734,7 +745,7 @@ export default function CartAnalytics() {
                               }`}
                             />
                             <span className="font-medium text-zinc-800">
-                              {formatDistanceToNow(parseISO(session.lastActive), { addSuffix: true })}
+                              {safeFormatDistance(session.lastActive)}
                             </span>
                           </div>
                           <span className="text-[10px] text-zinc-400 block mt-0.5 font-mono">
@@ -969,7 +980,7 @@ export default function CartAnalytics() {
                 <div className="flex items-center justify-between text-zinc-700">
                   <span className="text-zinc-400 font-medium">Last Active:</span>
                   <span className="font-mono text-zinc-800">
-                    {formatDistanceToNow(parseISO(selectedSessionForModal.lastActive), { addSuffix: true })}
+                    {safeFormatDistance(selectedSessionForModal.lastActive)}
                   </span>
                 </div>
               </div>

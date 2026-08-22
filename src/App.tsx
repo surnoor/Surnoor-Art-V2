@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, useInView, Variants, AnimatePresence } from "framer-motion";
 import { ArrowUpRight, Instagram, ExternalLink, Calendar, ChevronLeft, ChevronRight, ShoppingBag, Download, Printer } from "lucide-react";
-import { Router, Route, Link, useLocation } from "wouter";
+import { Router, Route, Link, useLocation, Switch } from "wouter";
 import { Analytics } from "@vercel/analytics/react";
 import { Toaster } from "sonner";
 import ShopPage from "./pages/ShopPage";
@@ -1245,66 +1245,68 @@ function AppInner() {
         </>
       )}
       <div className="pt-0">
-        <Route path="/" component={HomePage} />
-        <Route path="/shop">
-          <ShopPage />
-        </Route>
-        <Route path="/archive">
-          <ArchivePage />
-        </Route>
-        <Route path="/shop/:productId">
-          {(params: { productId: string }) => <ProductDetailPage productId={params.productId} />}
-        </Route>
-        <Route path="/cart">
-          <CartPage />
-        </Route>
-        <Route path="/order-confirmation">
-          <OrderConfirmationPage />
-        </Route>
-        <Route path="/survey">
-          <PollPage />
-        </Route>
-        <Route path="/private">
-          <EventPage />
-        </Route>
-        <Route path="/support">
-          <SupportPage />
-        </Route>
-        <Route path="/contact">
-          <ContactPage />
-        </Route>
-        <Route path="/showcase">
-          <ShowcasePage />
-        </Route>
+        <Switch>
+          <Route path="/" component={HomePage} />
+          <Route path="/shop">
+            <ShopPage />
+          </Route>
+          <Route path="/archive">
+            <ArchivePage />
+          </Route>
+          <Route path="/shop/:productId">
+            {(params: { productId: string }) => <ProductDetailPage productId={params.productId} />}
+          </Route>
+          <Route path="/cart">
+            <CartPage />
+          </Route>
+          <Route path="/order-confirmation">
+            <OrderConfirmationPage />
+          </Route>
+          <Route path="/survey">
+            <PollPage />
+          </Route>
+          <Route path="/private">
+            <EventPage />
+          </Route>
+          <Route path="/support">
+            <SupportPage />
+          </Route>
+          <Route path="/contact">
+            <ContactPage />
+          </Route>
+          <Route path="/showcase">
+            <ShowcasePage />
+          </Route>
 
-        {/* Admin Routes */}
-        <Route path="/admin/new-artwork">
-          <AdminAuth><NewArtwork /></AdminAuth>
-        </Route>
-        <Route path="/admin">
-          <AdminAuth><ArchiveManager /></AdminAuth>
-        </Route>
-        <Route path="/admin/mobile-upload/:id">
-          <MobileUpload />
-        </Route>
-        <Route path="/admin/archive">
-          <AdminAuth><ArchiveManager /></AdminAuth>
-        </Route>
-        <Route path="/admin/pinterest">
-          <AdminAuth><PinterestQueue /></AdminAuth>
-        </Route>
-        <Route path="/admin/instagram">
-          <AdminAuth><InstagramConsole /></AdminAuth>
-        </Route>
-        <Route path="/admin/exhibitions">
-          <AdminAuth><ExhibitionPlanner /></AdminAuth>
-        </Route>
-        <Route path="/admin/carts">
-          <AdminAuth><CartAnalytics /></AdminAuth>
-        </Route>
-        <Route path="/secret-cart-monitor">
-          <AdminAuth><CartAnalytics /></AdminAuth>
-        </Route>
+          {/* Admin Routes */}
+          <Route path="/admin/carts">
+            <AdminAuth><CartAnalytics /></AdminAuth>
+          </Route>
+          <Route path="/admin/new-artwork">
+            <AdminAuth><NewArtwork /></AdminAuth>
+          </Route>
+          <Route path="/admin/mobile-upload/:id">
+            <MobileUpload />
+          </Route>
+          <Route path="/admin/archive">
+            <AdminAuth><ArchiveManager /></AdminAuth>
+          </Route>
+          <Route path="/admin/pinterest">
+            <AdminAuth><PinterestQueue /></AdminAuth>
+          </Route>
+          <Route path="/admin/instagram">
+            <AdminAuth><InstagramConsole /></AdminAuth>
+          </Route>
+          <Route path="/admin/exhibitions">
+            <AdminAuth><ExhibitionPlanner /></AdminAuth>
+          </Route>
+          <Route path="/admin">
+            <AdminAuth><ArchiveManager /></AdminAuth>
+          </Route>
+          <Route path="/secret-cart-monitor">
+            <AdminAuth><CartAnalytics /></AdminAuth>
+          </Route>
+        </Switch>
       </div>
       {!isAdminPath && <Footer />}
     </div>
