@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useReducer, type ReactNode } from "react";
 import { trackAddToCart } from "../utils/analytics";
+import { supabase } from "../lib/supabase";
 
 export interface CartItem {
   productId: string;
@@ -91,6 +92,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
 
     const syncTimer = setTimeout(async () => {
+      let apiSucceeded = false;
       try {
         const payload = {
           sessionId,
@@ -103,15 +105,40 @@ export function CartProvider({ children }: { children: ReactNode }) {
           })),
         };
 
-        await fetch("/api/cart-sync", {
+        const res = await fetch("/api/cart-sync", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload),
-        }).catch((err) => {
-          console.warn("Server cart sync network error:", err);
         });
-      } catch (e) {
-        console.warn("Cart sync failed:", e);
+
+        if (res.ok) {
+          apiSucceeded = true;
+        }
+      } catch (err) {
+        console.warn("Server cart sync network error:", err);
+      }
+
+      // Fallback: If API was unavailable or returned non-200, sync directly to Supabase from client
+      if (!apiSucceeded) {
+        try {
+          // Delete existing session rows
+          await supabase.from("ActiveCarts").delete().eq("session_id", sessionId);
+
+          if (state.items.length > 0) {
+            const rows = state.items.map((i) => ({
+              session_id: sessionId,
+              product_id: i.productId,
+              title: i.name,
+              price: i.price,
+              quantity: i.quantity || 1,
+              image_url: i.image,
+              last_active_at: new Date().toISOString(),
+            }));
+            await supabase.from("ActiveCarts").insert(rows);
+          }
+        } catch (dbErr) {
+          console.warn("Direct Supabase cart sync fallback failed:", dbErr);
+        }
       }
     }, 400);
 
