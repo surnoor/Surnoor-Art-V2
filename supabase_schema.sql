@@ -169,3 +169,32 @@ ALTER TABLE "ActiveCarts" ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Allow public insert and update to ActiveCarts" ON "ActiveCarts"
   FOR ALL USING (true);
 
+
+-- Create the CartEvents table for permanent IP tracking & instance history
+CREATE TABLE IF NOT EXISTS "CartEvents" (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  session_id text NOT NULL,
+  event_type text NOT NULL DEFAULT 'add_to_cart',
+  product_id text,
+  title text NOT NULL,
+  price numeric(10, 2) NOT NULL DEFAULT 0,
+  quantity integer NOT NULL DEFAULT 1,
+  category text,
+  image_url text,
+  ip_address text,
+  city text,
+  region text,
+  postal_code text,
+  country text,
+  user_agent text,
+  created_at timestamp with time zone DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+-- Enable RLS on CartEvents
+ALTER TABLE "CartEvents" ENABLE ROW LEVEL SECURITY;
+
+-- Create policy to allow public insert and admin view on CartEvents
+CREATE POLICY "Allow public insert and select to CartEvents" ON "CartEvents"
+  FOR ALL USING (true);
+
+

@@ -1,4 +1,4 @@
-// cart-sync — active cart tracking with Vercel IP & Geolocation
+// cart-sync — active cart tracking with IP & Geolocation + permanent CartEvents history
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { createClient } from '@supabase/supabase-js';
 
@@ -34,7 +34,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { sessionId, items } = req.body || {};
+  const { sessionId, items, clientIp, clientLocation } = req.body || {};
 
   if (!sessionId || typeof sessionId !== 'string') {
     return res.status(400).json({ error: 'sessionId string is required' });
@@ -46,19 +46,43 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     // Extract IP Address & Vercel Geolocation headers
     const forwardedFor = req.headers['x-forwarded-for'];
     const realIp = req.headers['x-real-ip'];
-    const rawIp = (
+    let rawIp = (
       (Array.isArray(forwardedFor) ? forwardedFor[0] : forwardedFor)?.split(',')[0]?.trim()
       || (Array.isArray(realIp) ? realIp[0] : realIp)?.trim()
+      || clientIp
       || '127.0.0.1'
     );
 
-    const city = (req.headers['x-vercel-ip-city'] as string) || null;
-    const region = (req.headers['x-vercel-ip-country-region'] as string) || null;
-    const postalCode = (req.headers['x-vercel-ip-postal-code'] as string) || null;
-    const country = (req.headers['x-vercel-ip-country'] as string) || null;
+    let city = (req.headers['x-vercel-ip-city'] as string) || clientLocation?.city || null;
+    let region = (req.headers['x-vercel-ip-country-region'] as string) || clientLocation?.region || null;
+    let postalCode = (req.headers['x-vercel-ip-postal-code'] as string) || clientLocation?.postalCode || null;
+    let country = (req.headers['x-vercel-ip-country'] as string) || clientLocation?.country || null;
     const userAgent = (req.headers['user-agent'] as string) || null;
 
-    // Delete existing items for this session
+    // Fallback IP Geolocation Lookup if city/country is missing and IP is not local
+    if ((!city || !country) && rawIp && rawIp !== '127.0.0.1' && !rawIp.startsWith('192.168.') && !rawIp.startsWith('10.')) {
+      try {
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 1200);
+        const geoRes = await fetch(`http://ip-api.com/json/${rawIp}?fields=status,city,regionName,country,zip`, {
+          signal: controller.signal,
+        });
+        clearTimeout(timeout);
+        if (geoRes.ok) {
+          const geoData = await geoRes.json();
+          if (geoData && geoData.status === 'success') {
+            city = city || geoData.city || null;
+            region = region || geoData.regionName || null;
+            country = country || geoData.country || null;
+            postalCode = postalCode || geoData.zip || null;
+          }
+        }
+      } catch {
+        // Silently ignore fallback geo lookup timeouts
+      }
+    }
+
+    // Target ActiveCarts table
     let targetTable = 'ActiveCarts';
     const { error: deleteError } = await supabase
       .from('ActiveCarts')
@@ -74,7 +98,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(200).json({ success: true, count: 0 });
     }
 
-    // Insert active cart rows
+    // Rows for ActiveCarts (Current state)
     const rowsToInsert = (items as CartItemSync[]).map((item) => ({
       session_id: sessionId,
       product_id: item.productId || null,
@@ -101,7 +125,28 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       throw insertError;
     }
 
-    return res.status(200).json({ success: true, count: rowsToInsert.length, ip: rawIp });
+    // Permanent Event Logging into CartEvents
+    try {
+      let eventsTable = 'CartEvents';
+      const eventRows = rowsToInsert.map((r) => ({
+        ...r,
+        event_type: 'add_to_cart',
+      }));
+
+      const { error: eventErr } = await supabase.from('CartEvents').insert(eventRows);
+      if (eventErr && (eventErr.code === '42P01' || eventErr.message?.includes('does not exist'))) {
+        await supabase.from('cart_events').insert(eventRows);
+      }
+    } catch (eErr) {
+      console.warn('CartEvents logging note:', eErr);
+    }
+
+    return res.status(200).json({
+      success: true,
+      count: rowsToInsert.length,
+      ip: rawIp,
+      location: { city, region, country, postalCode }
+    });
   } catch (error: unknown) {
     const msg = error instanceof Error ? error.message : 'Failed to sync cart';
     console.error('Cart sync error:', msg);

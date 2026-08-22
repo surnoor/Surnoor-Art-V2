@@ -70,6 +70,50 @@ function loadCart(): CartState {
   return { items: [] };
 }
 
+interface ClientGeo {
+  ip: string | null;
+  city: string | null;
+  region: string | null;
+  country: string | null;
+  postalCode: string | null;
+}
+
+let cachedGeo: ClientGeo | null = null;
+
+async function fetchClientGeo(): Promise<ClientGeo> {
+  if (cachedGeo) return cachedGeo;
+  try {
+    const raw = sessionStorage.getItem("surnoor_client_geo");
+    if (raw) {
+      cachedGeo = JSON.parse(raw);
+      return cachedGeo!;
+    }
+  } catch {}
+
+  try {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 1500);
+    const res = await fetch("https://ipapi.co/json/", { signal: controller.signal });
+    clearTimeout(timer);
+    if (res.ok) {
+      const data = await res.json();
+      cachedGeo = {
+        ip: data.ip || null,
+        city: data.city || null,
+        region: data.region || null,
+        country: data.country_name || data.country || null,
+        postalCode: data.postal || null,
+      };
+      try {
+        sessionStorage.setItem("surnoor_client_geo", JSON.stringify(cachedGeo));
+      } catch {}
+      return cachedGeo;
+    }
+  } catch {}
+
+  return { ip: null, city: null, region: null, country: null, postalCode: null };
+}
+
 export interface CartContextType {
   items: CartItem[];
   addToCart: (item: Omit<CartItem, "quantity">) => void;
@@ -93,9 +137,18 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
     const syncTimer = setTimeout(async () => {
       let apiSucceeded = false;
+      const geo = await fetchClientGeo();
+
       try {
         const payload = {
           sessionId,
+          clientIp: geo.ip,
+          clientLocation: {
+            city: geo.city,
+            region: geo.region,
+            country: geo.country,
+            postalCode: geo.postalCode,
+          },
           items: state.items.map((i) => ({
             productId: i.productId,
             title: i.name,
@@ -122,7 +175,10 @@ export function CartProvider({ children }: { children: ReactNode }) {
       if (!apiSucceeded) {
         try {
           // Delete existing session rows
-          await supabase.from("ActiveCarts").delete().eq("session_id", sessionId);
+          const { error: delErr } = await supabase.from("ActiveCarts").delete().eq("session_id", sessionId);
+          if (delErr && (delErr.code === "42P01" || delErr.message?.includes("does not exist"))) {
+            await supabase.from("active_carts").delete().eq("session_id", sessionId);
+          }
 
           if (state.items.length > 0) {
             const rows = state.items.map((i) => ({
@@ -132,9 +188,29 @@ export function CartProvider({ children }: { children: ReactNode }) {
               price: i.price,
               quantity: i.quantity || 1,
               image_url: i.image,
+              ip_address: geo.ip,
+              city: geo.city,
+              region: geo.region,
+              country: geo.country,
+              postal_code: geo.postalCode,
               last_active_at: new Date().toISOString(),
             }));
-            await supabase.from("ActiveCarts").insert(rows);
+
+            let activeTable = "ActiveCarts";
+            const { error: insErr } = await supabase.from("ActiveCarts").insert(rows);
+            if (insErr && (insErr.code === "42P01" || insErr.message?.includes("does not exist"))) {
+              activeTable = "active_carts";
+              await supabase.from("active_carts").insert(rows);
+            }
+
+            // Insert into CartEvents for permanent history logging
+            try {
+              const eventRows = rows.map((r) => ({ ...r, event_type: "add_to_cart" }));
+              const { error: evErr } = await supabase.from("CartEvents").insert(eventRows);
+              if (evErr && (evErr.code === "42P01" || evErr.message?.includes("does not exist"))) {
+                await supabase.from("cart_events").insert(eventRows);
+              }
+            } catch {}
           }
         } catch (dbErr) {
           console.warn("Direct Supabase cart sync fallback failed:", dbErr);
@@ -148,7 +224,6 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const totalItems = state.items.length;
   const subtotal = state.items.reduce((acc, i) => acc + i.price, 0);
   const currency = state.items[0]?.currency ?? "cad";
-
 
   function addToCart(item: Omit<CartItem, "quantity">) {
     if (isInCart(item.productId)) return;
