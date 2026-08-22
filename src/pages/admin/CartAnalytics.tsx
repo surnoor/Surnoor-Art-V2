@@ -149,6 +149,27 @@ export default function CartAnalytics() {
         eventData = fallbackEv.data;
       }
 
+      if (!eventData || eventData.length === 0) {
+        eventData = (activeData || []).map((r: any) => ({
+          id: r.id,
+          session_id: r.session_id,
+          event_type: "add_to_cart",
+          product_id: r.product_id,
+          title: r.title,
+          price: r.price,
+          quantity: r.quantity,
+          category: r.category,
+          image_url: r.image_url,
+          ip_address: r.ip_address,
+          city: r.city,
+          region: r.region,
+          postal_code: r.postal_code,
+          country: r.country,
+          user_agent: r.user_agent,
+          created_at: r.created_at || r.last_active_at,
+        }));
+      }
+
       setEventRecords(eventData || []);
     } catch (err: any) {
       console.error("Failed to load cart analytics:", err);

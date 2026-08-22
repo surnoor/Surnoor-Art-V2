@@ -81,37 +81,57 @@ interface ClientGeo {
 let cachedGeo: ClientGeo | null = null;
 
 async function fetchClientGeo(): Promise<ClientGeo> {
-  if (cachedGeo) return cachedGeo;
+  if (cachedGeo && cachedGeo.ip) return cachedGeo;
   try {
     const raw = sessionStorage.getItem("surnoor_client_geo");
     if (raw) {
       cachedGeo = JSON.parse(raw);
-      return cachedGeo!;
+      if (cachedGeo && cachedGeo.ip) return cachedGeo!;
     }
   } catch {}
 
+  let ip: string | null = null;
+  let city: string | null = null;
+  let region: string | null = null;
+  let country: string | null = null;
+  let postalCode: string | null = null;
+
+  // 1. Fetch IP via ipify (reliable, no CORS restrictions)
+  try {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 1200);
+    const ipRes = await fetch("https://api.ipify.org?format=json", { signal: controller.signal });
+    clearTimeout(timer);
+    if (ipRes.ok) {
+      const ipData = await ipRes.json();
+      ip = ipData.ip || null;
+    }
+  } catch {}
+
+  // 2. Fetch Geolocation via ipwho.is (free CORS geolocation provider)
   try {
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), 1500);
-    const res = await fetch("https://ipapi.co/json/", { signal: controller.signal });
+    const geoRes = await fetch("https://ipwho.is/", { signal: controller.signal });
     clearTimeout(timer);
-    if (res.ok) {
-      const data = await res.json();
-      cachedGeo = {
-        ip: data.ip || null,
-        city: data.city || null,
-        region: data.region || null,
-        country: data.country_name || data.country || null,
-        postalCode: data.postal || null,
-      };
-      try {
-        sessionStorage.setItem("surnoor_client_geo", JSON.stringify(cachedGeo));
-      } catch {}
-      return cachedGeo;
+    if (geoRes.ok) {
+      const geoData = await geoRes.json();
+      if (geoData && geoData.success !== false) {
+        ip = ip || geoData.ip || null;
+        city = geoData.city || null;
+        region = geoData.region || null;
+        country = geoData.country || null;
+        postalCode = geoData.postal || null;
+      }
     }
   } catch {}
 
-  return { ip: null, city: null, region: null, country: null, postalCode: null };
+  cachedGeo = { ip, city, region, country, postalCode };
+  try {
+    sessionStorage.setItem("surnoor_client_geo", JSON.stringify(cachedGeo));
+  } catch {}
+
+  return cachedGeo;
 }
 
 export interface CartContextType {
