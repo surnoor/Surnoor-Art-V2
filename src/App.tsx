@@ -1299,6 +1299,9 @@ function AppInner() {
         <Route path="/admin/exhibitions">
           <AdminAuth><ExhibitionPlanner /></AdminAuth>
         </Route>
+        <Route path="/admin/carts">
+          <AdminAuth><CartAnalytics /></AdminAuth>
+        </Route>
         <Route path="/secret-cart-monitor">
           <AdminAuth><CartAnalytics /></AdminAuth>
         </Route>
