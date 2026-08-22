@@ -1,7 +1,6 @@
-// cart-sync v2 — active cart tracking with IP + geolocation
+// cart-sync v3 — active cart tracking with IP + geolocation
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { createClient } from '@supabase/supabase-js';
-
 
 function getSupabaseClient() {
   const url = process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL;
@@ -35,30 +34,33 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     const supabase = getSupabaseClient();
 
-    // 1. Extract IP Address & User Agent from request headers
-    const rawIp = req.headers['x-forwarded-for']?.toString().split(',')[0]
-      || req.headers['x-real-ip']?.toString()
-      || req.socket.remoteAddress
-      || '127.0.0.1';
-      
-    const ipAddress = rawIp.trim();
-    let city = req.headers['x-vercel-ip-city']?.toString() || null;
-    let region = req.headers['x-vercel-ip-country-region']?.toString() || null;
-    let postalCode = req.headers['x-vercel-ip-postal-code']?.toString() || null;
-    let country = req.headers['x-vercel-ip-country']?.toString() || null;
-    const userAgent = req.headers['user-agent']?.toString() || null;
+    // 1. Extract IP Address & User Agent — safely, with no nullable property access
+    const forwardedFor = req.headers['x-forwarded-for'];
+    const realIp = req.headers['x-real-ip'];
+    const ipAddress = (
+      (Array.isArray(forwardedFor) ? forwardedFor[0] : forwardedFor)?.split(',')[0]?.trim()
+      || (Array.isArray(realIp) ? realIp[0] : realIp)?.trim()
+      || '127.0.0.1'
+    );
 
-    // Fast IP Geolocation Lookup fallback if headers are incomplete (e.g. for postal code)
+    let city = (req.headers['x-vercel-ip-city'] as string) || null;
+    let region = (req.headers['x-vercel-ip-country-region'] as string) || null;
+    let postalCode = (req.headers['x-vercel-ip-postal-code'] as string) || null;
+    let country = (req.headers['x-vercel-ip-country'] as string) || null;
+    const userAgent = (req.headers['user-agent'] as string) || null;
+
+    // 2. IP Geolocation fallback if Vercel headers are incomplete
     if ((!postalCode || !city) && ipAddress && ipAddress !== '127.0.0.1' && ipAddress !== '::1') {
       try {
         const controller = new AbortController();
-        const timeout = setTimeout(() => controller.abort(), 1200);
-        const geoRes = await fetch(`http://ip-api.com/json/${ipAddress}?fields=status,country,regionName,city,zip`, {
-          signal: controller.signal,
-        });
+        const timeout = setTimeout(() => controller.abort(), 1500);
+        const geoRes = await fetch(
+          `http://ip-api.com/json/${ipAddress}?fields=status,country,regionName,city,zip`,
+          { signal: controller.signal }
+        );
         clearTimeout(timeout);
         if (geoRes.ok) {
-          const geoData = await geoRes.json();
+          const geoData = await geoRes.json() as Record<string, string>;
           if (geoData.status === 'success') {
             city = city || geoData.city || null;
             region = region || geoData.regionName || null;
@@ -66,36 +68,30 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             country = country || geoData.country || null;
           }
         }
-      } catch (e) {
-        // Ignore timeout/error gracefully
+      } catch {
+        // Geo lookup failed or timed out — continue without it
       }
     }
 
-    // 2. Delete existing active cart items for this session (try ActiveCarts first, fallback to active_carts)
+    // 3. Delete existing rows for this session (try ActiveCarts, fallback to active_carts)
     let targetTable = 'ActiveCarts';
-    let { error: deleteError } = await supabase
+    const { error: deleteError } = await supabase
       .from('ActiveCarts')
       .delete()
       .eq('session_id', sessionId);
 
     if (deleteError && (deleteError.code === '42P01' || deleteError.message?.includes('does not exist'))) {
       targetTable = 'active_carts';
-      const fallbackDelete = await supabase
-        .from('active_carts')
-        .delete()
-        .eq('session_id', sessionId);
-      if (fallbackDelete.error) {
-        console.warn('Delete error on active_carts fallback:', fallbackDelete.error);
-      }
+      await supabase.from('active_carts').delete().eq('session_id', sessionId);
     }
 
-    // 3. If cart is empty, return early after delete
+    // 4. If cart is empty, done
     if (!Array.isArray(items) || items.length === 0) {
       return res.status(200).json({ success: true, count: 0 });
     }
 
-    // 4. Insert new cart items for this session
-    const rowsToInsert = items.map((item: CartItemSync) => ({
+    // 5. Insert updated cart rows
+    const rowsToInsert = (items as CartItemSync[]).map((item) => ({
       session_id: sessionId,
       product_id: item.productId || null,
       title: item.title,
@@ -117,13 +113,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       .insert(rowsToInsert);
 
     if (insertError) {
-      console.error(`Error inserting ${targetTable} rows:`, insertError);
+      console.error(`Insert error on ${targetTable}:`, insertError);
       throw insertError;
     }
 
     return res.status(200).json({ success: true, count: rowsToInsert.length, ip: ipAddress });
-  } catch (error: any) {
-    console.error('Cart sync endpoint error:', error);
-    return res.status(500).json({ error: error.message || 'Failed to sync cart' });
+  } catch (error: unknown) {
+    const msg = error instanceof Error ? error.message : 'Failed to sync cart';
+    console.error('Cart sync error:', msg);
+    return res.status(500).json({ error: msg });
   }
 }
