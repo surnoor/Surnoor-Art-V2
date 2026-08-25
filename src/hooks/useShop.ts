@@ -85,15 +85,14 @@ export function useShop(): UseShopResult {
     queryKey: ['shop-products'],
     queryFn: async () => {
       let json: { data: ApiProduct[] } = { data: [] };
+      const available: ShopProduct[] = [];
+      const sold: ShopProduct[] = [];
       try {
         const res = await fetch(`${apiBase}/api/products`);
         if (!res.ok) {
           throw new Error(`Failed to load shop products: HTTP ${res.status}`);
         }
         json = await res.json() as { data: ApiProduct[] };
-      
-      const available: ShopProduct[] = [];
-      const sold: ShopProduct[] = [];
 
       for (const p of json.data) {
         const activePrice = p.prices.find((pr) => pr.active) ?? p.prices[0] ?? null;
