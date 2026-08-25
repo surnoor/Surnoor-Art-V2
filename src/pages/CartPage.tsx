@@ -5,6 +5,7 @@ import { trackBeginCheckout } from "../utils/analytics";
 import { X } from "lucide-react";
 import { useCart } from "../context/CartContext";
 import { formatPrice } from "../utils/format";
+import PaymentLogos from "../components/PaymentLogos";
 
 async function startCartCheckout(
   items: { priceId: string; quantity: number }[],
@@ -145,9 +146,13 @@ export default function CartPage() {
                   <span className="text-muted-foreground">Subtotal</span>
                   <span className="font-medium">{formatPrice(subtotal, currency)}</span>
                 </div>
-                <div className="flex justify-between text-xs text-muted-foreground">
-                  <span>Shipping</span>
-                  <span>Calculated at checkout</span>
+                <div className="flex justify-between text-xs">
+                  <span className="text-muted-foreground">Shipping</span>
+                  {subtotal >= 10000 ? (
+                    <span className="text-primary font-medium tracking-[0.1em]">Free Delivery ($100+)</span>
+                  ) : (
+                    <span className="text-muted-foreground">Calculated at checkout</span>
+                  )}
                 </div>
               </div>
 
@@ -156,16 +161,33 @@ export default function CartPage() {
                   <span>Total</span>
                   <span>{formatPrice(subtotal, currency)}</span>
                 </div>
-                <p className="text-[10px] text-muted-foreground mt-1">Shipping added at checkout</p>
+                <p className="text-[10px] text-muted-foreground mt-1">
+                  {subtotal >= 10000 ? "Shipping is on us." : "Shipping added at checkout"}
+                </p>
               </div>
 
-              <button
-                onClick={handleCheckout}
-                disabled={checkoutLoading}
-                className="w-full h-11 text-[11px] tracking-[0.18em] uppercase border border-primary text-primary hover:bg-primary hover:text-background transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {checkoutLoading ? "Redirecting…" : "Checkout"}
-              </button>
+              <div className="flex flex-col gap-4">
+                <button
+                  onClick={handleCheckout}
+                  disabled={checkoutLoading}
+                  className="w-full bg-foreground text-background hover:bg-foreground/90 h-12 uppercase tracking-widest text-xs mt-2 transition-colors"
+                >
+                  {checkoutLoading ? "Redirecting…" : "Proceed to Checkout"}
+                </button>
+                
+                <div className="flex flex-col items-center gap-4 mt-6">
+                  <PaymentLogos className="scale-90 origin-center" />
+                  <a 
+                    href="https://stripe.com" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-1.5 opacity-40 hover:opacity-100 transition-opacity"
+                  >
+                    <span className="text-[9px] tracking-widest uppercase text-foreground">Powered by</span>
+                    <img src="/assets/images/stripe.svg" alt="Stripe" className="h-[14px] w-auto object-contain" />
+                  </a>
+                </div>
+              </div>
 
               {checkoutError && (
                 <p className="text-[10px] text-red-600 mt-3">{checkoutError}</p>

@@ -5,6 +5,7 @@ import { trackArtworkView, identifyUser } from "../utils/analytics";
 import { ChevronDown } from "lucide-react";
 import { useShop, type ShopProduct } from "../hooks/useShop";
 import { useCart } from "../context/CartContext";
+import PaymentLogos from "../components/PaymentLogos";
 import { formatPrice } from "../utils/format";
 import WorkCard from "../components/WorkCard";
 import { ARButton } from "../components/ARViewer";
@@ -370,7 +371,19 @@ export default function ProductDetailPage({ productId }: { productId: string }) 
               <p className="text-muted-foreground text-xs tracking-wide mb-5">{substrateDimensionsLine}</p>
             )}
 
-            <p className="text-lg font-medium mb-8">{priceDisplay}</p>
+            {hasPurchasablePrice && (
+              <div className="flex items-center gap-3 mb-8">
+                <p className="text-sm tracking-widest text-foreground">
+                  {priceDisplay}
+                </p>
+                  {!isSold && product.price != null && product.price >= 10000 && (
+                    <div className="flex items-center gap-4">
+                      <span className="text-[9px] tracking-[0.1em] uppercase text-primary font-medium">Free Delivery ($100+)</span>
+                      <PaymentLogos className="scale-[0.65] origin-left hidden sm:flex" />
+                    </div>
+                  )}
+              </div>
+            )}
 
             {!isSold && hasPurchasablePrice && (
               <div className="mb-5 space-y-3">
@@ -471,10 +484,10 @@ export default function ProductDetailPage({ productId }: { productId: string }) 
             <div className="mb-8">
               <Accordion title="Shipping Info">
                 <p>
-                  Standard shipping: 5–10 business days — $15 CAD<br />
-                  Express shipping: 2–4 business days — $35 CAD<br />
-                  We ship to Canada, United States, United Kingdom, Australia, and New Zealand.
-                  All works are carefully packaged to arrive safely.
+                  Free delivery for orders over $100 CAD.<br />
+                  Standard delivery: 3–7 business days — $15 CAD (North America)<br />
+                  International delivery: 7–14 business days — $35 CAD (Rest of World)<br />
+                  We ship worldwide. All works are carefully packaged to arrive safely.
                 </p>
               </Accordion>
               <Accordion title="Return & Refund Policy">

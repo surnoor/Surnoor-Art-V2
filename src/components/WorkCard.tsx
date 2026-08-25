@@ -6,6 +6,7 @@ import { useCart } from "../context/CartContext";
 import { formatPrice } from "../utils/format";
 import { identifyUser } from "../utils/analytics";
 import { supabase } from "../lib/supabase";
+import PaymentLogos from "./PaymentLogos";
 
 interface WorkCardProps {
   product: ShopProduct;
@@ -116,7 +117,15 @@ export default function WorkCard({ product, sold = false }: WorkCardProps) {
       {/* Price + CTA row */}
       <div className="mt-auto pt-3 flex flex-col gap-2">
         <div className="flex items-center justify-between">
-          <p className="text-[10px] tracking-widest text-foreground flex-shrink-0">{priceDisplay}</p>
+          <div className="flex items-center gap-2 flex-wrap">
+            <p className="text-[10px] tracking-widest text-foreground flex-shrink-0">{priceDisplay}</p>
+            {!sold && product.price != null && product.price >= 10000 && (
+              <div className="flex items-center gap-2">
+                <span className="text-[8px] tracking-[0.1em] uppercase text-primary font-medium whitespace-nowrap">Free Delivery ($100+)</span>
+                <PaymentLogos className="scale-[0.55] origin-left hidden sm:flex" />
+              </div>
+            )}
+          </div>
           {sold && (
             <p className="text-[10px] tracking-[0.12em] uppercase text-muted-foreground/70 ml-auto">Sold</p>
           )}
@@ -201,6 +210,7 @@ export default function WorkCard({ product, sold = false }: WorkCardProps) {
               >
                 Remove
               </button>
+              
             </div>
           </div>
         )}

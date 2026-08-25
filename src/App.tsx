@@ -23,6 +23,7 @@ import { CartProvider, useCart } from "./context/CartContext";
 import { NewsletterProvider } from "./context/NewsletterContext";
 import ContactPage from "./pages/ContactPage";
 import ShowcasePage from "./pages/ShowcasePage";
+import PaymentShippingPage from "./pages/PaymentShippingPage";
 import { useShop } from "./hooks/useShop";
 import { useHeroSlides } from "./hooks/useHeroSlides";
 import { trackSlideshowInteraction } from "./utils/analytics";
@@ -1096,15 +1097,13 @@ function Footer() {
             >
               Website
             </a>
-            <a
-              href="https://studionomadica.etsy.com"
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              href="/payment-and-shipping"
               className="hover:text-primary transition-colors"
-              data-testid="footer-etsy"
+              data-testid="footer-payment-shipping"
             >
-              Etsy Shop
-            </a>
+              Payment and Shipping
+            </Link>
             <Link 
               href="/contact" 
               className="text-muted-foreground hover:text-foreground transition-colors"
@@ -1276,6 +1275,9 @@ function AppInner() {
           </Route>
           <Route path="/showcase">
             <ShowcasePage />
+          </Route>
+          <Route path="/payment-and-shipping">
+            <PaymentShippingPage />
           </Route>
 
           {/* Admin Routes */}
