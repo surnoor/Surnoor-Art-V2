@@ -31,6 +31,7 @@ import WorkCard from "./components/WorkCard";
 import NewsletterBanner from "./components/NewsletterBanner";
 import NewsletterForm from "./components/NewsletterForm";
 import { AdminAuth } from "./components/AdminAuth";
+// import TawkToWidget from "./components/TawkToWidget";
 
 const easing: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
@@ -122,116 +123,29 @@ function Nav() {
 
   return (
     <>
-    <div className="relative">
-      <nav
-        className="flex items-center justify-between px-6 md:px-12 py-4 bg-background"
-        data-testid="nav"
-      >
-        <Link 
-          href="/" 
-          className="font-sans text-sm tracking-[0.2em] font-bold uppercase" 
-          data-testid="nav-logo"
-          onClick={() => {
-            if (location === "/") {
-              window.scrollTo({ top: 0, behavior: "smooth" });
-            }
-          }}
+      <div className="relative">
+        <nav
+          className="flex items-center justify-between px-6 md:px-12 py-4 bg-background"
+          data-testid="nav"
         >
-          Surnoor Sembhi
-        </Link>
-        <div className="hidden md:flex items-center gap-5 text-[10px] tracking-[0.2em] font-bold uppercase text-foreground">
           <Link
-            href="/shop"
-            className={`transition-colors ${isShop ? "text-[#4efa84]" : "hover:text-foreground"}`}
-            data-testid="nav-shop"
+            href="/"
+            className="font-sans text-sm tracking-[0.2em] font-bold uppercase"
+            data-testid="nav-logo"
             onClick={() => {
-              if (isShop) window.scrollTo({ top: 0, behavior: "smooth" });
+              if (location === "/") {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }
             }}
           >
-            Shop
+            Surnoor Sembhi
           </Link>
-          <Link
-            href="/archive"
-            className={`transition-colors ${location === "/archive" ? "text-[#4efa84]" : "hover:text-foreground"}`}
-            data-testid="nav-archive"
-            onClick={() => {
-              if (location === "/archive") window.scrollTo({ top: 0, behavior: "smooth" });
-            }}
-          >
-            Archive
-          </Link>
-          <Link 
-            href="/#instruction" 
-            className="hover:text-foreground transition-colors" 
-            data-testid="nav-learn"
-            onClick={(e) => scrollToHash(e, "#instruction")}
-          >
-            Learn
-          </Link>
-          <Link 
-            href="/#about" 
-            className="hover:text-foreground transition-colors" 
-            data-testid="nav-about"
-            onClick={(e) => scrollToHash(e, "#about")}
-          >
-            About
-          </Link>
-          <Link
-            href="/support"
-            className={`transition-colors ${location === "/support" ? "text-[#4efa84]" : "hover:text-foreground"}`}
-            data-testid="nav-support"
-            onClick={() => {
-              if (location === "/support") window.scrollTo({ top: 0, behavior: "smooth" });
-            }}
-          >
-            Support
-          </Link>
-          <Link href="/contact" className={`transition-colors ${location === "/contact" ? "text-[#4efa84]" : "hover:text-foreground"}`} data-testid="nav-contact">Contact</Link>
-          <Link
-            href="/cart"
-            className={`relative transition-colors ${isCart ? "text-[#4efa84]" : "hover:text-foreground"}`}
-            aria-label={`Cart${totalItems > 0 ? ` (${totalItems} items)` : ""}`}
-            data-testid="nav-cart"
-          >
-            <ShoppingBag className="w-4 h-4" />
-            <CartBadge />
-          </Link>
-        </div>
-        <div className="flex items-center gap-4 md:hidden">
-          <Link
-            href="/cart"
-            className="relative text-muted-foreground hover:text-foreground transition-colors"
-            aria-label="Cart"
-            data-testid="mobile-nav-cart"
-          >
-            <ShoppingBag className="w-4 h-4" />
-            <CartBadge />
-          </Link>
-          <button
-            className="text-xs tracking-[0.18em] uppercase w-[72px] text-right"
-            onClick={() => setMenuOpen(!menuOpen)}
-            data-testid="nav-menu-toggle"
-          >
-            {menuOpen ? "Close" : "Menu"}
-          </button>
-        </div>
-      </nav>
-
-      <AnimatePresence>
-        {menuOpen && (
-          <motion.div 
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.2, ease: "easeOut" }}
-            className="fixed top-[var(--header-offset)] left-0 right-0 bottom-0 z-50 bg-background px-8 py-10 flex flex-col items-end gap-8 text-2xl font-bold tracking-[0.1em] uppercase text-foreground overflow-y-auto"
-          >
+          <div className="hidden md:flex items-center gap-5 text-[10px] tracking-[0.2em] font-bold uppercase text-foreground">
             <Link
               href="/shop"
-              className={`transition-colors ${isShop ? "text-[#4efa84]" : ""}`}
-              data-testid="mobile-nav-shop"
+              className={`transition-colors ${isShop ? "text-[#4efa84]" : "hover:text-foreground"}`}
+              data-testid="nav-shop"
               onClick={() => {
-                setMenuOpen(false);
                 if (isShop) window.scrollTo({ top: 0, behavior: "smooth" });
               }}
             >
@@ -239,51 +153,138 @@ function Nav() {
             </Link>
             <Link
               href="/archive"
-              className={`transition-colors ${location === "/archive" ? "text-[#4efa84]" : ""}`}
-              data-testid="mobile-nav-archive"
+              className={`transition-colors ${location === "/archive" ? "text-[#4efa84]" : "hover:text-foreground"}`}
+              data-testid="nav-archive"
               onClick={() => {
-                setMenuOpen(false);
                 if (location === "/archive") window.scrollTo({ top: 0, behavior: "smooth" });
               }}
             >
               Archive
             </Link>
-            <Link 
-              href="/#instruction" 
-              onClick={(e) => { setMenuOpen(false); scrollToHash(e, "#instruction"); }} 
-              data-testid="mobile-nav-learn"
+            <Link
+              href="/#instruction"
+              className="hover:text-foreground transition-colors"
+              data-testid="nav-learn"
+              onClick={(e) => scrollToHash(e, "#instruction")}
             >
               Learn
             </Link>
-            <Link 
-              href="/#about" 
-              onClick={(e) => { setMenuOpen(false); scrollToHash(e, "#about"); }} 
-              data-testid="mobile-nav-about"
+            <Link
+              href="/#about"
+              className="hover:text-foreground transition-colors"
+              data-testid="nav-about"
+              onClick={(e) => scrollToHash(e, "#about")}
             >
               About
             </Link>
             <Link
               href="/support"
-              className={`transition-colors ${location === "/support" ? "text-[#4efa84]" : ""}`}
-              data-testid="mobile-nav-support"
+              className={`transition-colors ${location === "/support" ? "text-[#4efa84]" : "hover:text-foreground"}`}
+              data-testid="nav-support"
               onClick={() => {
-                setMenuOpen(false);
                 if (location === "/support") window.scrollTo({ top: 0, behavior: "smooth" });
               }}
             >
               Support
             </Link>
-            <Link 
-              href="/contact"
-              onClick={() => setMenuOpen(false)}
-              data-testid="mobile-nav-contact"
+            <Link href="/contact" className={`transition-colors ${location === "/contact" ? "text-[#4efa84]" : "hover:text-foreground"}`} data-testid="nav-contact">Contact</Link>
+            <Link
+              href="/cart"
+              className={`relative transition-colors ${isCart ? "text-[#4efa84]" : "hover:text-foreground"}`}
+              aria-label={`Cart${totalItems > 0 ? ` (${totalItems} items)` : ""}`}
+              data-testid="nav-cart"
             >
-              Contact
+              <ShoppingBag className="w-4 h-4" />
+              <CartBadge />
             </Link>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
+          </div>
+          <div className="flex items-center gap-4 md:hidden">
+            <Link
+              href="/cart"
+              className="relative text-muted-foreground hover:text-foreground transition-colors"
+              aria-label="Cart"
+              data-testid="mobile-nav-cart"
+            >
+              <ShoppingBag className="w-4 h-4" />
+              <CartBadge />
+            </Link>
+            <button
+              className="text-xs tracking-[0.18em] uppercase w-[72px] text-right"
+              onClick={() => setMenuOpen(!menuOpen)}
+              data-testid="nav-menu-toggle"
+            >
+              {menuOpen ? "Close" : "Menu"}
+            </button>
+          </div>
+        </nav>
+
+        <AnimatePresence>
+          {menuOpen && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+              className="fixed top-[var(--header-offset)] left-0 right-0 bottom-0 z-50 bg-background px-8 py-10 flex flex-col items-end gap-8 text-2xl font-bold tracking-[0.1em] uppercase text-foreground overflow-y-auto"
+            >
+              <Link
+                href="/shop"
+                className={`transition-colors ${isShop ? "text-[#4efa84]" : ""}`}
+                data-testid="mobile-nav-shop"
+                onClick={() => {
+                  setMenuOpen(false);
+                  if (isShop) window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
+              >
+                Shop
+              </Link>
+              <Link
+                href="/archive"
+                className={`transition-colors ${location === "/archive" ? "text-[#4efa84]" : ""}`}
+                data-testid="mobile-nav-archive"
+                onClick={() => {
+                  setMenuOpen(false);
+                  if (location === "/archive") window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
+              >
+                Archive
+              </Link>
+              <Link
+                href="/#instruction"
+                onClick={(e) => { setMenuOpen(false); scrollToHash(e, "#instruction"); }}
+                data-testid="mobile-nav-learn"
+              >
+                Learn
+              </Link>
+              <Link
+                href="/#about"
+                onClick={(e) => { setMenuOpen(false); scrollToHash(e, "#about"); }}
+                data-testid="mobile-nav-about"
+              >
+                About
+              </Link>
+              <Link
+                href="/support"
+                className={`transition-colors ${location === "/support" ? "text-[#4efa84]" : ""}`}
+                data-testid="mobile-nav-support"
+                onClick={() => {
+                  setMenuOpen(false);
+                  if (location === "/support") window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
+              >
+                Support
+              </Link>
+              <Link
+                href="/contact"
+                onClick={() => setMenuOpen(false)}
+                data-testid="mobile-nav-contact"
+              >
+                Contact
+              </Link>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
     </>
   );
 }
@@ -392,13 +393,38 @@ const ACCOMPLISHMENTS = [
   }
 ];
 
+function BioSection() {
+  return (
+    <section id="about" className="px-6 md:px-12 pb-8 print:hidden">
+      <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center md:items-end justify-center gap-10 md:gap-16">
+        <FadeIn className="aspect-square w-full max-w-[320px] flex items-end shrink-0">
+          <p className="font-serif text-base md:text-lg font-light leading-relaxed text-foreground">
+            Surnoor Sembhi is a painter originally from Punjab, now based in Vancouver BC. Surnoor develops paintings from observational studies and imaginative ways of working, welcoming abstract elements into his visual language.
+          </p>
+        </FadeIn>
+        <FadeIn delay={0.1} className="flex relative">
+          <img
+            src="/web/portrait.jpg"
+            alt="Surnoor Sembhi"
+            className="w-auto h-[350px] md:h-[380px] object-cover bg-muted shadow-sm"
+            style={{ aspectRatio: "3/4" }}
+          />
+          <span className="absolute -bottom-6 right-0 text-[9px] tracking-[0.2em] uppercase text-muted-foreground text-right w-full">
+            Image courtesy: James Cliburn
+          </span>
+        </FadeIn>
+      </div>
+    </section>
+  );
+}
+
 function AccomplishmentsSection() {
   return (
-    <section id="about" className="relative w-full py-16 md:py-28 bg-background print:py-8 print:w-[100vw] print:m-0 print:left-0 print:top-0">
+    <section id="cv" className="relative w-full pt-8 md:pt-12 pb-16 md:pb-28 bg-background print:py-8 print:w-[100vw] print:m-0 print:left-0 print:top-0">
       <FadeIn className="px-6 md:px-12 mb-10 md:mb-16 print:hidden">
-        <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground">Exhibitions & Recognition</p>
+        <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground">Curriculum Vitae</p>
       </FadeIn>
-      
+
       {/* Print-only CV Header */}
       <div className="hidden print:block px-6 md:px-12 mb-12 border-b border-foreground/10 pb-6">
         <h1 className="font-serif text-3xl font-light tracking-[0.05em] uppercase text-foreground mb-3">Surnoor Singh</h1>
@@ -412,7 +438,7 @@ function AccomplishmentsSection() {
       </div>
 
       <div className="px-6 md:px-12 grid grid-cols-1 md:grid-cols-2 gap-16 text-sm">
-        
+
         {/* Column 1: Exhibitions */}
         <div className="space-y-12">
           {/* Recent Commissions */}
@@ -630,7 +656,7 @@ function AccomplishmentsSection() {
                   Read Article <ExternalLink className="w-3 h-3" />
                 </a>
               </div>
-              
+
               <div className="space-y-1">
                 <p className="font-medium text-foreground">Inspiring West Coast Artists You Need To Know About</p>
                 <a href="https://tourismburnaby.com/wccblog/inspiring-west-coast-artists-you-need-to-know-about/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-xs tracking-[0.15em] uppercase text-primary hover:opacity-70 transition-opacity mt-2">
@@ -767,6 +793,8 @@ function HomePage() {
       {/* ── 2. SELECTED WORKS (Shifted to top) ── */}
       <SelectedWorksSection />
 
+      <BioSection />
+
       {/* ── 1. HERO ── */}
       <section id="hero" className="flex flex-col print:hidden">
         {SHOW_HERO_SLIDESHOW && (
@@ -836,43 +864,43 @@ function HomePage() {
 
       {/* ── 3. ABOUT ── */}
       {false && (
-      <section id="about-info" className=" px-6 md:px-12 py-16 md:py-28 bg-card print:hidden">
-        <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-20">
-          <div className="lg:col-span-4">
-            <FadeIn>
-              <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground lg:sticky lg:top-24">The Practice</p>
-            </FadeIn>
-          </div>
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-80px" }}
-            variants={stagger}
-            className="lg:col-span-8 space-y-6"
-          >
-            <motion.p variants={fadeUp} className="font-serif text-2xl md:text-3xl font-light leading-snug">
-              Based in the Lower Mainland, BC, Surnoor is a visual artist working in the realist tradition. Trained by early mentors, senior artists, and in-depth study of Old Masters.
-            </motion.p>
-            <motion.p variants={fadeUp} className="text-muted-foreground leading-relaxed">
-              Surnoor's work is proudly collected by patrons who value care and concern for a quiet truth in the familiar creeks, a busy downtown crosswalk, a figure in her unadorned nakedness, or a solitary still object seen from a distance — brought to their own homes through a painting well-crafted with technique and consciousness.
-            </motion.p>
-            <motion.p variants={fadeUp} className="text-muted-foreground leading-relaxed">
-              Developing a cohesive visual language, Surnoor's work in Vancouver focused on spontaneous plein airs of the city streets, figurative work at Basic Inquiry, and a SkyTrain sketch series. Since moving to the Fraser Valley, Surnoor has adopted a slower, iterative practice capturing the raw Valley moments — silent rivers, distant mountains, and proud trees.
-            </motion.p>
-            <motion.div variants={fadeUp}>
-              <a
-                href="https://www.surnoor.art"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-xs tracking-[0.15em] uppercase text-primary hover:opacity-70 transition-opacity"
-                data-testid="link-surnoor-art"
-              >
-                surnoor.art <ExternalLink className="w-3 h-3" />
-              </a>
+        <section id="about-info" className=" px-6 md:px-12 py-16 md:py-28 bg-card print:hidden">
+          <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-20">
+            <div className="lg:col-span-4">
+              <FadeIn>
+                <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground lg:sticky lg:top-24">The Practice</p>
+              </FadeIn>
+            </div>
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-80px" }}
+              variants={stagger}
+              className="lg:col-span-8 space-y-6"
+            >
+              <motion.p variants={fadeUp} className="font-serif text-2xl md:text-3xl font-light leading-snug">
+                Based in the Lower Mainland, BC, Surnoor is a visual artist working in the realist tradition. Trained by early mentors, senior artists, and in-depth study of Old Masters.
+              </motion.p>
+              <motion.p variants={fadeUp} className="text-muted-foreground leading-relaxed">
+                Surnoor's work is proudly collected by patrons who value care and concern for a quiet truth in the familiar creeks, a busy downtown crosswalk, a figure in her unadorned nakedness, or a solitary still object seen from a distance — brought to their own homes through a painting well-crafted with technique and consciousness.
+              </motion.p>
+              <motion.p variants={fadeUp} className="text-muted-foreground leading-relaxed">
+                Developing a cohesive visual language, Surnoor's work in Vancouver focused on spontaneous plein airs of the city streets, figurative work at Basic Inquiry, and a SkyTrain sketch series. Since moving to the Fraser Valley, Surnoor has adopted a slower, iterative practice capturing the raw Valley moments — silent rivers, distant mountains, and proud trees.
+              </motion.p>
+              <motion.div variants={fadeUp}>
+                <a
+                  href="https://www.surnoor.art"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-xs tracking-[0.15em] uppercase text-primary hover:opacity-70 transition-opacity"
+                  data-testid="link-surnoor-art"
+                >
+                  surnoor.art <ExternalLink className="w-3 h-3" />
+                </a>
+              </motion.div>
             </motion.div>
-          </motion.div>
-        </div>
-      </section>
+          </div>
+        </section>
       )}
 
       {/* ── 4. LEARN ── */}
@@ -1063,55 +1091,55 @@ function Footer() {
   return (
     <footer className=" bg-background px-6 md:px-12 py-12 md:py-16 print:hidden">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-16 items-start">
-          {/* Branding */}
-          <div>
-            <p className="font-sans font-medium text-sm tracking-[0.2em] uppercase mb-2">Surnoor Sembhi</p>
-            <p className="text-muted-foreground text-xs tracking-[0.1em] uppercase">Visual Artist · Fraser Valley, BC</p>
-          </div>
+        {/* Branding */}
+        <div>
+          <p className="font-sans font-medium text-sm tracking-[0.2em] uppercase mb-2">Surnoor Sembhi</p>
+          <p className="text-muted-foreground text-xs tracking-[0.1em] uppercase">Visual Artist · Fraser Valley, BC</p>
+        </div>
 
-          {/* Newsletter - Centered */}
-          <div className="flex flex-col md:items-center gap-6 w-full">
-            <div className="w-full max-w-sm">
-              <p className="text-[10px] tracking-[0.2em] uppercase text-muted-foreground mb-5 md:text-center">Studio Newsletter</p>
-              <NewsletterForm variant="footer" />
-            </div>
-          </div>
-
-          {/* Social Links - Two Columns */}
-          <div className="grid grid-cols-2 gap-x-12 gap-y-5 text-[10px] tracking-[0.2em] uppercase text-muted-foreground md:justify-self-end">
-            <a
-              href="https://instagram.com/surnoorsembhi"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-primary transition-colors"
-              data-testid="footer-instagram"
-            >
-              Instagram
-            </a>
-            <a
-              href="https://www.surnoor.art"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-primary transition-colors"
-              data-testid="footer-website"
-            >
-              Website
-            </a>
-            <Link
-              href="/payment-and-shipping"
-              className="hover:text-primary transition-colors"
-              data-testid="footer-payment-shipping"
-            >
-              Payment and Shipping
-            </Link>
-            <Link 
-              href="/contact" 
-              className="text-muted-foreground hover:text-foreground transition-colors"
-            >
-              Contact
-            </Link>
+        {/* Newsletter - Centered */}
+        <div className="flex flex-col md:items-center gap-6 w-full">
+          <div className="w-full max-w-sm">
+            <p className="text-[10px] tracking-[0.2em] uppercase text-muted-foreground mb-5 md:text-center">Studio Newsletter</p>
+            <NewsletterForm variant="footer" />
           </div>
         </div>
+
+        {/* Social Links - Two Columns */}
+        <div className="grid grid-cols-2 gap-x-12 gap-y-5 text-[10px] tracking-[0.2em] uppercase text-muted-foreground md:justify-self-end">
+          <a
+            href="https://instagram.com/surnoorsembhi"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-primary transition-colors"
+            data-testid="footer-instagram"
+          >
+            Instagram
+          </a>
+          <a
+            href="https://www.surnoor.art"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-primary transition-colors"
+            data-testid="footer-website"
+          >
+            Website
+          </a>
+          <Link
+            href="/payment-and-shipping"
+            className="hover:text-primary transition-colors"
+            data-testid="footer-payment-shipping"
+          >
+            Payment and Shipping
+          </Link>
+          <Link
+            href="/contact"
+            className="text-muted-foreground hover:text-foreground transition-colors"
+          >
+            Contact
+          </Link>
+        </div>
+      </div>
 
       <div className="max-w-7xl mx-auto mt-10 pt-8  text-[10px] text-muted-foreground tracking-wide">
         &copy; {new Date().getFullYear()} Surnoor Sembhi. All rights reserved.
@@ -1129,7 +1157,7 @@ function AppInner() {
     const updateHeaderHeight = () => {
       if (navWrapperRef.current) {
         const navBottom = navWrapperRef.current.getBoundingClientRect().bottom;
-        
+
         // Total offset is current visible bottom of nav wrapper (min 0)
         const totalOffset = Math.max(0, navBottom);
         document.documentElement.style.setProperty('--header-offset', `${totalOffset}px`);
@@ -1149,7 +1177,7 @@ function AppInner() {
   useEffect(() => {
     if (location !== "/") return;
 
-    const sections = ["hero", "work", "about", "instruction", "upcoming"];
+    const sections = ["hero", "work", "about", "cv", "instruction", "upcoming"];
     let isScrolling = false;
 
     const handleScrollSpy = () => {
@@ -1192,7 +1220,7 @@ function AppInner() {
     const handleScroll = () => {
       if (interval) clearInterval(interval);
       const hash = window.location.hash;
-      
+
       if (hash) {
         let attempts = 0;
         interval = setInterval(() => {
@@ -1202,7 +1230,7 @@ function AppInner() {
             element.scrollIntoView({ behavior: "smooth" });
             clearInterval(interval);
           }
-          
+
           attempts++;
           if (attempts > 20) { // Stop after 2 seconds (100ms * 20)
             clearInterval(interval);
@@ -1217,7 +1245,7 @@ function AppInner() {
 
     // Run on initial load and whenever the path changes
     handleScroll();
-    
+
     // Listen for hash changes (for same-page anchor clicks)
     window.addEventListener("hashchange", handleScroll);
     return () => {
@@ -1323,6 +1351,7 @@ export default function App() {
           <Toaster position="bottom-right" />
           <AppInner />
           <Analytics />
+          {/* <TawkToWidget /> - Archived for now */}
         </NewsletterProvider>
       </CartProvider>
     </Router>
