@@ -395,30 +395,31 @@ const ACCOMPLISHMENTS = [
 
 function BioSection() {
   return (
-    <section id="about" className="px-6 md:px-12 pb-8 print:hidden">
+    <section id="about" className="px-6 md:px-12 pt-4 md:pt-16 pb-20 md:pb-8 print:hidden">
       <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center md:items-end justify-center gap-10 md:gap-16 lg:gap-20">
-        <FadeIn className="aspect-square w-full max-w-[320px] flex items-end shrink-0">
+        <FadeIn className="w-full max-w-[320px] shrink-0 text-left">
           <p className="font-serif text-base md:text-lg font-light leading-relaxed text-foreground">
             Surnoor Sembhi is a painter originally from Punjab, now based in Vancouver BC. Surnoor develops paintings from observational studies and imaginative ways of working, welcoming abstract elements into his visual language.
           </p>
         </FadeIn>
-        <FadeIn delay={0.1} className="flex shrink-0">
-          <div className="relative">
+        <FadeIn delay={0.1} className="flex shrink-0 w-full md:w-auto justify-center">
+          <div className="relative w-1/2 md:w-auto shrink-0">
             <img
               src="/web/portrait.jpg"
               alt="Surnoor Sembhi"
-              className="w-auto h-[350px] md:h-[380px] object-cover bg-muted"
-              style={{ aspectRatio: "3/4" }}
+              className="w-full md:w-auto h-[260px] sm:h-[320px] md:h-[380px] object-cover bg-muted"
             />
-            <span className="absolute -bottom-6 right-0 text-[9px] tracking-[0.2em] uppercase text-muted-foreground text-right w-full">
+            <span className="absolute -bottom-10 md:-bottom-6 right-0 text-[9px] tracking-[0.2em] uppercase text-muted-foreground text-right w-full">
               Image courtesy: James Cliburn
             </span>
           </div>
-          <img
-            src="/web/hands4.jpg"
-            alt="Hands"
-            className="w-auto h-[350px] md:h-[380px] object-cover bg-muted"
-          />
+          <div className="w-1/2 md:w-auto shrink-0">
+            <img
+              src="/web/hands4.jpg"
+              alt="Hands"
+              className="w-full md:w-auto h-[260px] sm:h-[320px] md:h-[380px] object-cover bg-muted"
+            />
+          </div>
         </FadeIn>
       </div>
     </section>
