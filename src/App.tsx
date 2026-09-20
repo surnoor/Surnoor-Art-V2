@@ -489,6 +489,10 @@ function AccomplishmentsSection() {
             <ul className="space-y-3 text-muted-foreground leading-relaxed">
               <li className="grid grid-cols-[3rem_1fr] gap-4">
                 <span className="font-medium">2026</span>
+                <span>100 Amigos - Astro Artists Facility, Astro Arts Festival</span>
+              </li>
+              <li className="grid grid-cols-[3rem_1fr] gap-4">
+                <span></span>
                 <span>Chilliwack Mural Festival - Live Mural Painting Artist</span>
               </li>
               <li className="grid grid-cols-[3rem_1fr] gap-4">
