@@ -143,7 +143,7 @@ function Nav() {
           <div className="hidden md:flex items-center gap-5 text-[10px] tracking-[0.2em] font-bold uppercase text-foreground">
             <Link
               href="/shop"
-              className={`transition-colors ${isShop ? "text-[#4efa84]" : "hover:text-foreground"}`}
+              className={`transition-colors ${isShop ? "text-[#FF0133]" : "hover:text-foreground"}`}
               data-testid="nav-shop"
               onClick={() => {
                 if (isShop) window.scrollTo({ top: 0, behavior: "smooth" });
@@ -229,7 +229,7 @@ function Nav() {
             >
               <Link
                 href="/shop"
-                className={`transition-colors ${isShop ? "text-[#4efa84]" : ""}`}
+                className={`transition-colors ${isShop ? "text-[#FF0133]" : ""}`}
                 data-testid="mobile-nav-shop"
                 onClick={() => {
                   setMenuOpen(false);
