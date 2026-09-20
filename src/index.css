@@ -325,3 +325,14 @@
     inset: -1px;
   }
 }
+
+@media print {
+  @page {
+    margin: 1.6cm 1.4cm;
+    size: auto;
+  }
+  body {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}

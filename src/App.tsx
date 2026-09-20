@@ -428,7 +428,7 @@ function BioSection() {
 
 function AccomplishmentsSection() {
   return (
-    <section id="cv" className="relative w-full pt-8 md:pt-12 pb-16 md:pb-28 bg-background print:py-8 print:w-[100vw] print:m-0 print:left-0 print:top-0">
+    <section id="cv" className="relative w-full pt-8 md:pt-12 pb-16 md:pb-28 bg-background print:py-4 print:w-full print:m-0 print:left-0 print:top-0">
       <FadeIn className="px-6 md:px-12 mb-10 md:mb-16 print:hidden">
         <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground">Curriculum Vitae</p>
       </FadeIn>
@@ -445,7 +445,7 @@ function AccomplishmentsSection() {
         </div>
       </div>
 
-      <div className="px-6 md:px-12 grid grid-cols-1 md:grid-cols-2 gap-16 text-sm">
+      <div className="px-6 md:px-12 grid grid-cols-1 md:grid-cols-2 gap-16 text-sm print:hidden">
 
         {/* Column 1: Exhibitions */}
         <div className="space-y-12">
@@ -493,7 +493,7 @@ function AccomplishmentsSection() {
               </li>
               <li className="grid grid-cols-[3rem_1fr] gap-4">
                 <span></span>
-                <span>Chilliwack Mural Festival - Live Mural Painting Artist</span>
+                <span>Chilliwack Mural Festival - Live Mural Cube</span>
               </li>
               <li className="grid grid-cols-[3rem_1fr] gap-4">
                 <span className="font-medium">2023-25</span>
@@ -706,6 +706,187 @@ function AccomplishmentsSection() {
               </div>
             </div>
           </div>
+        </div>
+      </div>
+
+      {/* Print-only CV Layout with specified section order */}
+      <div className="hidden print:block px-6 md:px-12 text-sm space-y-7">
+        {/* 1. Group Show */}
+        <div className="space-y-3 break-inside-avoid">
+          <h3 className="font-serif text-xs font-semibold text-foreground pb-1.5 uppercase tracking-[0.15em] border-b border-foreground/15">Selected Group Exhibitions</h3>
+          <ul className="space-y-2 text-muted-foreground leading-relaxed">
+            <li className="grid grid-cols-[3.5rem_1fr] gap-4">
+              <span className="font-medium text-foreground">2026</span>
+              <span>100 Amigos - Astro Artists Facility, Astro Arts Festival</span>
+            </li>
+            <li className="grid grid-cols-[3.5rem_1fr] gap-4">
+              <span></span>
+              <span>Chilliwack Mural Festival - Live Mural Cube</span>
+            </li>
+            <li className="grid grid-cols-[3.5rem_1fr] gap-4">
+              <span className="font-medium text-foreground">2023-25</span>
+              <span>North Van Arts Art Rental Program - Selected participant, featured at CityScape (2023, 2024)</span>
+            </li>
+            <li className="grid grid-cols-[3.5rem_1fr] gap-4">
+              <span className="font-medium text-foreground">2025</span>
+              <span>Taylor Gallery Pop Up, Astro Arts Fest, Aug 8-10</span>
+            </li>
+            <li className="grid grid-cols-[3.5rem_1fr] gap-4">
+              <span className="font-medium text-foreground">2024</span>
+              <span>Seymour Art Gallery - Annual Group Exhibition</span>
+            </li>
+            <li className="grid grid-cols-[3.5rem_1fr] gap-4">
+              <span></span>
+              <span>Community Exhibition - Place des Arts</span>
+            </li>
+            <li className="grid grid-cols-[3.5rem_1fr] gap-4">
+              <span className="font-medium text-foreground">2023</span>
+              <span>Community Exhibition - Place des Arts</span>
+            </li>
+            <li className="grid grid-cols-[3.5rem_1fr] gap-4">
+              <span></span>
+              <span>Bloom exhibition - Federation Gallery, Granville Island</span>
+            </li>
+            <li className="grid grid-cols-[3.5rem_1fr] gap-4">
+              <span className="font-medium text-foreground">2022</span>
+              <span>Vancouver Salon - Federation Gallery, Granville Island</span>
+            </li>
+            <li className="grid grid-cols-[3.5rem_1fr] gap-4">
+              <span></span>
+              <span>Limitless Exhibition - Federation Gallery, Granville Island</span>
+            </li>
+            <li className="grid grid-cols-[3.5rem_1fr] gap-4">
+              <span className="font-medium text-foreground">2021</span>
+              <span>ArtRich Exhibition, Richmond Art Gallery - Featured Artist</span>
+            </li>
+            <li className="grid grid-cols-[3.5rem_1fr] gap-4">
+              <span></span>
+              <span>Active Members Exhibition - Federation Gallery, Granville Island</span>
+            </li>
+            <li className="grid grid-cols-[3.5rem_1fr] gap-4">
+              <span></span>
+              <span>Works on Paper - Federation Gallery, Granville Island</span>
+            </li>
+            <li className="grid grid-cols-[3.5rem_1fr] gap-4">
+              <span className="font-medium text-foreground">2018</span>
+              <span>Annual Group Exhibition - Punjab Lalit Kala Academy, Chandigarh</span>
+            </li>
+          </ul>
+        </div>
+
+        {/* 2. Solo Show */}
+        <div className="space-y-3 break-inside-avoid">
+          <h3 className="font-serif text-xs font-semibold text-foreground pb-1.5 uppercase tracking-[0.15em] border-b border-foreground/15">Solo Exhibition</h3>
+          <ul className="space-y-2 text-muted-foreground leading-relaxed">
+            <li className="grid grid-cols-[3.5rem_1fr] gap-4">
+              <span className="font-medium text-foreground">2024</span>
+              <span>Rooster in my Painting, Basic Inquiry, Vancouver, BC, Sept - Oct</span>
+            </li>
+          </ul>
+        </div>
+
+        {/* 3. Awards */}
+        <div className="space-y-3 break-inside-avoid">
+          <h3 className="font-serif text-xs font-semibold text-foreground pb-1.5 uppercase tracking-[0.15em] border-b border-foreground/15">Awards & Recognitions</h3>
+          <ul className="space-y-2 text-muted-foreground leading-relaxed">
+            <li className="grid grid-cols-[3.5rem_1fr] gap-4">
+              <span className="font-medium text-foreground">2025</span>
+              <span>Paint on the Mountain - Harmony Arts Festival - Grand Prize</span>
+            </li>
+            <li className="grid grid-cols-[3.5rem_1fr] gap-4">
+              <span className="font-medium text-foreground">2024</span>
+              <span>Paint on the Mountain - Harmony Arts Festival - Second Place Prize</span>
+            </li>
+            <li className="grid grid-cols-[3.5rem_1fr] gap-4">
+              <span className="font-medium text-foreground">2022</span>
+              <span>Grand Prix of Art - 2nd place in Masters Category</span>
+            </li>
+            <li className="grid grid-cols-[3.5rem_1fr] gap-4">
+              <span className="font-medium text-foreground">2021</span>
+              <span>Paint on the Mountain - Harmony Arts Festival - Grand Prize</span>
+            </li>
+            <li className="grid grid-cols-[3.5rem_1fr] gap-4">
+              <span></span>
+              <span>Grand Prix of Art - 2nd place in Masters Category</span>
+            </li>
+            <li className="grid grid-cols-[3.5rem_1fr] gap-4">
+              <span className="font-medium text-foreground">2020</span>
+              <span>Paint on the Mountain - Harmony Arts Festival - Honorable Mention</span>
+            </li>
+          </ul>
+        </div>
+
+        {/* 4. Commissions */}
+        <div className="space-y-3 break-inside-avoid">
+          <h3 className="font-serif text-xs font-semibold text-foreground pb-1.5 uppercase tracking-[0.15em] border-b border-foreground/15">Commissions</h3>
+          <ul className="space-y-2 text-muted-foreground leading-relaxed">
+            <li className="grid grid-cols-[3.5rem_1fr] gap-4">
+              <span className="font-medium text-foreground">2025</span>
+              <span>Jesus with Baby Louis, Personal Collection, Langley (Oil on Panel 12x16 inch)</span>
+            </li>
+            <li className="grid grid-cols-[3.5rem_1fr] gap-4">
+              <span></span>
+              <span>46 West Hasting, Vancouver, BC - Commissioned site-specific painting for an urban housing project</span>
+            </li>
+            <li className="grid grid-cols-[3.5rem_1fr] gap-4">
+              <span className="font-medium text-foreground">2024</span>
+              <span>Vancouver Center, West Bourne Projects, Commissioned site-specific painting (766 Seymour)</span>
+            </li>
+            <li className="grid grid-cols-[3.5rem_1fr] gap-4">
+              <span className="font-medium text-foreground">2022</span>
+              <span>Hart House, University of Toronto, Commissioned watercolor painting for personal collection</span>
+            </li>
+          </ul>
+        </div>
+
+        {/* 5. Artist in Residence */}
+        <div className="space-y-3 break-inside-avoid">
+          <h3 className="font-serif text-xs font-semibold text-foreground pb-1.5 uppercase tracking-[0.15em] border-b border-foreground/15">Artist in Residence</h3>
+          <ul className="space-y-2 text-muted-foreground leading-relaxed">
+            <li className="grid grid-cols-[3.5rem_1fr] gap-4">
+              <span className="font-medium text-foreground">2022</span>
+              <span>Silk Purse Art Gallery, West Vancouver Community Arts Council - Watercolor Artist in Residence, August 3 & 5</span>
+            </li>
+          </ul>
+        </div>
+
+        {/* 6. Bibliography */}
+        <div className="space-y-3 break-inside-avoid">
+          <h3 className="font-serif text-xs font-semibold text-foreground pb-1.5 uppercase tracking-[0.15em] border-b border-foreground/15">Bibliography</h3>
+          <ul className="space-y-2.5 text-muted-foreground leading-relaxed text-xs">
+            <li>
+              <span className="font-medium text-foreground">ArtsBC & Chilliwack Community Arts Council</span> (2026) — Featured Artist Promotional Reel
+            </li>
+            <li>
+              <span className="font-medium text-foreground">North Shore News</span> (2025) — "Vancouver artist wins annual Paint on the Mountain contest"
+            </li>
+            <li>
+              <span className="font-medium text-foreground">Tourism Burnaby</span> (2023) — "Inspiring West Coast Artists You Need To Know About"
+            </li>
+            <li>
+              <span className="font-medium text-foreground">Vancouver Magazine</span> (2023) — "5 Things to Do in Vancouver This Week: Learn How to Watercolour at North Van Art's Monthly CityScape Date Night Series"
+            </li>
+            <li>
+              <span className="font-medium text-foreground">West Vancouver Community Arts Council</span> (August 2022) — Watercolour Plein Air Painting with Surnoor Singh, Artist in Residence
+            </li>
+            <li>
+              <span className="font-medium text-foreground">Grand Prix of Art</span> (September 2022) — "The 12th Annual Grand Prix of Art a Massive Success"
+            </li>
+            <li>
+              <span className="font-medium text-foreground">Richmond News</span> (September 2021) — "Photos: Steveston's Grand Prix of Art"
+            </li>
+          </ul>
+        </div>
+
+        {/* 7. Collections */}
+        <div className="space-y-3 break-inside-avoid">
+          <h3 className="font-serif text-xs font-semibold text-foreground pb-1.5 uppercase tracking-[0.15em] border-b border-foreground/15">Collections</h3>
+          <ul className="space-y-1.5 text-muted-foreground leading-relaxed">
+            <li>British Pacific Properties, West Vancouver</li>
+            <li>Private Collection, Toronto</li>
+            <li>Private collection, West Vancouver</li>
+            <li>Charles van Sandwyk & Co., North Vancouver</li>
+          </ul>
         </div>
       </div>
 
