@@ -69,10 +69,26 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       };
     });
 
+    // Check for product-specific shipping rates configured in product metadata (shipping_tier: 'shr_...')
+    const productShippingRateIds = Array.from(
+      new Set(
+        prices.flatMap((price) => {
+          const tier = (price.product as Stripe.Product)?.metadata?.shipping_tier;
+          if (!tier) return [];
+          return tier.split(',').map((t) => t.trim()).filter(Boolean);
+        })
+      )
+    );
+
     const isFreeShipping = subtotal >= 10000;
     
     let shippingOptions: Stripe.Checkout.SessionCreateParams.ShippingOption[] = [];
-    if (isFreeShipping) {
+    if (productShippingRateIds.length > 0) {
+      // Dynamically pass only the specific shipping rate ID(s) configured in the product's metadata
+      shippingOptions = productShippingRateIds.map((shippingRateId) => ({
+        shipping_rate: shippingRateId,
+      }));
+    } else if (isFreeShipping) {
       shippingOptions = [
         {
           shipping_rate_data: {
