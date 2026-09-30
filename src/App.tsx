@@ -604,6 +604,17 @@ function AccomplishmentsSection() {
             </ul>
           </div>
 
+          {/* Education */}
+          <div className="space-y-4">
+            <h3 className="font-serif text-xl font-light text-foreground  pb-2 uppercase tracking-wide text-xs">Education</h3>
+            <ul className="space-y-3 text-muted-foreground leading-relaxed">
+              <li className="grid grid-cols-[3rem_1fr] gap-4">
+                <span className="font-medium">2019–22</span>
+                <span>Associate of Arts Degree in Criminology, Douglas College, New Westminster, BC</span>
+              </li>
+            </ul>
+          </div>
+
           {/* Collections */}
           <div className="space-y-4">
             <h3 className="font-serif text-xl font-light text-foreground  pb-2 uppercase tracking-wide text-xs">Collections</h3>
@@ -878,7 +889,18 @@ function AccomplishmentsSection() {
           </ul>
         </div>
 
-        {/* 7. Collections */}
+        {/* 7. Education */}
+        <div className="space-y-3 break-inside-avoid">
+          <h3 className="font-serif text-xs font-semibold text-foreground pb-1.5 uppercase tracking-[0.15em] border-b border-foreground/15">Education</h3>
+          <ul className="space-y-2 text-muted-foreground leading-relaxed">
+            <li className="grid grid-cols-[3.5rem_1fr] gap-4">
+              <span className="font-medium text-foreground">2019–22</span>
+              <span>Associate of Arts Degree in Criminology, Douglas College, New Westminster, BC</span>
+            </li>
+          </ul>
+        </div>
+
+        {/* 8. Collections */}
         <div className="space-y-3 break-inside-avoid">
           <h3 className="font-serif text-xs font-semibold text-foreground pb-1.5 uppercase tracking-[0.15em] border-b border-foreground/15">Collections</h3>
           <ul className="space-y-1.5 text-muted-foreground leading-relaxed">
