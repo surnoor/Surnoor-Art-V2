@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "wouter";
 import { motion } from "framer-motion";
 import { NotionRenderer } from "react-notion-x";
+import { Collection } from "react-notion-x/build/third-party/collection";
 import "react-notion-x/src/styles.css";
 import { ArrowLeft, Loader2, RefreshCw } from "lucide-react";
 
@@ -88,6 +89,7 @@ export default function WetOnWetPage() {
               darkMode={false}
               showTableOfContents={false}
               showCollectionView={true}
+              components={{ Collection }}
             />
           </motion.div>
         )}
