@@ -18,7 +18,7 @@ export default function LearnPage() {
       >
         {/* Banner reduced by ~20% (max-w-3xl / max-w-[760px]) and 2:1 ratio */}
         <Link
-          href="/wetonwet"
+          href="/wet"
           className="w-full aspect-[2/1] block overflow-hidden shadow-sm hover:opacity-95 transition-opacity duration-200"
         >
           <img
@@ -31,7 +31,7 @@ export default function LearnPage() {
         {/* Learn more button placed cleanly below */}
         <div className="mt-6 flex justify-center">
           <Link
-            href="/wetonwet"
+            href="/wet"
             className="h-7 px-5 text-[9px] tracking-[0.18em] uppercase border border-black text-black hover:bg-black hover:text-white transition-colors flex items-center justify-center font-normal"
           >
             Learn more

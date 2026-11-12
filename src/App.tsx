@@ -172,7 +172,7 @@ function Nav() {
             >
               <Link
                 href="/learn"
-                className={`flex items-center gap-1 transition-colors ${location.startsWith("/learn") || location.startsWith("/wetonwet") ? "text-[#2e32f8]" : "hover:text-[#2e32f8]"}`}
+                className={`flex items-center gap-1 transition-colors ${location.startsWith("/learn") || location.startsWith("/wet") ? "text-[#2e32f8]" : "hover:text-[#2e32f8]"}`}
                 data-testid="nav-learn"
                 onClick={() => {
                   setLearnHovered(false);
@@ -249,7 +249,7 @@ function Nav() {
                     Ongoing programs
                   </span>
                   <Link
-                    href="/wetonwet"
+                    href="/wet"
                     onClick={() => setLearnHovered(false)}
                     className="inline-block text-xs tracking-[0.2em] font-bold uppercase text-foreground hover:text-[#2e32f8] transition-colors"
                   >
@@ -329,11 +329,11 @@ function Nav() {
                         Ongoing programs
                       </span>
                       <Link
-                        href="/wetonwet"
-                        className={`text-base tracking-[0.15em] font-bold uppercase transition-colors ${location === "/wetonwet" ? "text-[#2e32f8]" : "text-foreground hover:text-[#2e32f8]"}`}
+                        href="/wet"
+                        className={`text-base tracking-[0.15em] font-bold uppercase transition-colors ${location === "/wet" ? "text-[#2e32f8]" : "text-foreground hover:text-[#2e32f8]"}`}
                         onClick={() => {
                           setMenuOpen(false);
-                          if (location === "/wetonwet") window.scrollTo({ top: 0, behavior: "smooth" });
+                          if (location === "/wet") window.scrollTo({ top: 0, behavior: "smooth" });
                         }}
                       >
                         WET / ON / WET
@@ -1610,6 +1610,9 @@ function AppInner() {
           </Route>
           <Route path="/learn">
             <LearnPage />
+          </Route>
+          <Route path="/wet">
+            <WetOnWetPage />
           </Route>
           <Route path="/wetonwet">
             <WetOnWetPage />
