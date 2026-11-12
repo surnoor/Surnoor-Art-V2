@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, useInView, Variants, AnimatePresence } from "framer-motion";
-import { ArrowUpRight, Instagram, ExternalLink, Calendar, ChevronLeft, ChevronRight, ShoppingBag, Download, Printer } from "lucide-react";
+import { ArrowUpRight, Instagram, ExternalLink, Calendar, ChevronLeft, ChevronRight, ChevronDown, ShoppingBag, Download, Printer } from "lucide-react";
 import { Router, Route, Link, useLocation, Switch } from "wouter";
 import { Analytics } from "@vercel/analytics/react";
 import { Toaster } from "sonner";
@@ -24,6 +24,8 @@ import { NewsletterProvider } from "./context/NewsletterContext";
 import ContactPage from "./pages/ContactPage";
 import ShowcasePage from "./pages/ShowcasePage";
 import PaymentShippingPage from "./pages/PaymentShippingPage";
+import LearnPage from "./pages/LearnPage";
+import WetOnWetPage from "./pages/WetOnWetPage";
 import { useShop } from "./hooks/useShop";
 import { useHeroSlides } from "./hooks/useHeroSlides";
 import { trackSlideshowInteraction } from "./utils/analytics";
@@ -100,6 +102,8 @@ function CartBadge() {
 
 function Nav() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [learnHovered, setLearnHovered] = useState(false);
+  const [mobileLearnOpen, setMobileLearnOpen] = useState(false);
   const [location] = useLocation();
   const isShop = location.startsWith("/shop");
   const isCart = location === "/cart";
@@ -161,14 +165,23 @@ function Nav() {
             >
               Archive
             </Link>
-            <Link
-              href="/#instruction"
-              className="hover:text-foreground transition-colors"
-              data-testid="nav-learn"
-              onClick={(e) => scrollToHash(e, "#instruction")}
+            <div
+              className="relative py-2"
+              onMouseEnter={() => setLearnHovered(true)}
+              onMouseLeave={() => setLearnHovered(false)}
             >
-              Learn
-            </Link>
+              <Link
+                href="/learn"
+                className={`flex items-center gap-1 transition-colors ${location.startsWith("/learn") || location.startsWith("/wetonwet") ? "text-[#2e32f8]" : "hover:text-[#2e32f8]"}`}
+                data-testid="nav-learn"
+                onClick={() => {
+                  setLearnHovered(false);
+                  if (location === "/learn") window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
+              >
+                Learn
+              </Link>
+            </div>
             <Link
               href="/#about"
               className="hover:text-foreground transition-colors"
@@ -218,6 +231,36 @@ function Nav() {
           </div>
         </nav>
 
+        {/* Full-width horizontal mega-panel */}
+        <AnimatePresence>
+          {learnHovered && (
+            <motion.div
+              initial={{ opacity: 0, y: -4 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -4 }}
+              transition={{ duration: 0.15, ease: "easeOut" }}
+              className="hidden md:block absolute top-full left-0 right-0 z-50 bg-background border-b border-border shadow-sm"
+              onMouseEnter={() => setLearnHovered(true)}
+              onMouseLeave={() => setLearnHovered(false)}
+            >
+              <div className="px-6 md:px-12 py-5 flex items-center justify-end">
+                <div className="text-right">
+                  <span className="block text-[9px] tracking-[0.2em] font-normal uppercase text-muted-foreground/70 mb-1.5">
+                    Ongoing programs
+                  </span>
+                  <Link
+                    href="/wetonwet"
+                    onClick={() => setLearnHovered(false)}
+                    className="inline-block text-xs tracking-[0.2em] font-bold uppercase text-foreground hover:text-[#2e32f8] transition-colors"
+                  >
+                    WET / ON / WET
+                  </Link>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
         <AnimatePresence>
           {menuOpen && (
             <motion.div
@@ -249,13 +292,56 @@ function Nav() {
               >
                 Archive
               </Link>
-              <Link
-                href="/#instruction"
-                onClick={(e) => { setMenuOpen(false); scrollToHash(e, "#instruction"); }}
-                data-testid="mobile-nav-learn"
-              >
-                Learn
-              </Link>
+              <div className="w-full flex flex-col items-end">
+                <div className="flex items-center gap-3">
+                  <button
+                    onClick={() => setMobileLearnOpen(!mobileLearnOpen)}
+                    aria-label="Toggle Learn dropdown"
+                    className="p-1 text-muted-foreground hover:text-[#2e32f8] transition-colors"
+                  >
+                    <ChevronDown
+                      className={`w-5 h-5 transition-transform duration-200 ${mobileLearnOpen ? "rotate-180" : ""}`}
+                    />
+                  </button>
+                  <Link
+                    href="/learn"
+                    className={`transition-colors ${location === "/learn" ? "text-[#2e32f8]" : "hover:text-[#2e32f8]"}`}
+                    data-testid="mobile-nav-learn"
+                    onClick={() => {
+                      setMenuOpen(false);
+                      if (location === "/learn") window.scrollTo({ top: 0, behavior: "smooth" });
+                    }}
+                  >
+                    Learn
+                  </Link>
+                </div>
+
+                <AnimatePresence>
+                  {mobileLearnOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: "auto" }}
+                      exit={{ opacity: 0, height: 0 }}
+                      transition={{ duration: 0.2 }}
+                      className="overflow-hidden flex flex-col items-end pt-3 pb-1"
+                    >
+                      <span className="block text-[10px] tracking-[0.2em] font-normal uppercase text-muted-foreground/60 mb-1">
+                        Ongoing programs
+                      </span>
+                      <Link
+                        href="/wetonwet"
+                        className={`text-base tracking-[0.15em] font-bold uppercase transition-colors ${location === "/wetonwet" ? "text-[#2e32f8]" : "text-foreground hover:text-[#2e32f8]"}`}
+                        onClick={() => {
+                          setMenuOpen(false);
+                          if (location === "/wetonwet") window.scrollTo({ top: 0, behavior: "smooth" });
+                        }}
+                      >
+                        WET / ON / WET
+                      </Link>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
               <Link
                 href="/#about"
                 onClick={(e) => { setMenuOpen(false); scrollToHash(e, "#about"); }}
@@ -1521,6 +1607,12 @@ function AppInner() {
           </Route>
           <Route path="/payment-and-shipping">
             <PaymentShippingPage />
+          </Route>
+          <Route path="/learn">
+            <LearnPage />
+          </Route>
+          <Route path="/wetonwet">
+            <WetOnWetPage />
           </Route>
 
           {/* Admin Routes */}

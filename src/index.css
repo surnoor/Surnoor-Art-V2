@@ -336,3 +336,95 @@
     print-color-adjust: exact;
   }
 }
+
+/* Notion Light Theme Overrides */
+.notion-container-light {
+  --notion-font: 'Hanken Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: var(--notion-font);
+}
+
+.notion-container-light .notion {
+  color: #111111;
+  background: transparent;
+  font-family: inherit;
+  padding: 0;
+}
+
+.notion-container-light .notion-page {
+  padding-left: 0;
+  padding-right: 0;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+.notion-container-light .notion-title {
+  color: #000000;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  font-size: 2.25rem;
+}
+
+.notion-container-light .notion-h1,
+.notion-container-light .notion-h2,
+.notion-container-light .notion-h3 {
+  color: #111111;
+  font-weight: 500;
+}
+
+.notion-container-light .notion-callout {
+  background: #f8f9fa !important;
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+  border-radius: 0.75rem !important;
+}
+
+/* Notion Dark Theme Overrides */
+.notion-container-dark {
+  --notion-font: 'Hanken Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: var(--notion-font);
+}
+
+.notion-container-dark .notion {
+  color: rgba(255, 255, 255, 0.9);
+  background: transparent;
+  font-family: inherit;
+  padding: 0;
+}
+
+.notion-container-dark .notion-page {
+  padding-left: 0;
+  padding-right: 0;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+.notion-container-dark .notion-title {
+  color: #ffffff;
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  font-size: 2.25rem;
+}
+
+.notion-container-dark .notion-h1,
+.notion-container-dark .notion-h2,
+.notion-container-dark .notion-h3 {
+  color: #ffffff;
+  font-weight: 400;
+}
+
+.notion-container-dark .notion-callout {
+  background: rgba(255, 255, 255, 0.04) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 1rem !important;
+}
+
+.notion-container-dark .notion-table {
+  background: transparent !important;
+}
+
+.notion-container-dark .notion-table-row {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+.notion-container-dark .notion-table-cell {
+  border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
