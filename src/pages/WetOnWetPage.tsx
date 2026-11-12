@@ -87,6 +87,7 @@ export default function WetOnWetPage() {
               fullPage={false}
               darkMode={false}
               showTableOfContents={false}
+              showCollectionView={true}
             />
           </motion.div>
         )}
