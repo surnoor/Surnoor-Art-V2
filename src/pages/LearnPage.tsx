@@ -22,7 +22,7 @@ export default function LearnPage() {
           className="w-full aspect-[2/1] block overflow-hidden shadow-sm hover:opacity-95 transition-opacity duration-200"
         >
           <img
-            src="/web/wet-on-wet-blue.png"
+            src="/web/learn-banner.png"
             alt="WET / ON / WET"
             className="w-full h-full object-cover object-center block"
           />
