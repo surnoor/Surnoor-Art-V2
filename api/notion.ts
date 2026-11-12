@@ -13,8 +13,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     const recordMap = await notion.getPage(pageId);
     
-    // Cache for 10 minutes in Vercel Edge Cache, stale-while-revalidate for 1 hour
-    res.setHeader('Cache-Control', 's-maxage=600, stale-while-revalidate=3600');
+    // No edge cache so changes in Notion show up immediately on refresh
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0');
     return res.status(200).json(recordMap);
   } catch (error: any) {
     console.error('Error fetching Notion page:', error);

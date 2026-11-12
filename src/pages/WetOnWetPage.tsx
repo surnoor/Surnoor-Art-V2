@@ -21,7 +21,10 @@ export default function WetOnWetPage() {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`/api/notion?pageId=${PAGE_ID}`);
+      // Add timestamp to bust browser cache
+      const res = await fetch(`/api/notion?pageId=${PAGE_ID}&t=${Date.now()}`, {
+        cache: "no-store",
+      });
       if (!res.ok) {
         throw new Error(`Failed to load page: ${res.statusText}`);
       }
