@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap');
 @import "tailwindcss";
 @import "tw-animate-css";
@@ -121,7 +122,7 @@
   --chart-4: 43 74% 66%;
   --chart-5: 27 87% 67%;
 
-  --app-font-sans: 'Hanken Grotesk', sans-serif;
+  --app-font-sans: 'Roboto', sans-serif;
   --app-font-serif: 'Hanken Grotesk', sans-serif; /* Forcing sans for headings too as per White Cube vibe */
   --app-font-mono: Menlo, monospace;
   --radius: 0px; 
