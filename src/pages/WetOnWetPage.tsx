@@ -18,6 +18,27 @@ export default function WetOnWetPage() {
     window.scrollTo({ top: 0, behavior: "instant" });
   }, []);
 
+  // Set Open Graph meta tags for the /wet page
+  useEffect(() => {
+    const setMeta = (property: string, content: string) => {
+      let el = document.querySelector(`meta[property="${property}"]`);
+      if (!el) {
+        el = document.createElement('meta');
+        el.setAttribute('property', property);
+        document.head.appendChild(el);
+      }
+      el.setAttribute('content', content);
+    };
+    setMeta('og:title', 'WET / ON / WET - Weekly Watercolor Sessions');
+    setMeta('og:description', 'Join weekly live watercolor demos with artist Surnoor Sembhi, get recordings & materials, and receive personalized artwork feedback.');
+    setMeta('og:image', 'https://www.surnoor.art/web/wet-share.png');
+    setMeta('og:url', 'https://www.surnoor.art/wet');
+    setMeta('og:type', 'website');
+    setMeta('og:site_name', 'Surnoor Sembhi');
+    setMeta('og:locale', 'en_CA'); // Vancouver, BC locale
+  }, []);
+
+
   const loadData = async () => {
     setLoading(true);
     setError(null);
