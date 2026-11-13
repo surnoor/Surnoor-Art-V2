@@ -4,6 +4,7 @@ import tailwindcss from "@tailwindcss/vite";
 import path from "path";
 import { fileURLToPath } from "url";
 import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-modal";
+import prerender from "vite-plugin-prerender";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -18,6 +19,17 @@ export default defineConfig({
     react(),
     tailwindcss(),
     runtimeErrorOverlay(),
+    prerender({
+      routes: ['/', '/wet'],
+      transformHtml: (html, route) => {
+        const meta = route === '/wet' ? require('./src/ogMeta').wetMeta : require('./src/ogMeta').homeMeta;
+        return html
+          .replace('%OG_TITLE%', meta.title)
+          .replace('%OG_DESCRIPTION%', meta.description)
+          .replace('%OG_IMAGE%', meta.image)
+          .replace('%OG_URL%', meta.url);
+      },
+    }),
     ...(process.env.NODE_ENV !== "production" &&
     process.env.REPL_ID !== undefined
       ? [
