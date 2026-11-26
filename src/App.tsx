@@ -90,24 +90,12 @@ const HERO_IMAGES = [
   "/web/Screenshot%202026-02-05%20181600.jpg",
 ];
 
-function CartBadge() {
-  const { totalItems } = useCart();
-  if (totalItems === 0) return null;
-  return (
-    <span className="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full bg-primary text-background text-[9px] flex items-center justify-center tabular-nums">
-      {totalItems > 9 ? "9+" : totalItems}
-    </span>
-  );
-}
-
 function Nav() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [learnHovered, setLearnHovered] = useState(false);
   const [mobileLearnOpen, setMobileLearnOpen] = useState(false);
   const [location] = useLocation();
   const isShop = location.startsWith("/shop");
-  const isCart = location === "/cart";
-  const { totalItems } = useCart();
   const [, setLocation] = useLocation();
 
   const scrollToHash = (e: React.MouseEvent, hash: string) => {
@@ -144,7 +132,7 @@ function Nav() {
           >
             Surnoor Sembhi
           </Link>
-          <div className="hidden md:flex items-center gap-5 text-[10px] tracking-[0.2em] font-bold uppercase text-foreground">
+          <div className="hidden md:flex items-center gap-5 text-xs tracking-[0.2em] font-bold uppercase text-foreground">
             <Link
               href="/shop"
               className={`transition-colors ${isShop ? "text-[#FF0133]" : "hover:text-foreground"}`}
@@ -201,26 +189,8 @@ function Nav() {
               Support
             </Link>
             <Link href="/contact" className={`transition-colors ${location === "/contact" ? "text-[#4efa84]" : "hover:text-foreground"}`} data-testid="nav-contact">Contact</Link>
-            <Link
-              href="/cart"
-              className={`relative transition-colors ${isCart ? "text-[#4efa84]" : "hover:text-foreground"}`}
-              aria-label={`Cart${totalItems > 0 ? ` (${totalItems} items)` : ""}`}
-              data-testid="nav-cart"
-            >
-              <ShoppingBag className="w-4 h-4" />
-              <CartBadge />
-            </Link>
           </div>
           <div className="flex items-center gap-4 md:hidden">
-            <Link
-              href="/cart"
-              className="relative text-muted-foreground hover:text-foreground transition-colors"
-              aria-label="Cart"
-              data-testid="mobile-nav-cart"
-            >
-              <ShoppingBag className="w-4 h-4" />
-              <CartBadge />
-            </Link>
             <button
               className="text-xs tracking-[0.18em] uppercase w-[72px] text-right"
               onClick={() => setMenuOpen(!menuOpen)}
@@ -1561,9 +1531,11 @@ function AppInner() {
     <div id="site-top" className="min-h-screen bg-background text-foreground font-sans selection:bg-primary/20">
       {!isAdminPath && (
         <>
+          {/* Temporarily hidden rotating top info bar
           <div ref={headerRef} className="print:hidden">
             <NewsletterBanner />
           </div>
+          */}
           <div ref={navWrapperRef} className="relative z-50 print:hidden">
             <Nav />
           </div>
