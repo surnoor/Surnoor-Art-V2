@@ -484,7 +484,7 @@ function BioSection() {
 
 function AccomplishmentsSection() {
   return (
-    <section id="cv" className="relative w-full pt-8 md:pt-12 pb-16 md:pb-28 bg-background print:py-4 print:w-full print:m-0 print:left-0 print:top-0">
+    <section id="cv" className="relative w-full pt-8 md:pt-12 pb-8 md:pb-12 bg-background print:py-4 print:w-full print:m-0 print:left-0 print:top-0">
       <FadeIn className="px-6 md:px-12 mb-10 md:mb-16 print:hidden">
         <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground">Curriculum Vitae</p>
       </FadeIn>
@@ -1175,26 +1175,26 @@ function HomePage() {
       )}
 
       {/* ── 4. LEARN ── */}
-      <section id="instruction" className=" px-6 md:px-12 py-16 md:py-28 print:hidden">
+      <section id="instruction" className=" px-6 md:px-12 py-8 md:py-12 print:hidden">
         <FadeIn className="mb-14">
           <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground">Instruction</p>
         </FadeIn>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-border max-w-4xl">
-          <div className="bg-background p-8 md:p-10 flex flex-col gap-8">
+          <div className="bg-background p-8 md:p-10 flex flex-col justify-between gap-8">
             <div>
-              <h3 className="font-serif text-2xl md:text-3xl font-light mb-4">Online Courses</h3>
+              <h3 className="font-serif text-2xl md:text-3xl font-light mb-4">WET / ON / WET</h3>
               <p className="text-muted-foreground text-sm leading-relaxed">
-                Self-paced study in the realist tradition. Master observation, value, and medium from your own studio. Structured modules across watercolour, oils, and dry media.
+                Join weekly live watercolor demos with artist Surnoor Sembhi, get recordings &amp; materials, and receive personalized artwork feedback.
               </p>
             </div>
-            <a
-              href="mailto:surnoorsingh@gmail.com"
+            <Link
+              href="/wet"
               className="inline-flex items-center gap-2 text-xs tracking-[0.15em] uppercase text-primary hover:gap-3 transition-all self-start"
               data-testid="link-courses"
             >
-              Enquire about courses <ArrowUpRight className="w-3.5 h-3.5" />
-            </a>
+              Learn more <ArrowUpRight className="w-3.5 h-3.5" />
+            </Link>
           </div>
 
           <div className="bg-background p-8 md:p-10 flex flex-col gap-8">
@@ -1216,125 +1216,33 @@ function HomePage() {
       </section>
 
       {/* ── 5. UPCOMING ── */}
-      <section id="upcoming" className=" px-6 md:px-12 py-16 md:py-28 bg-card print:hidden">
-        <FadeIn className="mb-14">
+      <section id="upcoming" className=" px-6 md:px-12 pt-8 md:pt-12 pb-16 md:pb-28 bg-card print:hidden">
+        <FadeIn className="mb-6">
           <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground">Workshops & Exhibitions</p>
         </FadeIn>
 
         <div className="max-w-3xl space-y-0">
           <FadeIn>
-            <div className="py-8 border-b border-border/30 flex flex-col md:flex-row md:items-start md:justify-between gap-4">
-              <div className="flex flex-col gap-1.5 max-w-2xl">
-                <div className="flex items-center gap-2 mb-1">
-                  <span className="text-[10px] tracking-[0.2em] uppercase bg-primary text-background px-2 py-0.5">Upcoming</span>
-                </div>
-                <h3 className="font-serif text-xl font-light">Advanced Watercolour</h3>
-                <div className="flex items-center gap-2 text-muted-foreground text-sm">
-                  <Calendar className="w-3.5 h-3.5 shrink-0" />
-                  <span>Silver Harbour Seniors' Activity Centre, North Vancouver · Thursdays, September 10 – October 15, 2026</span>
-                </div>
-                <p className="text-muted-foreground text-xs md:text-sm mt-1 leading-relaxed">
-                  Designed for experienced painters, this sequential course focuses on refining technique and strengthening composition through projects exploring glazing, color harmony, and expressive brushwork.
-                </p>
-              </div>
-              <a
-                href="https://www.silverharbourcentre.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-xs tracking-[0.15em] uppercase text-primary hover:gap-3 transition-all self-start md:self-auto shrink-0 mt-1 md:mt-0"
-                data-testid="link-workshop-advanced-watercolour"
-              >
-                Register Now <ArrowUpRight className="w-3.5 h-3.5" />
-              </a>
-            </div>
-          </FadeIn>
-
-          <FadeIn delay={0.05}>
-            <div className="py-8 border-b border-border/30 flex flex-col md:flex-row md:items-start md:justify-between gap-4">
-              <div className="flex flex-col gap-1.5 max-w-2xl">
-                <div className="flex items-center gap-2 mb-1">
-                  <span className="text-[10px] tracking-[0.2em] uppercase bg-primary text-background px-2 py-0.5">Upcoming</span>
-                </div>
-                <h3 className="font-serif text-xl font-light">Fall ArtBar: "Watercolor Cat" Workshop</h3>
-                <div className="flex items-center gap-2 text-muted-foreground text-sm">
-                  <Calendar className="w-3.5 h-3.5 shrink-0" />
-                  <span>City of Maple Ridge · Fall 2026 (Launch tied to September Season Opening event)</span>
-                </div>
-                <p className="text-muted-foreground text-xs md:text-sm mt-1 leading-relaxed">
-                  A fun, single-evening community workshop set in a light, no-pressure environment meant to encourage playful expression and creative confidence.
-                </p>
-              </div>
-              <a
-                href="https://purchase.mapleridgeact.ca/Events"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-xs tracking-[0.15em] uppercase text-primary hover:gap-3 transition-all self-start md:self-auto shrink-0 mt-1 md:mt-0"
-                data-testid="link-workshop-fall-artbar"
-              >
-                Register Now <ArrowUpRight className="w-3.5 h-3.5" />
-              </a>
-            </div>
-          </FadeIn>
-
-          <FadeIn delay={0.1}>
-            <div className="py-8 border-b border-border/30 flex flex-col md:flex-row md:items-start md:justify-between gap-4">
-              <div className="flex flex-col gap-1.5 max-w-2xl">
-                <div className="flex items-center gap-2 mb-1">
-                  <span className="text-[10px] tracking-[0.2em] uppercase bg-primary text-background px-2 py-0.5">Upcoming</span>
-                </div>
-                <h3 className="font-serif text-xl font-light">Intro to Watercolors Program</h3>
-                <div className="flex items-center gap-2 text-muted-foreground text-sm">
-                  <Calendar className="w-3.5 h-3.5 shrink-0" />
-                  <span>City of Maple Ridge · Starting Mid-September 2026</span>
-                </div>
-                <p className="text-muted-foreground text-xs md:text-sm mt-1 leading-relaxed">
-                  A sequential, multi-week foundational course introducing watercolors. Each session builds upon the last through specific projects ranging from landscapes to still lifes.
-                </p>
-              </div>
-              <a
-                href="https://cityofmapleridge.perfectmind.com/23724/Reports/BookMe4"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-xs tracking-[0.15em] uppercase text-primary hover:gap-3 transition-all self-start md:self-auto shrink-0 mt-1 md:mt-0"
-                data-testid="link-workshop-intro-watercolors"
-              >
-                Register Now <ArrowUpRight className="w-3.5 h-3.5" />
-              </a>
-            </div>
-          </FadeIn>
-
-          <FadeIn delay={0.15}>
-            <div className="py-8 flex flex-col md:flex-row md:items-start md:justify-between gap-4">
-              <div className="flex flex-col gap-1.5 max-w-2xl">
-                <div className="flex items-center gap-2 mb-1">
-                  <span className="text-[10px] tracking-[0.2em] uppercase bg-primary text-background px-2 py-0.5">Upcoming</span>
-                </div>
-                <h3 className="font-serif text-xl font-light">Life Drawing Sessions</h3>
-                <div className="flex items-center gap-2 text-muted-foreground text-sm">
-                  <Calendar className="w-3.5 h-3.5 shrink-0" />
-                  <span>City of Maple Ridge · Fall 2026</span>
-                </div>
-                <p className="text-muted-foreground text-xs md:text-sm mt-1 leading-relaxed">
-                  Dedicated figurative study sessions working with local models.
-                </p>
-              </div>
-              <a
-                href="https://cityofmapleridge.perfectmind.com/23724/Reports/BookMe4"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-xs tracking-[0.15em] uppercase text-primary hover:gap-3 transition-all self-start md:self-auto shrink-0 mt-1 md:mt-0"
-                data-testid="link-workshop-life-drawing"
-              >
-                Register Now <ArrowUpRight className="w-3.5 h-3.5" />
-              </a>
-            </div>
-          </FadeIn>
-
-          <FadeIn delay={0.2}>
-            <div className="py-8 pt-10">
-              <p className="text-muted-foreground text-sm">
-                Group exhibitions and collaborative projects throughout the year. Follow on Instagram for announcements.
+            <div className="flex flex-col gap-6">
+              <p className="text-muted-foreground text-sm leading-relaxed max-w-2xl">
+                No exhibitions or in-person workshops are scheduled at the moment while working on a large commission and developing the WET / ON / WET weekly watercolour series. New dates will be announced here and on Instagram.
               </p>
+              <div className="flex flex-wrap items-center gap-6">
+                <Link
+                  href="/wet"
+                  className="inline-flex items-center gap-2 text-xs tracking-[0.15em] uppercase text-primary hover:gap-3 transition-all"
+                  data-testid="link-upcoming-wet"
+                >
+                  Explore WET / ON / WET <ArrowUpRight className="w-3.5 h-3.5" />
+                </Link>
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center gap-2 text-xs tracking-[0.15em] uppercase text-muted-foreground hover:text-primary hover:gap-3 transition-all"
+                  data-testid="link-upcoming-contact"
+                >
+                  Workshop &amp; Exhibition Enquiries <ArrowUpRight className="w-3.5 h-3.5" />
+                </Link>
+              </div>
             </div>
           </FadeIn>
         </div>
