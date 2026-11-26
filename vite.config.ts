@@ -1,10 +1,11 @@
-import { defineConfig } from "vite";
+import { defineConfig, type Plugin } from "vite";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
+import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-modal";
-import prerender from "vite-plugin-prerender";
+import { homeMeta, wetMeta } from "./src/ogMeta";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -12,6 +13,37 @@ const rawPort = process.env.PORT ?? "5173";
 const port = Number(rawPort);
 
 const basePath = process.env.BASE_PATH ?? "/";
+const outDir = path.resolve(__dirname, "dist/public");
+
+function applyOgMeta(html: string, meta: typeof homeMeta): string {
+  return html
+    .replaceAll("%OG_TITLE%", meta.title)
+    .replaceAll("%OG_DESCRIPTION%", meta.description)
+    .replaceAll("%OG_IMAGE%", meta.image)
+    .replaceAll("%OG_URL%", meta.url);
+}
+
+function ogMetaPlugin(): Plugin {
+  return {
+    name: "og-meta-prerender",
+    transformIndexHtml(html, ctx) {
+      if (!ctx.server) return html;
+      const meta = ctx.originalUrl?.startsWith("/wet") ? wetMeta : homeMeta;
+      return applyOgMeta(html, meta);
+    },
+    closeBundle() {
+      const indexPath = path.join(outDir, "index.html");
+      if (!fs.existsSync(indexPath)) return;
+      const template = fs.readFileSync(indexPath, "utf-8");
+
+      fs.writeFileSync(indexPath, applyOgMeta(template, homeMeta), "utf-8");
+
+      const wetDir = path.join(outDir, "wet");
+      fs.mkdirSync(wetDir, { recursive: true });
+      fs.writeFileSync(path.join(wetDir, "index.html"), applyOgMeta(template, wetMeta), "utf-8");
+    },
+  };
+}
 
 export default defineConfig({
   base: basePath,
@@ -19,17 +51,7 @@ export default defineConfig({
     react(),
     tailwindcss(),
     runtimeErrorOverlay(),
-    prerender({
-      routes: ['/', '/wet'],
-      transformHtml: (html, route) => {
-        const meta = route === '/wet' ? require('./src/ogMeta').wetMeta : require('./src/ogMeta').homeMeta;
-        return html
-          .replace('%OG_TITLE%', meta.title)
-          .replace('%OG_DESCRIPTION%', meta.description)
-          .replace('%OG_IMAGE%', meta.image)
-          .replace('%OG_URL%', meta.url);
-      },
-    }),
+    ogMetaPlugin(),
     ...(process.env.NODE_ENV !== "production" &&
     process.env.REPL_ID !== undefined
       ? [
@@ -53,7 +75,7 @@ export default defineConfig({
   },
   root: __dirname,
   build: {
-    outDir: path.resolve(__dirname, "dist/public"),
+    outDir,
     emptyOutDir: true,
   },
   server: {

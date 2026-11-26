@@ -18,6 +18,7 @@
     }
   ],
   "rewrites": [
+    { "source": "/wet", "destination": "/wet/index.html" },
     { "source": "/((?!api/)[^.]*)", "destination": "/index.html" }
   ]
 }
