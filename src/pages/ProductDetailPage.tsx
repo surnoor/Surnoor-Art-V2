@@ -377,9 +377,9 @@ export default function ProductDetailPage({ productId }: { productId: string }) 
                   {priceDisplay}
                 </p>
                 {!isSold && product.price != null && product.price >= 10000 && (
-                  <div className="flex items-center gap-3 flex-wrap">
-                    <span className="text-[9px] tracking-[0.1em] uppercase text-primary font-medium whitespace-nowrap">Free Delivery ($100+)</span>
-                    <PaymentLogos className="scale-[0.65] origin-left flex" />
+                  <div className="flex items-center gap-4 flex-wrap">
+                    <span className="text-[12px] tracking-[0.1em] uppercase text-primary font-medium whitespace-nowrap">Free Delivery ($100+)</span>
+                    <PaymentLogos className="flex" />
                   </div>
                 )}
               </div>
