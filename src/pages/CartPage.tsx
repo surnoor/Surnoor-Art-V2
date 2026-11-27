@@ -55,7 +55,7 @@ export default function CartPage() {
       transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
       className="min-h-screen bg-background"
     >
-      <main className="px-6 md:px-12 py-16 md:py-24 max-w-6xl mx-auto">
+      <main className="swiss-container py-16 md:py-24">
         {items.length === 0 ? (
           <div>
             <h1 className="font-serif text-4xl font-light mb-8">Your cart is empty.</h1>

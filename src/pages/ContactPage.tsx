@@ -81,7 +81,7 @@ export default function ContactPage() {
   };
 
   return (
-    <main className="min-h-screen bg-background pt-6 md:pt-8 pb-24 px-6 md:px-12">
+    <main className="min-h-screen bg-background pt-6 md:pt-8 pb-24 swiss-container">
       <AnimatePresence mode="wait">
 
         {/* ── Main contact list ── */}

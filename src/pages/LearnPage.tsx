@@ -9,7 +9,7 @@ export default function LearnPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-white text-black flex flex-col items-center pt-8 sm:pt-10 pb-16 px-6 selection:bg-black selection:text-white">
+    <div className="min-h-screen bg-white text-black flex flex-col items-center pt-8 sm:pt-10 pb-16 swiss-container selection:bg-black selection:text-white">
       <motion.div
         initial={{ opacity: 0, y: 14 }}
         animate={{ opacity: 1, y: 0 }}

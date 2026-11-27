@@ -176,7 +176,7 @@ export default function ShopPage() {
 
 
       {/* Mobile filter toggle */}
-      <div className="md:hidden relative z-30 bg-background px-6 py-3 flex items-center justify-between">
+      <div className="md:hidden relative z-30 bg-background swiss-container py-3 flex items-center justify-between">
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
           className="flex items-center gap-2 text-xs tracking-[0.15em] uppercase text-muted-foreground"
@@ -234,14 +234,15 @@ export default function ShopPage() {
       )}
 
       {/* Dashboard layout */}
-      <div className="flex">
-        {/* Desktop sidebar */}
-        <aside className="hidden md:block w-60 lg:w-64 flex-shrink-0 p-6 sticky top-[68px] h-[calc(100vh-68px)] overflow-y-auto">
-          {sidebarContent}
-        </aside>
+      <div className="swiss-container py-8 md:py-10">
+        <div className="swiss-grid items-start">
+          {/* Desktop sidebar */}
+          <aside className="hidden md:block md:col-span-2 lg:col-span-2 sticky top-[68px] h-[calc(100vh-68px)] overflow-y-auto pr-2">
+            {sidebarContent}
+          </aside>
 
-        {/* Main content */}
-        <main className="flex-1 px-6 md:px-8 lg:px-12 py-8 md:py-10">
+          {/* Main content */}
+          <main className="col-span-4 sm:col-span-6 md:col-span-6 lg:col-span-10">
           {shopLoading && (
             <FadeIn>
               <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground">Loading works…</p>
@@ -271,7 +272,7 @@ export default function ShopPage() {
           )}
 
           {currentAvailable.length > 0 && (
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-6 md:gap-8 lg:gap-12">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-[var(--swiss-gutter)] gap-y-10">
               {currentAvailable.map((product, idx) => (
                 <FadeIn key={product.id} delay={idx * 0.05} className="h-full flex flex-col">
                   <WorkCard product={product} />
@@ -286,7 +287,7 @@ export default function ShopPage() {
               <FadeIn className="mb-10">
                 <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground">Sold</p>
               </FadeIn>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-6 md:gap-8 lg:gap-12">
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-[var(--swiss-gutter)] gap-y-10">
                 {currentSold.map((product, idx) => (
                   <FadeIn key={product.id} delay={idx * 0.05} className="h-full flex flex-col">
                     <WorkCard product={product} sold />
@@ -322,7 +323,8 @@ export default function ShopPage() {
               Browse Archive <ArrowUpRight className="w-3.5 h-3.5" />
             </Link>
           </FadeIn>
-        </main>
+          </main>
+        </div>
       </div>
     </div>
   );

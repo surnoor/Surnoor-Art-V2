@@ -119,11 +119,8 @@ export default function WorkCard({ product, sold = false }: WorkCardProps) {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2 flex-wrap">
             <p className="text-[10px] tracking-widest text-foreground flex-shrink-0">{priceDisplay}</p>
-            {!sold && product.price != null && product.price >= 10000 && (
-              <div className="flex items-center gap-2">
-                <span className="text-[8px] tracking-[0.1em] uppercase text-primary font-medium whitespace-nowrap">Free Delivery ($100+)</span>
-                <PaymentLogos className="scale-[0.55] origin-left hidden sm:flex" />
-              </div>
+            {!sold && product.price != null && (
+              <PaymentLogos className="scale-[0.55] origin-left hidden sm:flex" />
             )}
           </div>
           {sold && (

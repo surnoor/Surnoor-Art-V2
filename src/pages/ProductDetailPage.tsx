@@ -253,7 +253,7 @@ export default function ProductDetailPage({ productId }: { productId: string }) 
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-background px-6 md:px-12 py-24">
+      <div className="min-h-screen bg-background swiss-container py-24">
         <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground">Loading…</p>
       </div>
     );
@@ -261,7 +261,7 @@ export default function ProductDetailPage({ productId }: { productId: string }) 
 
   if (error || (!loading && !product)) {
     return (
-      <div className="min-h-screen bg-background px-6 md:px-12 py-24">
+      <div className="min-h-screen bg-background swiss-container py-24">
         <p className="text-sm text-muted-foreground mb-8">
           {error ?? "Work not found."}
         </p>
@@ -283,7 +283,7 @@ export default function ProductDetailPage({ productId }: { productId: string }) 
 
   return (
     <div className="min-h-screen bg-background">
-      <main className="px-6 md:px-12 py-12 md:py-20">
+      <main className="swiss-container py-12 md:py-20">
         {/* Breadcrumb */}
         <nav className="mb-10 text-xs tracking-[0.15em] uppercase text-muted-foreground flex items-center gap-2">
           <Link href="/shop" className="hover:text-foreground transition-colors">Shop</Link>
@@ -292,7 +292,7 @@ export default function ProductDetailPage({ productId }: { productId: string }) 
         </nav>
 
         {/* Main product area */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-20 mb-24">
+        <div className="swiss-grid items-start mb-24">
           {/* Image gallery — left */}
           <div className="lg:col-span-7 flex flex-col-reverse lg:flex-row gap-4">
             {/* Thumbnails */}

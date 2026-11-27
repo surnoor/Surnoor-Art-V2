@@ -138,6 +138,11 @@
   --tracking-normal: 0em;
   --spacing: 0.25rem;
 
+  /* Swiss Grid System: 2:1 margin-to-gutter ratio with fluid in-between scaling */
+  --swiss-margin: clamp(1.5rem, 4vw, 3rem);
+  --swiss-gutter: clamp(1rem, 2vw, 1.5rem);
+  --swiss-max-width: 1440px;
+
   /* Automatically computed borders - intensity can be controlled by the user by the --opaque-button-border-intensity setting */
 
   /* Fallback for older browsers */
@@ -239,14 +244,164 @@
 
   body {
     @apply font-sans antialiased bg-background text-foreground;
+    position: relative;
   }
-  
+
+  /* ── Swiss Grid: always-on column underlay ── */
+  /* Draws faint dotted column-gutter lines beneath all content via a fixed
+     pseudo-element. Uses the same --swiss-margin / --swiss-gutter / --swiss-max-width
+     variables as .swiss-container so the lines are always in sync.            */
+  body::before {
+    content: "";
+    pointer-events: none;
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+
+    /* Centre the grid within the max-width the same way .swiss-container does */
+    --_grid-width: min(100%, var(--swiss-max-width));
+    --_offset: calc((100% - var(--_grid-width)) / 2 + var(--swiss-margin));
+    --_col-unit: calc(
+      (var(--_grid-width) - 2 * var(--swiss-margin) + var(--swiss-gutter))
+      / 4           /* 4 columns on mobile */
+    );
+
+    /* One repeating tile = 1 column-track + 1 gutter.
+       The dotted line sits at the right edge of each track (= left of gutter). */
+    background-image: repeating-linear-gradient(
+      to right,
+      transparent 0,
+      transparent calc(var(--_col-unit) - var(--swiss-gutter)),
+      rgba(0, 0, 0, 0.055) calc(var(--_col-unit) - var(--swiss-gutter)),
+      rgba(0, 0, 0, 0.055) calc(var(--_col-unit) - var(--swiss-gutter) + 1px),
+      transparent calc(var(--_col-unit) - var(--swiss-gutter) + 1px),
+      transparent var(--_col-unit)
+    );
+    background-position: var(--_offset) 0;
+    background-size: var(--_col-unit) 100%;
+    background-repeat: repeat-x;
+
+    /* Make lines dotted: mask every other 4px segment */
+    mask-image: repeating-linear-gradient(
+      to bottom,
+      black 0px,
+      black 3px,
+      transparent 3px,
+      transparent 7px
+    );
+    -webkit-mask-image: repeating-linear-gradient(
+      to bottom,
+      black 0px,
+      black 3px,
+      transparent 3px,
+      transparent 7px
+    );
+  }
+
+  /* 6 columns at sm */
+  @media (min-width: 640px) {
+    body::before {
+      --_col-unit: calc(
+        (var(--_grid-width) - 2 * var(--swiss-margin) + var(--swiss-gutter))
+        / 6
+      );
+    }
+  }
+
+  /* 8 columns at md */
+  @media (min-width: 768px) {
+    body::before {
+      --_col-unit: calc(
+        (var(--_grid-width) - 2 * var(--swiss-margin) + var(--swiss-gutter))
+        / 8
+      );
+    }
+  }
+
+  /* 12 columns at lg */
+  @media (min-width: 1024px) {
+    body::before {
+      --_col-unit: calc(
+        (var(--_grid-width) - 2 * var(--swiss-margin) + var(--swiss-gutter))
+        / 12
+      );
+    }
+  }
+
+  /* Left margin guide — a single faint line at the margin edge */
+  body::after {
+    content: "";
+    pointer-events: none;
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    --_grid-width: min(100%, var(--swiss-max-width));
+    --_offset-l: calc((100% - var(--_grid-width)) / 2 + var(--swiss-margin) - 1px);
+    --_offset-r: calc((100% - var(--_grid-width)) / 2 + var(--swiss-margin));
+    background: linear-gradient(
+      to right,
+      transparent var(--_offset-l),
+      rgba(0, 0, 0, 0.055) var(--_offset-l),
+      rgba(0, 0, 0, 0.055) var(--_offset-r),
+      transparent var(--_offset-r),
+      transparent calc(100% - var(--_offset-r)),
+      rgba(0, 0, 0, 0.055) calc(100% - var(--_offset-r)),
+      rgba(0, 0, 0, 0.055) calc(100% - var(--_offset-l)),
+      transparent calc(100% - var(--_offset-l))
+    );
+    mask-image: repeating-linear-gradient(
+      to bottom,
+      black 0px,
+      black 3px,
+      transparent 3px,
+      transparent 7px
+    );
+    -webkit-mask-image: repeating-linear-gradient(
+      to bottom,
+      black 0px,
+      black 3px,
+      transparent 3px,
+      transparent 7px
+    );
+  }
+
   h1, h2, h3, h4, h5, h6 {
     @apply font-serif font-light tracking-wide;
   }
 }
 
 @layer utilities {
+  .swiss-container {
+    width: 100%;
+    max-width: var(--swiss-max-width);
+    margin-inline: auto;
+    padding-inline: var(--swiss-margin);
+  }
+
+  .swiss-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--swiss-gutter);
+  }
+
+  @media (min-width: 640px) {
+    .swiss-grid {
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 768px) {
+    .swiss-grid {
+      grid-template-columns: repeat(8, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .swiss-grid {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+    }
+  }
+
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
   }

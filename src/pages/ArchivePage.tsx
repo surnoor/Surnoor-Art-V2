@@ -747,7 +747,7 @@ ${hashtags}`;
       )}
 
       <div
-        className="flex-1 w-full overflow-y-auto grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 px-6 py-8 md:px-12 md:py-10 pb-32"
+        className="flex-1 w-full overflow-y-auto grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 p-6 md:p-10 pb-32"
       >
         {/* Images */}
         <div className="flex flex-col gap-4">
@@ -1063,7 +1063,7 @@ export default function ArchivePage() {
     <div className="min-h-screen bg-background">
 
       {/* Mobile filter toggle */}
-      <div className="md:hidden relative z-30 bg-background px-6 py-3 flex flex-col gap-1">
+      <div className="md:hidden relative z-30 bg-background swiss-container py-3 flex flex-col gap-1">
         <div className="flex items-center justify-between w-full">
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -1140,14 +1140,15 @@ export default function ArchivePage() {
       )}
 
       {/* Dashboard layout */}
-      <div className="flex">
-        {/* Desktop sidebar */}
-        <aside className="hidden md:block w-60 lg:w-64 flex-shrink-0  p-6">
-          {sidebarContent}
-        </aside>
+      <div className="swiss-container py-8 md:py-10">
+        <div className="swiss-grid items-start">
+          {/* Desktop sidebar */}
+          <aside className="hidden md:block md:col-span-2 lg:col-span-2 pr-2">
+            {sidebarContent}
+          </aside>
 
-        {/* Main content */}
-        <main className="flex-1 px-6 md:px-8 lg:px-12 py-8 md:py-10">
+          {/* Main content */}
+          <main className="col-span-4 sm:col-span-6 md:col-span-6 lg:col-span-10">
           {(loading || isAnimatingLoader) && (
             <BauhausLoader isDone={!loading} onComplete={() => setIsAnimatingLoader(false)} />
           )}
@@ -1197,7 +1198,7 @@ export default function ArchivePage() {
               {/* Featured Section */}
               {featuredWorks.length > 0 && (
                 <div className="mb-12">
-                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8">
+                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-[var(--swiss-gutter)] gap-y-8">
                     {featuredWorks.map((record) => (
                       <ArchiveCard
                         key={record.id}
@@ -1239,7 +1240,7 @@ export default function ArchivePage() {
                 });
 
                 return (
-                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8">
+                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-[var(--swiss-gutter)] gap-y-8">
                     {nodes}
                   </div>
                 );
@@ -1264,7 +1265,8 @@ export default function ArchivePage() {
               )}
             </>
           )}
-        </main>
+          </main>
+        </div>
       </div>
 
       {/* Lightbox */}

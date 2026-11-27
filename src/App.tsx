@@ -33,6 +33,7 @@ import WorkCard from "./components/WorkCard";
 import NewsletterBanner from "./components/NewsletterBanner";
 import NewsletterForm from "./components/NewsletterForm";
 import { AdminAuth } from "./components/AdminAuth";
+import SwissGridOverlay from "./components/SwissGridOverlay";
 // import TawkToWidget from "./components/TawkToWidget";
 
 const easing: [number, number, number, number] = [0.16, 1, 0.3, 1];
@@ -117,7 +118,7 @@ function Nav() {
     <>
       <div className="relative">
         <nav
-          className="flex items-center justify-between px-6 md:px-12 py-4 bg-background"
+          className="swiss-container flex items-center justify-between py-4 bg-background"
           data-testid="nav"
         >
           <Link
@@ -373,22 +374,22 @@ function SelectedWorksSection() {
   if (!loading && featured.length === 0) return null;
 
   return (
-    <section id="work" className="px-6 md:px-12 pt-6 md:pt-10 pb-16 md:pb-24 print:hidden">
+    <section id="work" className="swiss-container pt-6 md:pt-10 pb-16 md:pb-24 print:hidden">
       <FadeIn className="mb-12">
         <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground">Available Works</p>
       </FadeIn>
 
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-6 md:gap-10 lg:gap-16">
+      <div className="swiss-grid gap-y-10 md:gap-y-12">
         {loading
           ? Array.from({ length: 6 }).map((_, idx) => (
-            <div key={idx} className="animate-pulse">
+            <div key={idx} className="col-span-2 sm:col-span-3 md:col-span-4 animate-pulse">
               <div className="bg-card aspect-[3/4] mb-4" />
               <div className="h-4 bg-card rounded w-3/4 mb-2" />
               <div className="h-3 bg-card rounded w-1/2" />
             </div>
           ))
           : featured.map((product, idx) => (
-            <FadeIn key={product.id} delay={idx * 0.07} className="h-full flex flex-col">
+            <FadeIn key={product.id} delay={idx * 0.07} className="col-span-2 sm:col-span-3 md:col-span-4 h-full flex flex-col">
               <WorkCard product={product} />
             </FadeIn>
           ))}
@@ -484,13 +485,13 @@ function BioSection() {
 
 function AccomplishmentsSection() {
   return (
-    <section id="cv" className="relative w-full pt-8 md:pt-12 pb-8 md:pb-12 bg-background print:py-4 print:w-full print:m-0 print:left-0 print:top-0">
-      <FadeIn className="px-6 md:px-12 mb-10 md:mb-16 print:hidden">
+    <section id="cv" className="swiss-container relative pt-8 md:pt-12 pb-8 md:pb-12 bg-background print:py-4 print:w-full print:m-0 print:left-0 print:top-0">
+      <FadeIn className="mb-10 md:mb-16 print:hidden">
         <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground">Curriculum Vitae</p>
       </FadeIn>
 
       {/* Print-only CV Header */}
-      <div className="hidden print:block px-6 md:px-12 mb-12 border-b border-foreground/10 pb-6">
+      <div className="hidden print:block mb-12 border-b border-foreground/10 pb-6">
         <h1 className="font-serif text-3xl font-light tracking-[0.05em] uppercase text-foreground mb-3">Surnoor Singh</h1>
         <div className="flex flex-wrap items-center gap-x-6 gap-y-1 text-xs tracking-wider text-muted-foreground">
           <span>Abbotsford, BC</span>
@@ -501,10 +502,10 @@ function AccomplishmentsSection() {
         </div>
       </div>
 
-      <div className="px-6 md:px-12 grid grid-cols-1 md:grid-cols-2 gap-16 text-sm print:hidden">
+      <div className="swiss-grid gap-y-12 text-sm print:hidden">
 
         {/* Column 1: Exhibitions */}
-        <div className="space-y-12">
+        <div className="col-span-4 sm:col-span-6 md:col-span-4 lg:col-span-6 space-y-12">
           {/* Recent Commissions */}
           <div className="space-y-4">
             <h3 className="font-serif text-xl font-light text-foreground  pb-2 uppercase tracking-wide text-xs">Recent Commissions</h3>
@@ -684,7 +685,7 @@ function AccomplishmentsSection() {
         </div>
 
         {/* Column 2: Recognition & Media */}
-        <div className="space-y-12">
+        <div className="col-span-4 sm:col-span-6 md:col-span-4 lg:col-span-6 space-y-12">
           {/* Awards and Recognitions */}
           <div className="space-y-4">
             <h3 className="font-serif text-xl font-light text-foreground  pb-2 uppercase tracking-wide text-xs">Awards & Recognitions</h3>
@@ -969,7 +970,7 @@ function AccomplishmentsSection() {
       </div>
 
       {/* Print Button */}
-      <div className="px-6 md:px-12 mt-16 print:hidden">
+      <div className="mt-16 print:hidden">
         <button
           onClick={() => window.print()}
           className="inline-flex items-center gap-2 border border-primary text-primary text-xs tracking-[0.15em] uppercase px-5 py-2.5 hover:bg-primary hover:text-background transition-colors"
@@ -1175,13 +1176,13 @@ function HomePage() {
       )}
 
       {/* ── 4. LEARN ── */}
-      <section id="instruction" className=" px-6 md:px-12 py-8 md:py-12 print:hidden">
-        <FadeIn className="mb-14">
+      <section id="instruction" className="swiss-container py-8 md:py-12 print:hidden">
+        <FadeIn className="mb-10">
           <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground">Instruction</p>
         </FadeIn>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-border max-w-4xl">
-          <div className="bg-background p-8 md:p-10 flex flex-col justify-between gap-8">
+        <div className="swiss-grid">
+          <div className="col-span-4 sm:col-span-6 md:col-span-4 lg:col-span-6 border border-border bg-background p-8 md:p-10 flex flex-col justify-between gap-8">
             <div>
               <h3 className="font-serif text-2xl md:text-3xl font-light mb-4">WET / ON / WET</h3>
               <p className="text-muted-foreground text-sm leading-relaxed">
@@ -1197,7 +1198,7 @@ function HomePage() {
             </Link>
           </div>
 
-          <div className="bg-background p-8 md:p-10 flex flex-col gap-8">
+          <div className="col-span-4 sm:col-span-6 md:col-span-4 lg:col-span-6 border border-border bg-background p-8 md:p-10 flex flex-col justify-between gap-8">
             <div>
               <h3 className="font-serif text-2xl md:text-3xl font-light mb-4">One-to-One Classes</h3>
               <p className="text-muted-foreground text-sm leading-relaxed">
@@ -1216,35 +1217,37 @@ function HomePage() {
       </section>
 
       {/* ── 5. UPCOMING ── */}
-      <section id="upcoming" className=" px-6 md:px-12 pt-8 md:pt-12 pb-16 md:pb-28 bg-card print:hidden">
-        <FadeIn className="mb-6">
-          <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground">Workshops & Exhibitions</p>
-        </FadeIn>
-
-        <div className="max-w-3xl space-y-0">
-          <FadeIn>
-            <div className="flex flex-col gap-6">
-              <p className="text-muted-foreground text-sm leading-relaxed max-w-2xl">
-                No exhibitions or in-person workshops are scheduled at the moment while working on a large commission and developing the WET / ON / WET weekly watercolour series. New dates will be announced here and on Instagram.
-              </p>
-              <div className="flex flex-wrap items-center gap-6">
-                <Link
-                  href="/wet"
-                  className="inline-flex items-center gap-2 text-xs tracking-[0.15em] uppercase text-primary hover:gap-3 transition-all"
-                  data-testid="link-upcoming-wet"
-                >
-                  Explore WET / ON / WET <ArrowUpRight className="w-3.5 h-3.5" />
-                </Link>
-                <Link
-                  href="/contact"
-                  className="inline-flex items-center gap-2 text-xs tracking-[0.15em] uppercase text-muted-foreground hover:text-primary hover:gap-3 transition-all"
-                  data-testid="link-upcoming-contact"
-                >
-                  Workshop &amp; Exhibition Enquiries <ArrowUpRight className="w-3.5 h-3.5" />
-                </Link>
-              </div>
-            </div>
+      <section id="upcoming" className="pt-8 md:pt-12 pb-16 md:pb-28 bg-card print:hidden">
+        <div className="swiss-container">
+          <FadeIn className="mb-6">
+            <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground">Workshops & Exhibitions</p>
           </FadeIn>
+
+          <div className="swiss-grid">
+            <FadeIn className="col-span-4 sm:col-span-6 md:col-span-6 lg:col-span-8">
+              <div className="flex flex-col gap-6">
+                <p className="text-muted-foreground text-sm leading-relaxed">
+                  No exhibitions or in-person workshops are scheduled at the moment while working on a large commission and developing the WET / ON / WET weekly watercolour series. New dates will be announced here and on Instagram.
+                </p>
+                <div className="flex flex-wrap items-center gap-6">
+                  <Link
+                    href="/wet"
+                    className="inline-flex items-center gap-2 text-xs tracking-[0.15em] uppercase text-primary hover:gap-3 transition-all"
+                    data-testid="link-upcoming-wet"
+                  >
+                    Explore WET / ON / WET <ArrowUpRight className="w-3.5 h-3.5" />
+                  </Link>
+                  <Link
+                    href="/contact"
+                    className="inline-flex items-center gap-2 text-xs tracking-[0.15em] uppercase text-muted-foreground hover:text-primary hover:gap-3 transition-all"
+                    data-testid="link-upcoming-contact"
+                  >
+                    Workshop &amp; Exhibition Enquiries <ArrowUpRight className="w-3.5 h-3.5" />
+                  </Link>
+                </div>
+              </div>
+            </FadeIn>
+          </div>
         </div>
       </section>
 
@@ -1268,24 +1271,25 @@ function HomePage() {
 
 function Footer() {
   return (
-    <footer className=" bg-background px-6 md:px-12 py-12 md:py-16 print:hidden">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-16 items-start">
-        {/* Branding */}
-        <div>
-          <p className="font-sans font-medium text-sm tracking-[0.2em] uppercase mb-2">Surnoor Sembhi</p>
-          <p className="text-muted-foreground text-xs tracking-[0.1em] uppercase">Visual Artist · Fraser Valley, BC</p>
-        </div>
-
-        {/* Newsletter - Centered */}
-        <div className="flex flex-col md:items-center gap-6 w-full">
-          <div className="w-full max-w-sm">
-            <p className="text-[10px] tracking-[0.2em] uppercase text-muted-foreground mb-5 md:text-center">Studio Newsletter</p>
-            <NewsletterForm variant="footer" />
+    <footer className="bg-background py-12 md:py-16 print:hidden">
+      <div className="swiss-container">
+        <div className="swiss-grid gap-y-10 items-start">
+          {/* Branding */}
+          <div className="col-span-4 sm:col-span-6 md:col-span-3 lg:col-span-4">
+            <p className="font-sans font-medium text-sm tracking-[0.2em] uppercase mb-2">Surnoor Sembhi</p>
+            <p className="text-muted-foreground text-xs tracking-[0.1em] uppercase">Visual Artist · Fraser Valley, BC</p>
           </div>
-        </div>
 
-        {/* Social Links - Two Columns */}
-        <div className="grid grid-cols-2 gap-x-12 gap-y-5 text-[10px] tracking-[0.2em] uppercase text-muted-foreground md:justify-self-end">
+          {/* Newsletter - Centered */}
+          <div className="col-span-4 sm:col-span-6 md:col-span-3 lg:col-span-4 flex flex-col lg:items-center gap-6 w-full">
+            <div className="w-full max-w-sm">
+              <p className="text-[10px] tracking-[0.2em] uppercase text-muted-foreground mb-5 lg:text-center">Studio Newsletter</p>
+              <NewsletterForm variant="footer" />
+            </div>
+          </div>
+
+          {/* Social Links - Two Columns */}
+          <div className="col-span-4 sm:col-span-6 md:col-span-2 lg:col-span-4 grid grid-cols-2 gap-x-12 gap-y-5 text-[10px] tracking-[0.2em] uppercase text-muted-foreground lg:justify-self-end">
           <a
             href="https://instagram.com/surnoorsembhi"
             target="_blank"
@@ -1318,9 +1322,10 @@ function Footer() {
             Contact
           </Link>
         </div>
+        </div>
       </div>
 
-      <div className="max-w-7xl mx-auto mt-10 pt-8  text-[10px] text-muted-foreground tracking-wide">
+      <div className="swiss-container mt-10 pt-8 text-[10px] text-muted-foreground tracking-wide">
         &copy; {new Date().getFullYear()} Surnoor Sembhi. All rights reserved.
       </div>
     </footer>
@@ -1437,6 +1442,7 @@ function AppInner() {
 
   return (
     <div id="site-top" className="min-h-screen bg-background text-foreground font-sans selection:bg-primary/20">
+      <SwissGridOverlay />
       {!isAdminPath && (
         <>
           {/* Temporarily hidden rotating top info bar
