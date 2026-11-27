@@ -293,8 +293,8 @@ export default function ProductDetailPage({ productId }: { productId: string }) 
 
         {/* Main product area */}
         <div className="swiss-grid items-start mb-24">
-          {/* Image gallery — left */}
-          <div className="lg:col-span-7 flex flex-col-reverse lg:flex-row gap-4">
+          {/* Image gallery — full width */}
+          <div className="col-span-12 flex flex-col-reverse lg:flex-row gap-4">
             {/* Thumbnails */}
             {images.length > 1 && (
               <div className="flex flex-row lg:flex-col gap-2 overflow-x-auto lg:overflow-y-auto">
@@ -351,8 +351,8 @@ export default function ProductDetailPage({ productId }: { productId: string }) 
           )}
 
 
-          {/* Product details — right */}
-          <div className="lg:col-span-5 flex flex-col">
+          {/* Product details — underneath, left aligned */}
+          <div className="col-span-12 flex flex-col">
             {isSold && (
               <div className="flex items-center gap-2 mb-4">
                 <span className="w-2 h-2 rounded-full bg-red-500 flex-shrink-0" />
