@@ -118,50 +118,62 @@ function Nav() {
     <>
       <div className="relative">
         <nav
-          className="swiss-container flex items-center justify-between py-4 bg-background"
+          className="swiss-container py-4 bg-background"
           data-testid="nav"
         >
-          <Link
-            href="/"
-            className="font-sans text-sm tracking-[0.2em] font-bold uppercase"
-            data-testid="nav-logo"
-            onClick={() => {
-              if (location === "/") {
-                window.scrollTo({ top: 0, behavior: "smooth" });
-              }
-            }}
-          >
-            Surnoor Sembhi
-          </Link>
-          <div className="hidden md:flex items-center gap-5 text-xs tracking-[0.2em] font-bold uppercase text-foreground">
-            <Link
-              href="/shop"
-              className={`transition-colors ${isShop ? "text-[#FF0133]" : "hover:text-foreground"}`}
-              data-testid="nav-shop"
-              onClick={() => {
-                if (isShop) window.scrollTo({ top: 0, behavior: "smooth" });
-              }}
-            >
-              Shop
-            </Link>
-            <Link
-              href="/archive"
-              className={`transition-colors ${location === "/archive" ? "text-[#4efa84]" : "hover:text-foreground"}`}
-              data-testid="nav-archive"
-              onClick={() => {
-                if (location === "/archive") window.scrollTo({ top: 0, behavior: "smooth" });
-              }}
-            >
-              Archive
-            </Link>
+          {/* Desktop: 12-column Swiss Grid */}
+          <div className="hidden md:grid swiss-grid items-center">
+            {/* Logo: columns 1 to 6 */}
+            <div className="col-span-6 flex items-center">
+              <Link
+                href="/"
+                className="font-sans text-sm tracking-[0.2em] font-bold uppercase"
+                data-testid="nav-logo"
+                onClick={() => {
+                  if (location === "/") {
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                  }
+                }}
+              >
+                Surnoor Sembhi
+              </Link>
+            </div>
+
+            {/* 6 nav links distributed across columns 7 through 12 */}
+            <div className="col-span-1 flex items-center">
+              <Link
+                href="/shop"
+                className={`text-xs tracking-[0.2em] font-bold uppercase transition-colors ${isShop ? "text-[#FF0133]" : "hover:text-foreground"}`}
+                data-testid="nav-shop"
+                onClick={() => {
+                  if (isShop) window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
+              >
+                Shop
+              </Link>
+            </div>
+
+            <div className="col-span-1 flex items-center">
+              <Link
+                href="/archive"
+                className={`text-xs tracking-[0.2em] font-bold uppercase transition-colors ${location === "/archive" ? "text-[#4efa84]" : "hover:text-foreground"}`}
+                data-testid="nav-archive"
+                onClick={() => {
+                  if (location === "/") window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
+              >
+                Archive
+              </Link>
+            </div>
+
             <div
-              className="relative py-2"
+              className="col-span-1 flex items-center relative py-2"
               onMouseEnter={() => setLearnHovered(true)}
               onMouseLeave={() => setLearnHovered(false)}
             >
               <Link
                 href="/learn"
-                className={`flex items-center gap-1 transition-colors ${location.startsWith("/learn") || location.startsWith("/wet") ? "text-[#2e32f8]" : "hover:text-[#2e32f8]"}`}
+                className={`text-xs tracking-[0.2em] font-bold uppercase flex items-center gap-1 transition-colors ${location.startsWith("/learn") || location.startsWith("/wet") ? "text-[#2e32f8]" : "hover:text-[#2e32f8]"}`}
                 data-testid="nav-learn"
                 onClick={() => {
                   setLearnHovered(false);
@@ -171,27 +183,56 @@ function Nav() {
                 Learn
               </Link>
             </div>
+
+            <div className="col-span-1 flex items-center">
+              <Link
+                href="/#about"
+                className="text-xs tracking-[0.2em] font-bold uppercase hover:text-foreground transition-colors"
+                data-testid="nav-about"
+                onClick={(e) => scrollToHash(e, "#about")}
+              >
+                About
+              </Link>
+            </div>
+
+            <div className="col-span-1 flex items-center">
+              <Link
+                href="/support"
+                className={`text-xs tracking-[0.2em] font-bold uppercase transition-colors ${location === "/support" ? "text-[#4efa84]" : "hover:text-foreground"}`}
+                data-testid="nav-support"
+                onClick={() => {
+                  if (location === "/support") window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
+              >
+                Support
+              </Link>
+            </div>
+
+            <div className="col-span-1 flex items-center">
+              <Link
+                href="/contact"
+                className={`text-xs tracking-[0.2em] font-bold uppercase transition-colors ${location === "/contact" ? "text-[#4efa84]" : "hover:text-foreground"}`}
+                data-testid="nav-contact"
+              >
+                Contact
+              </Link>
+            </div>
+          </div>
+
+          {/* Mobile view */}
+          <div className="flex md:hidden items-center justify-between">
             <Link
-              href="/#about"
-              className="hover:text-foreground transition-colors"
-              data-testid="nav-about"
-              onClick={(e) => scrollToHash(e, "#about")}
-            >
-              About
-            </Link>
-            <Link
-              href="/support"
-              className={`transition-colors ${location === "/support" ? "text-[#4efa84]" : "hover:text-foreground"}`}
-              data-testid="nav-support"
+              href="/"
+              className="font-sans text-sm tracking-[0.2em] font-bold uppercase"
+              data-testid="nav-logo"
               onClick={() => {
-                if (location === "/support") window.scrollTo({ top: 0, behavior: "smooth" });
+                if (location === "/") {
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }
               }}
             >
-              Support
+              Surnoor Sembhi
             </Link>
-            <Link href="/contact" className={`transition-colors ${location === "/contact" ? "text-[#4efa84]" : "hover:text-foreground"}`} data-testid="nav-contact">Contact</Link>
-          </div>
-          <div className="flex items-center gap-4 md:hidden">
             <button
               className="text-xs tracking-[0.18em] uppercase w-[72px] text-right"
               onClick={() => setMenuOpen(!menuOpen)}
@@ -202,30 +243,40 @@ function Nav() {
           </div>
         </nav>
 
-        {/* Full-width horizontal mega-panel */}
+        {/* Swiss Grid Sub-bar for Learn */}
         <AnimatePresence>
           {learnHovered && (
             <motion.div
-              initial={{ opacity: 0, y: -4 }}
+              initial={{ opacity: 0, y: -2 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -4 }}
+              exit={{ opacity: 0, y: -2 }}
               transition={{ duration: 0.15, ease: "easeOut" }}
-              className="hidden md:block absolute top-full left-0 right-0 z-50 bg-background border-b border-border shadow-sm"
+              className="hidden md:block absolute top-full left-0 right-0 z-50 bg-background border-b border-border/40"
               onMouseEnter={() => setLearnHovered(true)}
               onMouseLeave={() => setLearnHovered(false)}
             >
-              <div className="px-6 md:px-12 py-5 flex items-center justify-end">
-                <div className="text-right">
-                  <span className="block text-[9px] tracking-[0.2em] font-normal uppercase text-muted-foreground/70 mb-1.5">
-                    Ongoing programs
-                  </span>
-                  <Link
-                    href="/wet"
-                    onClick={() => setLearnHovered(false)}
-                    className="inline-block text-xs tracking-[0.2em] font-bold uppercase text-foreground hover:text-[#2e32f8] transition-colors"
-                  >
-                    WET / ON / WET
-                  </Link>
+              <div className="swiss-container py-3">
+                <div className="swiss-grid items-center">
+                  {/* Columns 1–6: Minimal category label */}
+                  <div className="col-span-6 flex items-center">
+                    <span className="text-[10px] tracking-[0.25em] font-medium uppercase text-muted-foreground">
+                      Learn / Programs
+                    </span>
+                  </div>
+
+                  {/* Columns 7–8: Empty */}
+                  <div className="col-span-2" />
+
+                  {/* Column 9: Aligned under LEARN */}
+                  <div className="col-span-4 flex items-center">
+                    <Link
+                      href="/wet"
+                      onClick={() => setLearnHovered(false)}
+                      className="text-xs tracking-[0.2em] font-bold uppercase text-foreground hover:text-[#2e32f8] transition-colors"
+                    >
+                      WET / ON / WET
+                    </Link>
+                  </div>
                 </div>
               </div>
             </motion.div>
