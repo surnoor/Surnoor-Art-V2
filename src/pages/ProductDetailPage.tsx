@@ -368,12 +368,18 @@ export default function ProductDetailPage({ productId }: { productId: string }) 
               <p className="text-muted-foreground text-xs tracking-wide mb-1">{categoryMediumLine}</p>
             )}
             {substrateDimensionsLine && (
-              <p className="text-muted-foreground text-xs tracking-wide mb-5">{substrateDimensionsLine}</p>
+              <p className="text-muted-foreground text-xs tracking-wide mb-3">{substrateDimensionsLine}</p>
+            )}
+
+            {product.description && (
+              <p className="text-sm text-muted-foreground leading-relaxed mb-6">
+                {product.description}
+              </p>
             )}
 
             {hasPurchasablePrice && (
               <div className="flex flex-col gap-2 mb-8">
-                <p className="text-sm tracking-widest text-foreground">
+                <p className="text-[18px] font-medium tracking-widest text-muted-foreground">
                   {priceDisplay}
                 </p>
                 {!isSold && product.price != null && product.price >= 10000 && (
@@ -472,12 +478,6 @@ export default function ProductDetailPage({ productId }: { productId: string }) 
               >
                 Enquire
               </a>
-            )}
-
-            {product.description && (
-              <p className="text-sm text-muted-foreground leading-relaxed mb-8">
-                {product.description}
-              </p>
             )}
 
             {/* Accordions */}
