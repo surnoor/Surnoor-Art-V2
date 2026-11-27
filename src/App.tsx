@@ -122,7 +122,7 @@ function Nav() {
           data-testid="nav"
         >
           {/* Desktop: 12-column Swiss Grid */}
-          <div className="hidden md:grid swiss-grid items-center">
+          <div className="hidden md:grid grid-cols-12 gap-[var(--swiss-gutter)] items-center">
             {/* Logo: columns 1 to 6 */}
             <div className="col-span-6 flex items-center">
               <Link

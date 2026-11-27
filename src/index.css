@@ -138,8 +138,8 @@
   --tracking-normal: 0em;
   --spacing: 0.25rem;
 
-  /* Swiss Grid System: 2:1 margin-to-gutter ratio with fluid in-between scaling */
-  --swiss-margin: clamp(1.5rem, 4vw, 3rem);
+  /* Swiss Grid System: 1rem (16px) margin matching top nav padding */
+  --swiss-margin: 1rem;
   --swiss-gutter: clamp(1rem, 2vw, 1.5rem);
   --swiss-max-width: 1440px;
 

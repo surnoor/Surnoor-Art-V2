@@ -206,7 +206,7 @@ export default function ShopPage() {
             className="absolute inset-0 bg-background/60 backdrop-blur-sm"
             onClick={() => setSidebarOpen(false)}
           />
-          <div 
+          <div
             className="relative w-72 max-w-[80vw] h-full bg-background p-6 overflow-y-auto"
             onTouchStart={(e) => {
               const touch = e.touches[0];
@@ -217,11 +217,11 @@ export default function ShopPage() {
               const startX = (e.currentTarget as any)._startX;
               const startY = (e.currentTarget as any)._startY;
               if (startX == null || startY == null) return;
-              
+
               const touch = e.changedTouches[0];
               const deltaX = startX - touch.clientX;
               const deltaY = startY - touch.clientY;
-              
+
               // If swiped left by at least 50px and it's mostly horizontal
               if (deltaX > 50 && Math.abs(deltaX) > Math.abs(deltaY)) {
                 setSidebarOpen(false);
@@ -237,92 +237,92 @@ export default function ShopPage() {
       <div className="swiss-container py-8 md:py-10">
         <div className="swiss-grid items-start">
           {/* Desktop sidebar */}
-          <aside className="hidden md:block md:col-span-2 lg:col-span-2 sticky top-[68px] h-[calc(100vh-68px)] overflow-y-auto pr-2">
+          <aside className="hidden md:block md:col-span-2 lg:col-span-3 sticky top-[68px] h-[calc(100vh-68px)] overflow-y-auto pr-4">
             {sidebarContent}
           </aside>
 
           {/* Main content */}
-          <main className="col-span-4 sm:col-span-6 md:col-span-6 lg:col-span-10">
-          {shopLoading && (
-            <FadeIn>
-              <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground">Loading works…</p>
-            </FadeIn>
-          )}
-
-          {shopError && (
-            <FadeIn>
-              <p className="text-sm text-muted-foreground">
-                Could not load products — {shopError}
-              </p>
-            </FadeIn>
-          )}
-
-          {!shopLoading && !shopError && filteredAvailable.length === 0 && filteredSold.length === 0 && (
-            <FadeIn>
-              <p className="text-sm text-muted-foreground italic mb-4">No works match the selected filters.</p>
-              {activeFilterCount > 0 && (
-                <button
-                  onClick={clearAll}
-                  className="text-xs tracking-[0.15em] uppercase text-primary hover:opacity-70 transition-opacity"
-                >
-                  Clear filters
-                </button>
-              )}
-            </FadeIn>
-          )}
-
-          {currentAvailable.length > 0 && (
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-[var(--swiss-gutter)] gap-y-10">
-              {currentAvailable.map((product, idx) => (
-                <FadeIn key={product.id} delay={idx * 0.05} className="h-full flex flex-col">
-                  <WorkCard product={product} />
-                </FadeIn>
-              ))}
-            </div>
-          )}
-
-          {currentSold.length > 0 && (
-            <div className="mt-16">
-              {currentAvailable.length > 0 && <div className=" mb-8" />}
-              <FadeIn className="mb-10">
-                <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground">Sold</p>
+          <main className="col-span-4 sm:col-span-6 md:col-span-6 lg:col-span-9">
+            {shopLoading && (
+              <FadeIn>
+                <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground">Loading works…</p>
               </FadeIn>
+            )}
+
+            {shopError && (
+              <FadeIn>
+                <p className="text-sm text-muted-foreground">
+                  Could not load products — {shopError}
+                </p>
+              </FadeIn>
+            )}
+
+            {!shopLoading && !shopError && filteredAvailable.length === 0 && filteredSold.length === 0 && (
+              <FadeIn>
+                <p className="text-sm text-muted-foreground italic mb-4">No works match the selected filters.</p>
+                {activeFilterCount > 0 && (
+                  <button
+                    onClick={clearAll}
+                    className="text-xs tracking-[0.15em] uppercase text-primary hover:opacity-70 transition-opacity"
+                  >
+                    Clear filters
+                  </button>
+                )}
+              </FadeIn>
+            )}
+
+            {currentAvailable.length > 0 && (
               <div className="grid grid-cols-2 md:grid-cols-3 gap-[var(--swiss-gutter)] gap-y-10">
-                {currentSold.map((product, idx) => (
+                {currentAvailable.map((product, idx) => (
                   <FadeIn key={product.id} delay={idx * 0.05} className="h-full flex flex-col">
-                    <WorkCard product={product} sold />
+                    <WorkCard product={product} />
                   </FadeIn>
                 ))}
               </div>
-            </div>
-          )}
+            )}
 
-          <Pagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={(p) => {
-              setCurrentPage(p);
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
-          />
+            {currentSold.length > 0 && (
+              <div className="mt-16">
+                {currentAvailable.length > 0 && <div className=" mb-8" />}
+                <FadeIn className="mb-10">
+                  <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground">Sold</p>
+                </FadeIn>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-[var(--swiss-gutter)] gap-y-10">
+                  {currentSold.map((product, idx) => (
+                    <FadeIn key={product.id} delay={idx * 0.05} className="h-full flex flex-col">
+                      <WorkCard product={product} sold />
+                    </FadeIn>
+                  ))}
+                </div>
+              </div>
+            )}
 
-          <TrustSection />
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={(p) => {
+                setCurrentPage(p);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+            />
 
-          {/* Archive call-to-action */}
-          <div className="mt-24" />
-          <FadeIn className="mt-12 mb-10 flex flex-col items-center text-center">
-            <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground mb-2">Archive</p>
-            <p className="text-sm text-muted-foreground mb-6 max-w-md">
-              Browse a complete catalogue of past works — paintings no longer available for sale.
-            </p>
-            <Link
-              href="/archive"
-              className="inline-flex items-center gap-2 border border-primary text-primary text-xs tracking-[0.15em] uppercase px-6 py-3.5 hover:bg-primary hover:text-background transition-colors"
-              data-testid="link-archive"
-            >
-              Browse Archive <ArrowUpRight className="w-3.5 h-3.5" />
-            </Link>
-          </FadeIn>
+            <TrustSection />
+
+            {/* Archive call-to-action */}
+            <div className="mt-24" />
+            <FadeIn className="mt-12 mb-10 flex flex-col items-center text-center">
+              <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground mb-2">Archive</p>
+              <p className="text-sm text-muted-foreground mb-6 max-w-md">
+                Browse a complete catalogue of past works — paintings no longer available for sale.
+              </p>
+              <Link
+                href="/archive"
+                className="inline-flex items-center gap-2 border border-primary text-primary text-xs tracking-[0.15em] uppercase px-6 py-3.5 hover:bg-primary hover:text-background transition-colors"
+                data-testid="link-archive"
+              >
+                Browse Archive <ArrowUpRight className="w-3.5 h-3.5" />
+              </Link>
+            </FadeIn>
           </main>
         </div>
       </div>

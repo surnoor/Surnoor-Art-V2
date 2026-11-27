@@ -84,7 +84,7 @@ function ArchiveCard({
 /* ── Year Stamp divider ── */
 function YearStamp({ year }: { year: string }) {
   return (
-    <div className="col-span-2 md:col-span-3 lg:col-span-4 flex items-center gap-4 pt-10 pb-3">
+    <div className="col-span-2 md:col-span-3 flex items-center gap-4 pt-10 pb-3">
       <span className="text-xs tracking-[0.2em] uppercase text-muted-foreground shrink-0 tabular-nums">
         {year}
       </span>
@@ -1143,12 +1143,12 @@ export default function ArchivePage() {
       <div className="swiss-container py-8 md:py-10">
         <div className="swiss-grid items-start">
           {/* Desktop sidebar */}
-          <aside className="hidden md:block md:col-span-2 lg:col-span-2 pr-2">
+          <aside className="hidden md:block md:col-span-2 lg:col-span-3 pr-4">
             {sidebarContent}
           </aside>
 
           {/* Main content */}
-          <main className="col-span-4 sm:col-span-6 md:col-span-6 lg:col-span-10">
+          <main className="col-span-4 sm:col-span-6 md:col-span-6 lg:col-span-9">
           {(loading || isAnimatingLoader) && (
             <BauhausLoader isDone={!loading} onComplete={() => setIsAnimatingLoader(false)} />
           )}
@@ -1198,7 +1198,7 @@ export default function ArchivePage() {
               {/* Featured Section */}
               {featuredWorks.length > 0 && (
                 <div className="mb-12">
-                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-[var(--swiss-gutter)] gap-y-8">
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-[var(--swiss-gutter)] gap-y-8">
                     {featuredWorks.map((record) => (
                       <ArchiveCard
                         key={record.id}
@@ -1240,7 +1240,7 @@ export default function ArchivePage() {
                 });
 
                 return (
-                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-[var(--swiss-gutter)] gap-y-8">
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-[var(--swiss-gutter)] gap-y-8">
                     {nodes}
                   </div>
                 );
